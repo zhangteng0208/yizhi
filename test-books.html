@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>书籍功能测试</title>
+    <style>
+        body {
+            font-family: 'Noto Serif SC', serif;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #10b981;
+            color: white;
+        }
+        .error {
+            background: #ef4444;
+            color: white;
+        }
+        .info {
+            background: #3b82f6;
+            color: white;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background: #6366f1;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #4f46e5;
+        }
+    </style>
+</head>
+<body>
+    <h1>易知书籍功能测试</h1>
+
+    <div class="test-section">
+        <h2>测试1: 检查所有_booklist.json文件</h2>
+        <button onclick="testBooklists()">开始测试</button>
+        <div id="booklist-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>测试2: 随机测试各藏书籍数据文件</h2>
+        <button onclick="testRandomBooks()">开始测试</button>
+        <div id="random-books-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>测试3: 测试易藏(yz)和医藏(yizang)区分</h2>
+        <button onclick="testYzYizang()">开始测试</button>
+        <div id="yz-yizang-results"></div>
+    </div>
+
+    <script>
+        async function testBooklists() {
+            const resultsDiv = document.getElementById('booklist-results');
+            resultsDiv.innerHTML = '<div class="test-result info">测试中...</div>';
+
+            const categories = [
+                'daozang', 'ruzang', 'fozang', 'yz', 'yizang',
+                'shizang', 'jizang', 'zizang', 'shishizang', 'yishuzang'
+            ];
+
+            let results = '';
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (const cat of categories) {
+                try {
+                    const response = await fetch(`/data/classics/${cat}/_booklist.json`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        results += `<div class="test-result success">✓ ${cat}: ${data.length} 本书籍</div>`;
+                        successCount++;
+                    } else {
+                        results += `<div class="test-result error">✗ ${cat}: HTTP ${response.status}</div>`;
+                        errorCount++;
+                    }
+                } catch (error) {
+                    results += `<div class="test-result error">✗ ${cat}: ${error.message}</div>`;
+                    errorCount++;
+                }
+            }
+
+            results = `<div class="test-result info">成功: ${successCount}, 失败: ${errorCount}</div>` + results;
+            resultsDiv.innerHTML = results;
+        }
+
+        async function testRandomBooks() {
+            const resultsDiv = document.getElementById('random-books-results');
+            resultsDiv.innerHTML = '<div class="test-result info">测试中...</div>';
+
+            const testCases = [
+                { category: 'yz', file: '三易备遗.json', name: '三易备遗' },
+                { category: 'yizang', file: '一得集.json', name: '一得集' },
+                { category: 'shizang', file: '白雪遗音.json', name: '白雪遗音' },
+                { category: 'jizang', file: '白香山诗集.json', name: '白香山诗集' },
+                { category: 'zizang', file: '鬼谷子.json', name: '鬼谷子' }
+            ];
+
+            let results = '';
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (const test of testCases) {
+                try {
+                    const response = await fetch(`/data/classics/${test.category}/${test.file}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        const hasContent = data.length > 0 && data[0].paragraphs && data[0].paragraphs.length > 0;
+                        if (hasContent) {
+                            results += `<div class="test-result success">✓ ${test.name} (${test.category}): ${data.length}章, 首章${data[0].paragraphs.length}段</div>`;
+                            successCount++;
+                        } else {
+                            results += `<div class="test-result error">✗ ${test.name}: 数据为空</div>`;
+                            errorCount++;
+                        }
+                    } else {
+                        results += `<div class="test-result error">✗ ${test.name}: HTTP ${response.status}</div>`;
+                        errorCount++;
+                    }
+                } catch (error) {
+                    results += `<div class="test-result error">✗ ${test.name}: ${error.message}</div>`;
+                    errorCount++;
+                }
+            }
+
+            results = `<div class="test-result info">成功: ${successCount}, 失败: ${errorCount}</div>` + results;
+            resultsDiv.innerHTML = results;
+        }
+
+        async function testYzYizang() {
+            const resultsDiv = document.getElementById('yz-yizang-results');
+            resultsDiv.innerHTML = '<div class="test-result info">测试中...</div>';
+
+            let results = '';
+
+            // 测试易藏(yz)
+            try {
+                const yzResponse = await fetch('/data/classics/yz/_booklist.json');
+                const yzData = await yzResponse.json();
+                const yzBook = yzData[0];
+
+                const yzFileResponse = await fetch(`/data/classics/yz/${yzBook.file}`);
+                const yzFileData = await yzFileResponse.json();
+
+                results += `<div class="test-result success">✓ 易藏(yz): ${yzBook.name}, ${yzFileData.length}章</div>`;
+            } catch (error) {
+                results += `<div class="test-result error">✗ 易藏(yz): ${error.message}</div>`;
+            }
+
+            // 测试医藏(yizang)
+            try {
+                const yizangResponse = await fetch('/data/classics/yizang/_booklist.json');
+                const yizangData = await yizangResponse.json();
+                const yizangBook = yizangData[0];
+
+                const yizangFileResponse = await fetch(`/data/classics/yizang/${yizangBook.file}`);
+                const yizangFileData = await yizangFileResponse.json();
+
+                results += `<div class="test-result success">✓ 医藏(yizang): ${yizangBook.name}, ${yizangFileData.length}章</div>`;
+            } catch (error) {
+                results += `<div class="test-result error">✗ 医藏(yizang): ${error.message}</div>`;
+            }
+
+            resultsDiv.innerHTML = results;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"ssh root@69.5.20.41 \\\"cd /var/www/yizhi && git pull && cd frontend && npm run build\\\"\",\"timeout\":300000,\"description\":\"Pull latest code and build on server\"}",
+  "error": "Exit code 128\nfatal: not a git repository (or any of the parent directories): .git",
+  "timestamp": "2026-03-11T15:17:49.980Z",
+  "retry_count": 1
+}

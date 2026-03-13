@@ -1,0 +1,193 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["partialIndexes"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// 用户表
+model users {
+  id                    String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  openid                String?              @unique @db.VarChar(128)
+  unionid               String?              @unique @db.VarChar(128)
+  phone                 String?              @unique @db.VarChar(20)
+  password              String?              @db.VarChar(255)
+  email                 String?              @db.VarChar(128)
+  nickname              String?              @db.VarChar(64)
+  avatar_url            String?
+  gender                Int?                 @default(0) @db.SmallInt
+  membership_level      Int?                 @default(0) @db.SmallInt
+  membership_expires_at DateTime?            @db.Timestamptz(6)
+  coins                 Int?                 @default(0)
+  invite_code           String?              @unique @db.VarChar(16)
+  invited_by            String?              @db.Uuid
+  last_login_at         DateTime?            @db.Timestamptz(6)
+  created_at            DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at            DateTime?            @default(now()) @updatedAt @db.Timestamptz(6)
+  coin_transactions     coin_transactions[]
+  divination_records    divination_records[]
+  feedback              feedback[]
+  orders                orders[]
+  profile               user_profiles[]
+  users                 users?               @relation("usersTousers", fields: [invited_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  other_users           users[]              @relation("usersTousers")
+
+  @@index([invite_code], map: "idx_users_invite_code")
+  @@index([openid], map: "idx_users_openid")
+  @@index([phone], map: "idx_users_phone")
+}
+
+/// 用户档案（八字信息）
+model user_profiles {
+  id                 String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id            String               @db.Uuid
+  label              String?              @default("本人") @db.VarChar(32)
+  name               String?              @db.VarChar(32)
+  gender             Int?                 @default(0) @db.SmallInt
+  birth_year         Int?
+  birth_month        Int?
+  birth_day          Int?
+  birth_hour         Int?
+  birth_minute       Int?
+  is_lunar           Boolean?             @default(false)
+  is_leap_month      Boolean?             @default(false)
+  birth_province     String?              @db.VarChar(32)
+  birth_city         String?              @db.VarChar(32)
+  birth_lat          Float?
+  birth_lng          Float?
+  bazi_data          Json?
+  is_default         Boolean?             @default(false)
+  created_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?            @default(now()) @updatedAt @db.Timestamptz(6)
+  daily_fortune      daily_fortune[]
+  divination_records divination_records[]
+  user               users                @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@index([user_id], map: "idx_user_profiles_user")
+}
+
+/// 产品/服务表
+model products {
+  id          String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  code        String    @unique @db.VarChar(64)
+  category    String    @db.VarChar(16)
+  name        String    @db.VarChar(64)
+  description String?
+  price_coins Int?      @default(0)
+  price_rmb   Decimal?  @default(0) @db.Decimal(10, 2)
+  is_free     Boolean?  @default(false)
+  is_active   Boolean?  @default(true)
+  sort_order  Int?      @default(0)
+  icon_url    String?
+  config      Json?
+  created_at  DateTime? @default(now()) @db.Timestamptz(6)
+  orders      orders[]
+}
+
+/// 订单表
+model orders {
+  id                 String               @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  order_no           String               @unique @db.VarChar(64)
+  user_id            String               @db.Uuid
+  product_id         String?              @db.Uuid
+  amount             Decimal              @default(0) @db.Decimal(10, 2)
+  pay_method         String?              @db.VarChar(16)
+  pay_status         Int?                 @default(0) @db.SmallInt
+  transaction_id     String?              @db.VarChar(128)
+  paid_at            DateTime?            @db.Timestamptz(6)
+  created_at         DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at         DateTime?            @default(now()) @updatedAt @db.Timestamptz(6)
+  divination_records divination_records[]
+  product            products?            @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user               users                @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([order_no], map: "idx_orders_no")
+  @@index([pay_status], map: "idx_orders_status")
+  @@index([user_id], map: "idx_orders_user")
+}
+
+/// 占卜记录表
+model divination_records {
+  id              String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id         String         @db.Uuid
+  profile_id      String?        @db.Uuid
+  order_id        String?        @db.Uuid
+  category        String         @db.VarChar(16)
+  service_code    String         @db.VarChar(64)
+  input_params    Json?
+  result          Json?
+  result_summary  String?
+  divination_data Json?
+  feature_hash    String?        @db.VarChar(64)
+  status          Int?           @default(0) @db.SmallInt
+  ai_model        String?        @db.VarChar(32)
+  ai_tokens_used  Int?           @default(0)
+  share_code      String?        @unique @db.VarChar(16)
+  is_shared       Boolean?       @default(false)
+  created_at      DateTime?      @default(now()) @db.Timestamptz(6)
+  orders          orders?        @relation(fields: [order_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_profiles   user_profiles? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user            users          @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  feedback        feedback[]
+
+  @@index([category], map: "idx_divination_category")
+  @@index([created_at(sort: Desc)], map: "idx_divination_created")
+  @@index([service_code], map: "idx_divination_service")
+  @@index([share_code], map: "idx_divination_share", where: raw("(share_code IS NOT NULL)"))
+  @@index([user_id], map: "idx_divination_user")
+  @@index([feature_hash], map: "idx_divination_feature_hash")
+}
+
+/// 金币交易记录
+model coin_transactions {
+  id            String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id       String    @db.Uuid
+  amount        Int
+  balance_after Int
+  type          String    @db.VarChar(16)
+  ref_id        String?   @db.Uuid
+  remark        String?   @db.VarChar(128)
+  created_at    DateTime? @default(now()) @db.Timestamptz(6)
+  user          users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([created_at(sort: Desc)], map: "idx_coin_tx_created")
+  @@index([user_id], map: "idx_coin_tx_user")
+}
+
+/// 用户反馈
+model feedback {
+  id                 String              @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id            String              @db.Uuid
+  record_id          String?             @db.Uuid
+  rating             Int?                @db.SmallInt
+  content            String?
+  created_at         DateTime?           @default(now()) @db.Timestamptz(6)
+  divination_records divination_records? @relation(fields: [record_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user               users               @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([record_id], map: "idx_feedback_record")
+  @@index([user_id], map: "idx_feedback_user")
+}
+
+/// 系统配置
+model system_config {
+  key         String    @id @db.VarChar(128)
+  value       Json
+  description String?
+  updated_at  DateTime? @default(now()) @updatedAt @db.Timestamptz(6)
+}
+
+/// 每日运势
+model daily_fortune {
+  id           String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  profile_id   String        @db.Uuid
+  fortune_date DateTime      @db.Date
+  fortune_data Json
+  created_at   DateTime?     @default(now()) @db.Timestamptz(6)
+  profile      user_profiles @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([profile_id, fortune_date])
+  @@index([fortune_date], map: "idx_daily_fortune_date")
+}

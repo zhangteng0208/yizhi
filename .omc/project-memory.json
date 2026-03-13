@@ -1,0 +1,174 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1773232775694,
+  "projectRoot": "/Users/mac/projects/yizhi",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "scripts"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "backend": {
+      "path": "backend",
+      "purpose": null,
+      "fileCount": 16,
+      "lastAccessed": 1773232775588,
+      "keyFiles": [
+        "README.md",
+        "eslint.config.mjs",
+        "nest-cli.json",
+        "package-lock.json",
+        "package.json"
+      ]
+    },
+    "daizhigev20": {
+      "path": "daizhigev20",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1773232775588,
+      "keyFiles": [
+        "README.md",
+        "_config.yml",
+        "使用须知.md"
+      ]
+    },
+    "frontend": {
+      "path": "frontend",
+      "purpose": null,
+      "fileCount": 15,
+      "lastAccessed": 1773232775589,
+      "keyFiles": [
+        "README.md",
+        "auto-imports.d.ts",
+        "components.d.ts",
+        "index.html",
+        "package-lock.json"
+      ]
+    },
+    "prompts": {
+      "path": "prompts",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1773232775589,
+      "keyFiles": [
+        "八字解读-v1.md"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 5,
+      "lastAccessed": 1773232775590,
+      "keyFiles": [
+        "backup-classics.sh",
+        "check-data-integrity.sh",
+        "convert-classics.js",
+        "generate-statistics.js",
+        "validate-json.js"
+      ]
+    },
+    "backend/dist": {
+      "path": "backend/dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 5,
+      "lastAccessed": 1773232775592,
+      "keyFiles": [
+        "prisma.config.d.ts",
+        "prisma.config.js",
+        "prisma.config.js.map"
+      ]
+    },
+    "backend/node_modules": {
+      "path": "backend/node_modules",
+      "purpose": "Dependencies",
+      "fileCount": 2,
+      "lastAccessed": 1773232775596,
+      "keyFiles": []
+    },
+    "frontend/dist": {
+      "path": "frontend/dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 5,
+      "lastAccessed": 1773232775597,
+      "keyFiles": [
+        "64.json",
+        "dictionary.xml",
+        "index.html"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "frontend/src/views/Classics.vue",
+      "accessCount": 5,
+      "lastAccessed": 1773234906959,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/views/ClassicDetail.vue",
+      "accessCount": 3,
+      "lastAccessed": 1773233672551,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/views/ChapterReader.vue",
+      "accessCount": 2,
+      "lastAccessed": 1773233672054,
+      "type": "file"
+    },
+    {
+      "path": "frontend/public/data/classics/yz/_booklist.json",
+      "accessCount": 1,
+      "lastAccessed": 1773233646844,
+      "type": "file"
+    },
+    {
+      "path": "frontend/public/data/classics/yizang/_booklist.json",
+      "accessCount": 1,
+      "lastAccessed": 1773233685706,
+      "type": "file"
+    },
+    {
+      "path": "convert-daozang-format.js",
+      "accessCount": 1,
+      "lastAccessed": 1773234522613,
+      "type": "file"
+    },
+    {
+      "path": "COMPLETE_FIX_REPORT.md",
+      "accessCount": 1,
+      "lastAccessed": 1773234591348,
+      "type": "file"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "accessCount": 1,
+      "lastAccessed": 1773235278094,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

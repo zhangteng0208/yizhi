@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+*.log
+.DS_Store
+*.png
+*.xlsx
+frontend-dist.tar.gz
+*.tar.gz
+
+# 数据文件（存储在 NAS）
+frontend/dist/data/
+frontend/public/data/
+daizhigev20/

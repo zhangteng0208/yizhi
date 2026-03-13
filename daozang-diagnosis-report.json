@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-03-11T13:08:51.343Z",
+  "stats": {
+    "total": 1677,
+    "valid": 1677,
+    "empty": 0,
+    "missing": 0,
+    "emptyBooks": [],
+    "missingBooks": []
+  },
+  "emptyBooks": [],
+  "missingBooks": []
+}

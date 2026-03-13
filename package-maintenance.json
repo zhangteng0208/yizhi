@@ -1,0 +1,22 @@
+{
+  "name": "yizhi-classics-maintenance",
+  "version": "1.0.0",
+  "description": "易知国学经典库维护工具集",
+  "scripts": {
+    "check": "bash scripts/check-data-integrity.sh",
+    "backup": "bash scripts/backup-classics.sh",
+    "stats": "node scripts/generate-statistics.js",
+    "validate-json": "node scripts/validate-json.js",
+    "find-duplicates": "node scripts/find-duplicates.js",
+    "compress": "node scripts/compress-json.js",
+    "help": "echo '\n易知国学经典库维护命令:\n\n  npm run check          - 检查数据完整性\n  npm run backup         - 备份所有数据\n  npm run stats          - 生成统计报告\n  npm run validate-json  - 验证JSON格式\n  npm run find-duplicates - 查找重复书籍\n  npm run compress       - 压缩JSON文件\n'"
+  },
+  "keywords": [
+    "classics",
+    "chinese",
+    "literature",
+    "maintenance"
+  ],
+  "author": "易知项目团队",
+  "license": "MIT"
+}
