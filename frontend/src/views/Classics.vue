@@ -292,12 +292,15 @@ const books = ref([
 // 加载道藏和儒藏书籍
 onMounted(async () => {
   const BASE_URL = DATA_BASE_URL
-  
+
   // 加载道藏
   if (categoryId.value === 'dao') {
     try {
       const response = await fetch(`${BASE_URL}/daozang/_booklist.json`)
       const daozangBooks = await response.json()
+
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'dao')
 
       daozangBooks.forEach((book: any) => {
         books.value.push({
@@ -320,6 +323,9 @@ onMounted(async () => {
       const response = await fetch(`${BASE_URL}/ruzang/_booklist.json`)
       const ruzangBooks = await response.json()
 
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'ru')
+
       ruzangBooks.forEach((book: any) => {
         books.value.push({
           id: book.id,
@@ -340,6 +346,9 @@ onMounted(async () => {
     try {
       const response = await fetch(`${BASE_URL}/fozang/_booklist.json`)
       const fozangBooks = await response.json()
+
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'fo')
 
       fozangBooks.forEach((book: any) => {
         books.value.push({
@@ -362,6 +371,9 @@ onMounted(async () => {
       const response = await fetch(`${BASE_URL}/yz/_booklist.json`)
       const yzBooks = await response.json()
 
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'yijing')
+
       yzBooks.forEach((book: any) => {
         books.value.push({
           id: book.id,
@@ -382,6 +394,9 @@ onMounted(async () => {
     try {
       const response = await fetch(`${BASE_URL}/yizang/_booklist.json`)
       const yizangBooks = await response.json()
+
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'yi')
 
       yizangBooks.forEach((book: any) => {
         books.value.push({
@@ -404,6 +419,9 @@ onMounted(async () => {
       const response = await fetch(`${BASE_URL}/shizang/_booklist.json`)
       const shizangBooks = await response.json()
 
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'shi')
+
       shizangBooks.forEach((book: any) => {
         books.value.push({
           id: book.id,
@@ -424,6 +442,9 @@ onMounted(async () => {
     try {
       const response = await fetch(`${BASE_URL}/jizang/_booklist.json`)
       const jizangBooks = await response.json()
+
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'ji')
 
       jizangBooks.forEach((book: any) => {
         books.value.push({
@@ -446,6 +467,9 @@ onMounted(async () => {
       const response = await fetch(`${BASE_URL}/zizang/_booklist.json`)
       const zizangBooks = await response.json()
 
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'zi')
+
       zizangBooks.forEach((book: any) => {
         books.value.push({
           id: book.id,
@@ -467,6 +491,9 @@ onMounted(async () => {
       const response = await fetch(`${BASE_URL}/shishizang/_booklist.json`)
       const shishizangBooks = await response.json()
 
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'shishi')
+
       shishizangBooks.forEach((book: any) => {
         books.value.push({
           id: book.id,
@@ -487,6 +514,9 @@ onMounted(async () => {
     try {
       const response = await fetch(`${BASE_URL}/yishuzang/_booklist.json`)
       const yishuzangBooks = await response.json()
+
+      // 清空现有书籍，只保留当前分类
+      books.value = books.value.filter(book => book.categoryId !== 'yishu')
 
       yishuzangBooks.forEach((book: any) => {
         books.value.push({
