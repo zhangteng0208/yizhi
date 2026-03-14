@@ -82,7 +82,7 @@ const tabs = [
 // service_code → 类别
 const serviceCategoryMap: Record<string, string> = {
   bazi: 'suan', bazi_basic: 'suan', ziwei: 'suan', qimen: 'suan',
-  meihua: 'wen', liuyao: 'wen', yijing: 'wen', xiaoliuren: 'wen', huangji: 'wen',
+  meihua: 'wen', liuyao: 'wen', yijing: 'wen', xiaoliuren: 'wen', huangji: 'wen', chouqian: 'wen',
   face: 'kan', palm: 'kan', fengshui: 'kan',
   zeji: 'xun', naming: 'xun', hehun: 'xun',
 }
@@ -92,7 +92,7 @@ const serviceNameMap: Record<string, string> = {
   bazi: '八字精批', bazi_basic: '八字精批',
   ziwei: '紫微斗数', qimen: '奇门遁甲',
   meihua: '梅花易数', liuyao: '六爻占卜', yijing: '易经占卜',
-  xiaoliuren: '小六壬', huangji: '皇极天数',
+  xiaoliuren: '小六壬', huangji: '皇极天数', chouqian: '抽签占验',
   face: '面相分析', palm: '手相解读', fengshui: '风水布局',
   zeji: '择日择吉', naming: '起名改名', hehun: '合婚配对',
 }
@@ -183,7 +183,11 @@ onMounted(fetchRecords)
   color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
   letter-spacing: 2px;
 }
-.tab.active { background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background: rgba(219, 39, 119, 0.1); font-weight: 500; }
+.tab.active {
+  background: rgba(219, 39, 119, 0.1);
+  font-weight: 500;
+  color: #DB2777;
+}
 
 .empty {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -230,7 +234,7 @@ onMounted(fetchRecords)
 .status {
   font-size: 11px; padding: 2px 8px; border-radius: 4px; flex-shrink: 0;
 }
-.status.done { background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background: rgba(219, 39, 119, 0.1); }
+.status.done { color: #FFFFFF; background: rgba(219, 39, 119, 0.1); }
 .status.pending { color: var(--text-secondary); background: rgba(255,255,255,0.04); }
 
 .load-more {
