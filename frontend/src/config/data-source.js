@@ -1,15 +1,15 @@
 // 数据源配置
-// 统一使用 NAS 远程数据源
+// 开发环境使用 NAS 直连，生产环境使用服务器代理
 
 export const config = {
-  // 开发环境：使用 NAS 远程数据
+  // 开发环境：使用本地 Vite 代理
   development: {
-    DATA_BASE_URL: 'http://115.190.192.7:55880'
+    DATA_BASE_URL: '/nas-data'
   },
-  
-  // 生产环境：使用 NAS 远程数据
+
+  // 生产环境：使用服务器代理（外网可访问）
   production: {
-    DATA_BASE_URL: 'http://115.190.192.7:55880'
+    DATA_BASE_URL: '/nas-data'
   }
 }
 

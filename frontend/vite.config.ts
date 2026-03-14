@@ -28,6 +28,11 @@ export default defineConfig({
         target: 'http://localhost:3000',
         changeOrigin: true,
       },
+      '/nas-data': {
+        target: 'http://115.190.192.7:55880',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/nas-data/, ''),
+      },
     },
   },
 })
