@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1773232775694,
+  "lastScanned": 1773386019133,
   "projectRoot": "/Users/mac/projects/yizhi",
   "techStack": {
     "languages": [],
@@ -35,7 +35,7 @@
       "path": "backend",
       "purpose": null,
       "fileCount": 16,
-      "lastAccessed": 1773232775588,
+      "lastAccessed": 1773386019014,
       "keyFiles": [
         "README.md",
         "eslint.config.mjs",
@@ -48,7 +48,7 @@
       "path": "daizhigev20",
       "purpose": null,
       "fileCount": 4,
-      "lastAccessed": 1773232775588,
+      "lastAccessed": 1773386019017,
       "keyFiles": [
         "README.md",
         "_config.yml",
@@ -59,7 +59,7 @@
       "path": "frontend",
       "purpose": null,
       "fileCount": 15,
-      "lastAccessed": 1773232775589,
+      "lastAccessed": 1773386019021,
       "keyFiles": [
         "README.md",
         "auto-imports.d.ts",
@@ -68,11 +68,24 @@
         "package-lock.json"
       ]
     },
+    "nas-deploy": {
+      "path": "nas-deploy",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1773386019021,
+      "keyFiles": [
+        "README.md",
+        "deploy-to-nas.sh",
+        "docker-compose.yml",
+        "nginx.conf",
+        "部署指南.md"
+      ]
+    },
     "prompts": {
       "path": "prompts",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1773232775589,
+      "lastAccessed": 1773386019022,
       "keyFiles": [
         "八字解读-v1.md"
       ]
@@ -81,7 +94,7 @@
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 5,
-      "lastAccessed": 1773232775590,
+      "lastAccessed": 1773386019022,
       "keyFiles": [
         "backup-classics.sh",
         "check-data-integrity.sh",
@@ -94,7 +107,7 @@
       "path": "backend/dist",
       "purpose": "Distribution/build output",
       "fileCount": 5,
-      "lastAccessed": 1773232775592,
+      "lastAccessed": 1773386019036,
       "keyFiles": [
         "prisma.config.d.ts",
         "prisma.config.js",
@@ -105,14 +118,14 @@
       "path": "backend/node_modules",
       "purpose": "Dependencies",
       "fileCount": 2,
-      "lastAccessed": 1773232775596,
+      "lastAccessed": 1773386019106,
       "keyFiles": []
     },
     "frontend/dist": {
       "path": "frontend/dist",
       "purpose": "Distribution/build output",
-      "fileCount": 5,
-      "lastAccessed": 1773232775597,
+      "fileCount": 6,
+      "lastAccessed": 1773386019113,
       "keyFiles": [
         "64.json",
         "dictionary.xml",
@@ -122,51 +135,33 @@
   },
   "hotPaths": [
     {
-      "path": "frontend/src/views/Classics.vue",
-      "accessCount": 5,
-      "lastAccessed": 1773234906959,
-      "type": "file"
-    },
-    {
-      "path": "frontend/src/views/ClassicDetail.vue",
-      "accessCount": 3,
-      "lastAccessed": 1773233672551,
-      "type": "file"
-    },
-    {
-      "path": "frontend/src/views/ChapterReader.vue",
-      "accessCount": 2,
-      "lastAccessed": 1773233672054,
-      "type": "file"
-    },
-    {
-      "path": "frontend/public/data/classics/yz/_booklist.json",
+      "path": "nas-deploy/nginx.conf",
       "accessCount": 1,
-      "lastAccessed": 1773233646844,
+      "lastAccessed": 1773386377657,
       "type": "file"
     },
     {
-      "path": "frontend/public/data/classics/yizang/_booklist.json",
+      "path": "nas-deploy/部署指南.md",
       "accessCount": 1,
-      "lastAccessed": 1773233685706,
+      "lastAccessed": 1773386377697,
       "type": "file"
     },
     {
-      "path": "convert-daozang-format.js",
+      "path": "nas-deploy/deploy-to-nas.sh",
       "accessCount": 1,
-      "lastAccessed": 1773234522613,
+      "lastAccessed": 1773386377753,
       "type": "file"
     },
     {
-      "path": "COMPLETE_FIX_REPORT.md",
+      "path": "nas-deploy/docker-compose.yml",
       "accessCount": 1,
-      "lastAccessed": 1773234591348,
+      "lastAccessed": 1773386377804,
       "type": "file"
     },
     {
-      "path": "CHANGELOG.md",
+      "path": "nas-deploy/README.md",
       "accessCount": 1,
-      "lastAccessed": 1773235278094,
+      "lastAccessed": 1773386378005,
       "type": "file"
     }
   ],

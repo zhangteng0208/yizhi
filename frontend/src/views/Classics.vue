@@ -290,10 +290,12 @@ const books = ref([
 
 // 加载道藏和儒藏书籍
 onMounted(async () => {
+  const BASE_URL = 'http://115.190.192.7:55880'
+  
   // 加载道藏
   if (categoryId.value === 'dao') {
     try {
-      const response = await fetch('/data/classics/daozang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/daozang/_booklist.json`)
       const daozangBooks = await response.json()
 
       daozangBooks.forEach((book: any) => {
@@ -314,7 +316,7 @@ onMounted(async () => {
   // 加载儒藏
   if (categoryId.value === 'ru') {
     try {
-      const response = await fetch('/data/classics/ruzang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/ruzang/_booklist.json`)
       const ruzangBooks = await response.json()
 
       ruzangBooks.forEach((book: any) => {
@@ -335,7 +337,7 @@ onMounted(async () => {
   // 加载佛藏
   if (categoryId.value === 'fo') {
     try {
-      const response = await fetch('/data/classics/fozang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/fozang/_booklist.json`)
       const fozangBooks = await response.json()
 
       fozangBooks.forEach((book: any) => {
@@ -356,7 +358,7 @@ onMounted(async () => {
   // 加载易藏
   if (categoryId.value === 'yijing') {
     try {
-      const response = await fetch('/data/classics/yz/_booklist.json')
+      const response = await fetch(`${BASE_URL}/yz/_booklist.json`)
       const yzBooks = await response.json()
 
       yzBooks.forEach((book: any) => {
@@ -377,7 +379,7 @@ onMounted(async () => {
   // 加载医藏
   if (categoryId.value === 'yi') {
     try {
-      const response = await fetch('/data/classics/yizang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/yizang/_booklist.json`)
       const yizangBooks = await response.json()
 
       yizangBooks.forEach((book: any) => {
@@ -398,7 +400,7 @@ onMounted(async () => {
   // 加载诗藏
   if (categoryId.value === 'shi') {
     try {
-      const response = await fetch('/data/classics/shizang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/shizang/_booklist.json`)
       const shizangBooks = await response.json()
 
       shizangBooks.forEach((book: any) => {
@@ -419,7 +421,7 @@ onMounted(async () => {
   // 加载集藏
   if (categoryId.value === 'ji') {
     try {
-      const response = await fetch('/data/classics/jizang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/jizang/_booklist.json`)
       const jizangBooks = await response.json()
 
       jizangBooks.forEach((book: any) => {
@@ -440,7 +442,7 @@ onMounted(async () => {
   // 加载子藏
   if (categoryId.value === 'zi') {
     try {
-      const response = await fetch('/data/classics/zizang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/zizang/_booklist.json`)
       const zizangBooks = await response.json()
 
       zizangBooks.forEach((book: any) => {
@@ -461,7 +463,7 @@ onMounted(async () => {
   // 加载史藏
   if (categoryId.value === 'shishi') {
     try {
-      const response = await fetch('/data/classics/shishizang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/shishizang/_booklist.json`)
       const shishizangBooks = await response.json()
 
       shishizangBooks.forEach((book: any) => {
@@ -482,7 +484,7 @@ onMounted(async () => {
   // 加载艺藏
   if (categoryId.value === 'yishu') {
     try {
-      const response = await fetch('/data/classics/yishuzang/_booklist.json')
+      const response = await fetch(`${BASE_URL}/yishuzang/_booklist.json`)
       const yishuzangBooks = await response.json()
 
       yishuzangBooks.forEach((book: any) => {

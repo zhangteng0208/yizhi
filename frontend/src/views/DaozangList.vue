@@ -53,7 +53,7 @@ function openBook(bookId: string) {
 
 onMounted(async () => {
   try {
-    const response = await fetch('/data/classics/daozang/_booklist.json')
+    const response = await fetch('http://115.190.192.7:55880/daozang/_booklist.json')
     books.value = await response.json()
   } catch (error) {
     console.error('加载道藏书籍列表失败:', error)

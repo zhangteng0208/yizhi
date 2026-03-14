@@ -74,91 +74,93 @@ async function loadChapter() {
   try {
     let dataFile = ''
 
+    const BASE_URL = 'http://115.190.192.7:55880'
+    
     // 处理儒藏书籍
     if (bookId.value.startsWith('ruzang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('ruzang/', '')
-      dataFile = `/data/classics/ruzang/${fileName}.json`
+      dataFile = `${BASE_URL}/ruzang/${fileName}.json`
     }
     // 处理佛藏书籍
     else if (bookId.value.startsWith('fozang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('fozang/', '')
-      dataFile = `/data/classics/fozang/${fileName}.json`
+      dataFile = `${BASE_URL}/fozang/${fileName}.json`
     }
     // 处理易藏书籍 (yz目录)
     else if (bookId.value.startsWith('yz/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('yz/', '')
-      dataFile = `/data/classics/yz/${fileName}.json`
+      dataFile = `${BASE_URL}/yz/${fileName}.json`
     }
     // 处理医藏书籍 (yizang目录)
     else if (bookId.value.startsWith('yizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('yizang/', '')
-      dataFile = `/data/classics/yizang/${fileName}.json`
+      dataFile = `${BASE_URL}/yizang/${fileName}.json`
     }
     // 处理诗藏书籍
     else if (bookId.value.startsWith('shizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('shizang/', '')
-      dataFile = `/data/classics/shizang/${fileName}.json`
+      dataFile = `${BASE_URL}/shizang/${fileName}.json`
     }
     // 处理集藏书籍
     else if (bookId.value.startsWith('jizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('jizang/', '')
-      dataFile = `/data/classics/jizang/${fileName}.json`
+      dataFile = `${BASE_URL}/jizang/${fileName}.json`
     }
     // 处理子藏书籍
     else if (bookId.value.startsWith('zizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('zizang/', '')
-      dataFile = `/data/classics/zizang/${fileName}.json`
+      dataFile = `${BASE_URL}/zizang/${fileName}.json`
     }
     // 处理史藏书籍
     else if (bookId.value.startsWith('shishizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('shishizang/', '')
-      dataFile = `/data/classics/shishizang/${fileName}.json`
+      dataFile = `${BASE_URL}/shishizang/${fileName}.json`
     }
     // 处理艺藏书籍
     else if (bookId.value.startsWith('yishuzang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('yishuzang/', '')
-      dataFile = `/data/classics/yishuzang/${fileName}.json`
+      dataFile = `${BASE_URL}/yishuzang/${fileName}.json`
     } else {
       // 处理固定的经典书籍
       const dataFiles: Record<string, string> = {
-        daodejing: '/data/classics/daodejing.json',
-        yijing: '/data/classics/yijing.json',
-        lunyu: '/data/classics/lunyu.json',
-        zhuangzi: '/data/classics/zhuangzi.json',
-        mengzi: '/data/classics/mengzi.json',
-        sunzi: '/data/classics/sunzi.json',
-        baopuzi: '/data/classics/baopuzi.json',
-        huangting: '/data/classics/huangting.json',
-        guanyinzi: '/data/classics/guanyinzi.json',
-        daxue: '/data/classics/daxue.json',
-        zhongyong: '/data/classics/zhongyong.json',
-        mozi: '/data/classics/mozi.json',
-        xinjing: '/data/classics/xinjing.json',
-        jingangjing: '/data/classics/jingangjing.json',
-        shijing: '/data/classics/shijing.json',
-        chuci: '/data/classics/chuci.json',
-        guwenguanzhi: '/data/classics/guwenguanzhi.json',
-        shiji: '/data/classics/shiji.json',
-        huangdineijing: '/data/classics/huangdineijing.json',
-        chajing: '/data/classics/chajing.json'
+        daodejing: `${BASE_URL}/daodejing.json`,
+        yijing: `${BASE_URL}/yijing.json`,
+        lunyu: `${BASE_URL}/lunyu.json`,
+        zhuangzi: `${BASE_URL}/zhuangzi.json`,
+        mengzi: `${BASE_URL}/mengzi.json`,
+        sunzi: `${BASE_URL}/sunzi.json`,
+        baopuzi: `${BASE_URL}/baopuzi.json`,
+        huangting: `${BASE_URL}/huangting.json`,
+        guanyinzi: `${BASE_URL}/guanyinzi.json`,
+        daxue: `${BASE_URL}/daxue.json`,
+        zhongyong: `${BASE_URL}/zhongyong.json`,
+        mozi: `${BASE_URL}/mozi.json`,
+        xinjing: `${BASE_URL}/xinjing.json`,
+        jingangjing: `${BASE_URL}/jingangjing.json`,
+        shijing: `${BASE_URL}/shijing.json`,
+        chuci: `${BASE_URL}/chuci.json`,
+        guwenguanzhi: `${BASE_URL}/guwenguanzhi.json`,
+        shiji: `${BASE_URL}/shiji.json`,
+        huangdineijing: `${BASE_URL}/huangdineijing.json`,
+        chajing: `${BASE_URL}/chajing.json`
       }
 
       dataFile = dataFiles[bookId.value] || ''
