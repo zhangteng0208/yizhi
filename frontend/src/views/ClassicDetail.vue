@@ -424,7 +424,7 @@ function getChapterNumber(num: number): string {
   font-size: 11px;
   font-weight: 500;
   color: var(--text-primary);
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
   letter-spacing: 1px;
 }
 
@@ -440,7 +440,7 @@ function getChapterNumber(num: number): string {
   font-size: 15px;
   font-weight: 600;
   color: var(--text-primary);
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
   letter-spacing: 1px;
 }
 

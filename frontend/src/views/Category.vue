@@ -190,7 +190,7 @@ const products = computed(() => categoryMap[route.params.type as string]?.produc
   background-clip: text;
   filter: drop-shadow(0 2px 4px rgba(219, 39, 119, 0.3));
   line-height: 1;
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
 }
 
 .product-icon::before {

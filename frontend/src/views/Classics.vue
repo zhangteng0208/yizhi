@@ -49,7 +49,7 @@
           }">
             <path d="M816 64h-88v112h104V80c0-8.8-7.2-16-16-16zM192 80v864c0 8.8 7.2 16 16 16h504V64H208c-8.8 0-16 7.2-16 16z m64 72c0-8.8 7.2-16 16-16h160c8.8 0 16 7.2 16 16v528c0 8.8-7.2 16-16 16H272c-8.8 0-16-7.2-16-16V152z m544 696h-72v112h88c8.8 0 16-7.2 16-16v-96h-32z m0-464h-72v240h104V384h-16z m0 256h-72v192h104V640h-16z m0-448h-72v176h104V192h-16z" :fill="currentColors.light"/>
             <path d="M432 136H272c-8.8 0-16 7.2-16 16v528c0 8.8 7.2 16 16 16h160c8.8 0 16-7.2 16-16V152c0-8.8-7.2-16-16-16z m-16 528H288V168h128v496z" :fill="currentColors.dark"/>
-            <text x="352" y="420" font-size="80" :fill="currentColors.light" text-anchor="middle" font-family="Noto Serif SC, serif" writing-mode="tb">{{ book.title.slice(0, 5) }}</text>
+            <text x="352" y="420" font-size="80" :fill="currentColors.light" text-anchor="middle" font-family="Songti SC, STSong, SimSun, serif" writing-mode="tb">{{ book.title.slice(0, 5) }}</text>
           </svg>
         </div>
         <div class="book-info">
@@ -637,13 +637,13 @@ function handleBookClick(book: any) {
   font-weight: 500;
   color: var(--text-secondary);
   margin-bottom: 8px;
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
 }
 
 .no-results-hint {
   font-size: 13px;
   color: var(--text-tertiary);
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
 }
 
 .classics-grid {
@@ -729,7 +729,7 @@ function handleBookClick(book: any) {
   font-size: 19px;
   font-weight: 600;
   color: var(--text-primary);
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
   letter-spacing: 2px;
   line-height: 1.3;
 }

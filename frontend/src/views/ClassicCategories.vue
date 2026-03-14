@@ -278,7 +278,7 @@ function handleCategoryClick(category: any) {
 .category-char {
   font-size: 40px;
   font-weight: 500;
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
   transition: transform 0.25s ease-out;
 }
 
@@ -323,7 +323,7 @@ function handleCategoryClick(category: any) {
 .category-title {
   font-size: 22px;
   font-weight: 600;
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
   letter-spacing: 2px;
   line-height: 1.3;
 }
@@ -332,7 +332,7 @@ function handleCategoryClick(category: any) {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.75);
   line-height: 1.6;
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
 }
 
 .category-count {

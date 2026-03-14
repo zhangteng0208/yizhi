@@ -40,7 +40,7 @@
 }
 
 body {
-  font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
@@ -70,7 +70,7 @@ a {
   text-decoration: none;
 }
 
-/* Typography - 使用思源宋体作为标题字体 */
+/* Typography - 使用系统衬线字体 */
 h1, h2, h3, h4, h5, h6,
 .heading,
 .title,
@@ -82,7 +82,7 @@ h1, h2, h3, h4, h5, h6,
 .lunar-ganzhi,
 .lunar-meta,
 .lunar-yiji {
-  font-family: 'Noto Serif SC', 'Noto Serif', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
   font-weight: 500;
   letter-spacing: 0.02em;
 }

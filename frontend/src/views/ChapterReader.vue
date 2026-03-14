@@ -246,7 +246,7 @@ function goToNextChapter() {
   font-size: 24px;
   font-weight: 600;
   color: var(--text-primary);
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
   letter-spacing: 2px;
   margin-bottom: 8px;
   background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%);
@@ -258,12 +258,12 @@ function goToNextChapter() {
 .chapter-number {
   font-size: 13px;
   color: var(--text-secondary);
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
 }
 
 .chapter-text {
   line-height: 2;
-  font-family: 'Noto Serif SC', serif;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
   margin-bottom: 48px;
 }
 
