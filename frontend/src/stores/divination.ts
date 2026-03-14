@@ -57,6 +57,25 @@ export const useDivinationStore = defineStore('divination', () => {
       const res: any = await http.get(`/divination/${id}`)
       const data = res.data ?? res
       current.value = data
+
+      // 调试：查看返回的数据结构
+      console.log('getResult data:', data)
+      console.log('input_params:', data.input_params)
+
+      // 恢复用户输入参数
+      if (data.input_params) {
+        const ip = data.input_params
+        inputParams.value = {
+          name: ip.name || '',
+          gender: ip.gender === 1 ? '男' : ip.gender === 2 ? '女' : ip.gender || '',
+          birthday: `${ip.birthYear}-${String(ip.birthMonth).padStart(2, '0')}-${String(ip.birthDay).padStart(2, '0')}`,
+          hour: String(ip.birthHour || ''),
+          calendar: ip.isLunar ? '农历' : '公历',
+          question: ip.question,
+        }
+        console.log('恢复的 inputParams:', inputParams.value)
+      }
+
       return data
     } finally {
       loading.value = false

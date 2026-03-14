@@ -182,11 +182,15 @@
         <button class="btn-back" @click="$router.push('/')">返回首页</button>
       </div>
     </template>
+
+    <!-- 海报弹窗 -->
+    <BaziPoster v-model="showPoster" :data="data" :params="params" />
   </div>
 </template>
 
 <script setup lang="ts">
 import BrandLogo from '@/components/BrandLogo.vue'
+import BaziPoster from '@/components/BaziPoster.vue'
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDivinationStore } from '../stores/divination'
@@ -197,6 +201,7 @@ const router = useRouter()
 const store = useDivinationStore()
 const loading = ref(false)
 const expanded = ref<string>('mingju')
+const showPoster = ref(false)
 
 const data = computed(() => store.current)
 const params = computed(() => store.inputParams)
@@ -317,9 +322,7 @@ function fmt(val: any): string {
 }
 
 function share() {
-  if (navigator.share) {
-    navigator.share({ title: '易知先生 - 测算结果', url: location.href })
-  }
+  showPoster.value = true
 }
 
 function triggerAi() {

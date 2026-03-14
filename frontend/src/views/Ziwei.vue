@@ -144,16 +144,21 @@
       </div>
 
       <div class="actions">
+        <button class="btn-share" @click="share">分享</button>
         <button class="btn-again" @click="reset">重新排盘</button>
         <button class="btn-back" @click="$router.push('/')">返回首页</button>
       </div>
     </template>
 
     <LoadingOverlay :visible="loading" text="排盘解读中..." />
+
+    <!-- 海报弹窗 -->
+    <ZiweiPoster v-model="showPoster" :data="result" :form="form" />
   </div>
 </template>
 <script setup lang="ts">
 import BrandLogo from '@/components/BrandLogo.vue'
+import ZiweiPoster from '@/components/ZiweiPoster.vue'
 import { reactive, ref, computed } from 'vue'
 import http from '../utils/http'
 import { fetchAiStream } from '../utils/sse'
@@ -167,6 +172,7 @@ const aiLoading = ref(false)
 const expanded = ref<string>('zonglun')
 const isTyping = ref(false)
 const displayedContent = ref<any>({})
+const showPoster = ref(false)
 
 const form = reactive({
   name: '',
@@ -363,6 +369,11 @@ async function typeText(key: string, text: string) {
 function reset() {
   result.value = null
 }
+
+function share() {
+  showPoster.value = true
+}
+
 </script>
 
 <style scoped>
@@ -438,6 +449,8 @@ select.input option { background: linear-gradient(135deg, rgba(26, 26, 26, 0.95)
 .advice-value { color: var(--text-primary); flex: 1; }
 .advice-value.long { text-align: left; font-size: 12px; line-height: 1.6; }
 .actions { display: flex; gap: 10px; padding: 24px 20px 0; }
+.btn-share { flex: 1; height: 44px; background: linear-gradient(135deg, #9333ea 0%, #ec4899 100%); border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 2px; cursor: pointer; box-shadow: 0 4px 12px rgba(147, 51, 234, 0.3); transition: all 0.2s; }
+.btn-share:active { opacity: 0.85; transform: translateY(1px); }
 .btn-again { flex: 1; height: 44px; background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%); border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 2px; cursor: pointer; box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3); transition: all 0.2s; }
 .btn-again:active { opacity: 0.85; transform: translateY(1px); }
 .btn-back { flex: 1; height: 44px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-secondary); font-size: 14px; cursor: pointer; }

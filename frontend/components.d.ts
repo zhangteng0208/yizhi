@@ -11,12 +11,18 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BaziPoster: typeof import('./src/components/BaziPoster.vue')['default']
     BrandLogo: typeof import('./src/components/BrandLogo.vue')['default']
     BrandSymbol: typeof import('./src/components/BrandSymbol.vue')['default']
+    LingqianPoster: typeof import('./src/components/LingqianPoster.vue')['default']
     LoadingOverlay: typeof import('./src/components/LoadingOverlay.vue')['default']
+    MeihuaPoster: typeof import('./src/components/MeihuaPoster.vue')['default']
     ProfilePicker: typeof import('./src/components/ProfilePicker.vue')['default']
+    QimenPoster: typeof import('./src/components/QimenPoster.vue')['default']
+    ReaderSettings: typeof import('./src/components/ReaderSettings.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SearchPanel: typeof import('./src/components/SearchPanel.vue')['default']
     TabBar: typeof import('./src/components/TabBar.vue')['default']
     VanButton: typeof import('vant/es')['Button']
     VanCell: typeof import('vant/es')['Cell']
@@ -25,10 +31,12 @@ declare module 'vue' {
     VanCollapseItem: typeof import('vant/es')['CollapseItem']
     VanDatePicker: typeof import('vant/es')['DatePicker']
     VanField: typeof import('vant/es')['Field']
+    VanIcon: typeof import('vant/es')['Icon']
     VanLoading: typeof import('vant/es')['Loading']
     VanNavBar: typeof import('vant/es')['NavBar']
     VanPopup: typeof import('vant/es')['Popup']
     VanSearch: typeof import('vant/es')['Search']
     VanUploader: typeof import('vant/es')['Uploader']
+    ZiweiPoster: typeof import('./src/components/ZiweiPoster.vue')['default']
   }
 }

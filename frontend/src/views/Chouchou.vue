@@ -137,14 +137,18 @@
 
       <div class="actions">
         <button class="btn-again" @click="reset">再次抽签</button>
+        <button class="btn-share" @click="share">分享海报</button>
       </div>
     </template>
+
+    <LingqianPoster v-model="showPoster" :data="result" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { showToast } from 'vant'
+import LingqianPoster from '@/components/LingqianPoster.vue'
 
 interface SignBucket {
   id: string
@@ -180,6 +184,7 @@ const aiLoading = ref(false)
 const isDrawing = ref(false)
 const isShaking = ref(false)
 const drawText = ref('诚心祈愿...')
+const showPoster = ref(false)
 
 const poemLines = computed(() => {
   if (!result.value?.sign.poem) return []
@@ -345,6 +350,10 @@ function reset() {
   isDrawing.value = false
   isShaking.value = false
   drawText.value = '诚心祈愿...'
+}
+
+function share() {
+  showPoster.value = true
 }
 </script>
 
@@ -704,10 +713,12 @@ function reset() {
 .actions {
   padding: 20px 16px;
   display: flex;
+  gap: 12px;
   justify-content: center;
 }
 
 .btn-again {
+  flex: 1;
   padding: 14px 40px;
   background: transparent;
   border: 1px solid rgba(219, 39, 119, 0.5);
@@ -721,6 +732,26 @@ function reset() {
 
 .btn-again:active {
   background: rgba(219, 39, 119, 0.1);
+  transform: scale(0.98);
+}
+
+.btn-share {
+  flex: 1;
+  padding: 14px 40px;
+  background: linear-gradient(135deg, #8B0000 0%, #DAA520 100%);
+  border: none;
+  border-radius: 25px;
+  font-size: 15px;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 2px;
+  box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
+}
+
+.btn-share:active {
+  opacity: 0.85;
   transform: scale(0.98);
 }
 

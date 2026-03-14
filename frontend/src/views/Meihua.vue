@@ -177,9 +177,12 @@
 
       <div class="actions">
         <button class="btn-again" @click="reset">重新起卦</button>
+        <button class="btn-share" @click="share">分享海报</button>
         <button class="btn-back" @click="$router.push('/')">返回首页</button>
       </div>
     </template>
+
+    <MeihuaPoster v-model="showPoster" :data="result" :name="name" />
 
     <LoadingOverlay :visible="loading" text="起卦中..." />
   </div>
@@ -187,6 +190,7 @@
 
 <script setup lang="ts">
 import BrandLogo from '@/components/BrandLogo.vue'
+import MeihuaPoster from '@/components/MeihuaPoster.vue'
 import { ref } from 'vue'
 import http from '../utils/http'
 import { fetchAiStream } from '../utils/sse'
@@ -201,6 +205,7 @@ const aiLoading = ref(false)
 const isTyping = ref(false)
 const displayedContent = ref<any>({})
 const expanded = ref<string>('zonglun')
+const showPoster = ref(false)
 
 const aiSections = [
   { key: 'zonglun', label: '卦象总论' },
@@ -288,6 +293,10 @@ async function typeText(key: string, text: string) {
 function reset() {
   result.value = null
   name.value = ''
+}
+
+function share() {
+  showPoster.value = true
 }
 </script>
 
@@ -492,6 +501,8 @@ function reset() {
 .actions { display: flex; gap: 10px; padding: 24px 20px 0; }
 .btn-again { flex: 1; height: 44px; background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%); border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 2px; cursor: pointer; box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3); transition: all 0.2s; }
 .btn-again:active { opacity: 0.85; transform: translateY(1px); }
+.btn-share { flex: 1; height: 44px; background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%); border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 2px; cursor: pointer; box-shadow: 0 4px 12px rgba(44, 83, 100, 0.3); transition: all 0.2s; }
+.btn-share:active { opacity: 0.85; transform: translateY(1px); }
 .btn-back { flex: 1; height: 44px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-secondary); font-size: 14px; cursor: pointer; transition: all 0.2s; }
 .btn-back:active { background: rgba(26, 26, 26, 0.5); }
 </style>
