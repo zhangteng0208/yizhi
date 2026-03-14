@@ -31,6 +31,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { DATA_BASE_URL } from '@/config/data-source'
 
 const route = useRoute()
 const bookId = computed(() => route.params.id as string)
@@ -78,7 +79,7 @@ async function loadBookTitle() {
   // 如果是儒藏书籍，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('ruzang/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/ruzang/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/ruzang/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -95,7 +96,7 @@ async function loadBookTitle() {
   // 如果是佛藏书籍，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('fozang/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/fozang/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/fozang/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -112,7 +113,7 @@ async function loadBookTitle() {
   // 如果是易藏书籍 (yz目录)，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('yz/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/yz/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/yz/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -129,7 +130,7 @@ async function loadBookTitle() {
   // 如果是医藏书籍 (yizang目录)，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('yizang/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/yizang/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/yizang/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -146,7 +147,7 @@ async function loadBookTitle() {
   // 如果是诗藏书籍，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('shizang/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/shizang/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/shizang/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -163,7 +164,7 @@ async function loadBookTitle() {
   // 如果是集藏书籍，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('jizang/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/jizang/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/jizang/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -180,7 +181,7 @@ async function loadBookTitle() {
   // 如果是子藏书籍，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('zizang/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/zizang/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/zizang/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -197,7 +198,7 @@ async function loadBookTitle() {
   // 如果是史藏书籍，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('shishizang/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/shishizang/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/shishizang/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -214,7 +215,7 @@ async function loadBookTitle() {
   // 如果是艺藏书籍，从 _booklist.json 中获取书名
   if (bookId.value.startsWith('yishuzang/')) {
     try {
-      const response = await fetch('http://115.190.192.7:55880/yishuzang/_booklist.json')
+      const response = await fetch(`${DATA_BASE_URL}/yishuzang/_booklist.json`)
       const booklist = await response.json()
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
@@ -242,86 +243,86 @@ async function loadChapters() {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('ruzang/', '')
-      dataFile = `http://115.190.192.7:55880/ruzang/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/ruzang/${fileName}.json`
     }
     // 处理佛藏书籍
     else if (bookId.value.startsWith('fozang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('fozang/', '')
-      dataFile = `http://115.190.192.7:55880/fozang/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/fozang/${fileName}.json`
     }
     // 处理易藏书籍 (yz目录)
     else if (bookId.value.startsWith('yz/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('yz/', '')
-      dataFile = `http://115.190.192.7:55880/yz/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/yz/${fileName}.json`
     }
     // 处理医藏书籍 (yizang目录)
     else if (bookId.value.startsWith('yizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('yizang/', '')
-      dataFile = `http://115.190.192.7:55880/yizang/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/yizang/${fileName}.json`
     }
     // 处理诗藏书籍
     else if (bookId.value.startsWith('shizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('shizang/', '')
-      dataFile = `http://115.190.192.7:55880/shizang/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/shizang/${fileName}.json`
     }
     // 处理集藏书籍
     else if (bookId.value.startsWith('jizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('jizang/', '')
-      dataFile = `http://115.190.192.7:55880/jizang/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/jizang/${fileName}.json`
     }
     // 处理子藏书籍
     else if (bookId.value.startsWith('zizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('zizang/', '')
-      dataFile = `http://115.190.192.7:55880/zizang/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/zizang/${fileName}.json`
     }
     // 处理史藏书籍
     else if (bookId.value.startsWith('shishizang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('shishizang/', '')
-      dataFile = `http://115.190.192.7:55880/shishizang/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/shishizang/${fileName}.json`
     }
     // 处理艺藏书籍
     else if (bookId.value.startsWith('yishuzang/')) {
       // URL 解码，处理中文字符
       const decodedBookId = decodeURIComponent(bookId.value)
       const fileName = decodedBookId.replace('yishuzang/', '')
-      dataFile = `http://115.190.192.7:55880/yishuzang/${fileName}.json`
+      dataFile = `${DATA_BASE_URL}/yishuzang/${fileName}.json`
     } else {
       // 处理固定的经典书籍
       const dataFiles: Record<string, string> = {
-        daodejing: 'http://115.190.192.7:55880/daodejing.json',
-        yijing: 'http://115.190.192.7:55880/yijing.json',
-        lunyu: 'http://115.190.192.7:55880/lunyu.json',
-        zhuangzi: 'http://115.190.192.7:55880/zhuangzi.json',
-        mengzi: 'http://115.190.192.7:55880/mengzi.json',
-        sunzi: 'http://115.190.192.7:55880/sunzi.json',
-        baopuzi: 'http://115.190.192.7:55880/baopuzi.json',
-        huangting: 'http://115.190.192.7:55880/huangting.json',
-        guanyinzi: 'http://115.190.192.7:55880/guanyinzi.json',
-        daxue: 'http://115.190.192.7:55880/daxue.json',
-        zhongyong: 'http://115.190.192.7:55880/zhongyong.json',
-        mozi: 'http://115.190.192.7:55880/mozi.json',
-        xinjing: 'http://115.190.192.7:55880/xinjing.json',
-        jingangjing: 'http://115.190.192.7:55880/jingangjing.json',
-        shijing: 'http://115.190.192.7:55880/shijing.json',
-        chuci: 'http://115.190.192.7:55880/chuci.json',
-        guwenguanzhi: 'http://115.190.192.7:55880/guwenguanzhi.json',
-        shiji: 'http://115.190.192.7:55880/shiji.json',
-        huangdineijing: 'http://115.190.192.7:55880/huangdineijing.json',
-        chajing: 'http://115.190.192.7:55880/chajing.json'
+        daodejing: `${DATA_BASE_URL}/daodejing.json`,
+        yijing: `${DATA_BASE_URL}/yijing.json`,
+        lunyu: `${DATA_BASE_URL}/lunyu.json`,
+        zhuangzi: `${DATA_BASE_URL}/zhuangzi.json`,
+        mengzi: `${DATA_BASE_URL}/mengzi.json`,
+        sunzi: `${DATA_BASE_URL}/sunzi.json`,
+        baopuzi: `${DATA_BASE_URL}/baopuzi.json`,
+        huangting: `${DATA_BASE_URL}/huangting.json`,
+        guanyinzi: `${DATA_BASE_URL}/guanyinzi.json`,
+        daxue: `${DATA_BASE_URL}/daxue.json`,
+        zhongyong: `${DATA_BASE_URL}/zhongyong.json`,
+        mozi: `${DATA_BASE_URL}/mozi.json`,
+        xinjing: `${DATA_BASE_URL}/xinjing.json`,
+        jingangjing: `${DATA_BASE_URL}/jingangjing.json`,
+        shijing: `${DATA_BASE_URL}/shijing.json`,
+        chuci: `${DATA_BASE_URL}/chuci.json`,
+        guwenguanzhi: `${DATA_BASE_URL}/guwenguanzhi.json`,
+        shiji: `${DATA_BASE_URL}/shiji.json`,
+        huangdineijing: `${DATA_BASE_URL}/huangdineijing.json`,
+        chajing: `${DATA_BASE_URL}/chajing.json`
       }
 
       dataFile = dataFiles[bookId.value] || ''

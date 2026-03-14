@@ -49,6 +49,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { DATA_BASE_URL } from '@/config/data-source'
 
 const route = useRoute()
 const router = useRouter()
@@ -74,7 +75,7 @@ async function loadChapter() {
   try {
     let dataFile = ''
 
-    const BASE_URL = 'http://115.190.192.7:55880'
+    const BASE_URL = DATA_BASE_URL
     
     // 处理儒藏书籍
     if (bookId.value.startsWith('ruzang/')) {

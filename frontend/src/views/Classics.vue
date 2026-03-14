@@ -76,6 +76,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { DATA_BASE_URL } from '@/config/data-source'
 
 const route = useRoute()
 const router = useRouter()
@@ -290,7 +291,7 @@ const books = ref([
 
 // 加载道藏和儒藏书籍
 onMounted(async () => {
-  const BASE_URL = 'http://115.190.192.7:55880'
+  const BASE_URL = DATA_BASE_URL
   
   // 加载道藏
   if (categoryId.value === 'dao') {

@@ -30,6 +30,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { DATA_BASE_URL } from '@/config/data-source'
 
 const route = useRoute()
 const bookId = computed(() => route.params.bookId as string)
@@ -40,7 +41,7 @@ const loading = ref(true)
 onMounted(async () => {
   try {
     // 加载书籍列表获取标题
-    const listResponse = await fetch('http://115.190.192.7:55880/daozang/_booklist.json')
+    const listResponse = await fetch(`${DATA_BASE_URL}/daozang/_booklist.json`)
     const books = await listResponse.json()
     const book = books.find((b: any) => b.id === bookId.value)
     if (book) {
@@ -48,7 +49,7 @@ onMounted(async () => {
     }
 
     // 加载内容
-    const response = await fetch(`http://115.190.192.7:55880/daozang/${bookId.value}.json`)
+    const response = await fetch(`${DATA_BASE_URL}/daozang/${bookId.value}.json`)
     const data = await response.json()
     content.value = data[0] // 取第一章（全文）
     loading.value = false

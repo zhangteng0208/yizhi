@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { DATA_BASE_URL } from '@/config/data-source'
 
 const router = useRouter()
 const books = ref<any[]>([])
@@ -53,7 +54,7 @@ function openBook(bookId: string) {
 
 onMounted(async () => {
   try {
-    const response = await fetch('http://115.190.192.7:55880/daozang/_booklist.json')
+    const response = await fetch(`${DATA_BASE_URL}/daozang/_booklist.json`)
     books.value = await response.json()
   } catch (error) {
     console.error('加载道藏书籍列表失败:', error)
