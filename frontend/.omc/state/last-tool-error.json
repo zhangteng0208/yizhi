@@ -1,7 +1,7 @@
 {
   "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"ssh root@69.5.20.41 \\\"cd /var/www/yizhi && git pull && cd frontend && npm run build\\\"\",\"timeout\":300000,\"description\":\"Pull latest code and build on server\"}",
-  "error": "Exit code 128\nfatal: not a git repository (or any of the parent directories): .git",
-  "timestamp": "2026-03-11T15:17:49.980Z",
+  "tool_input_preview": "{\"command\":\"rm -rf dist && npx vite build 2>&1 | tail -5\",\"timeout\":120000,\"description\":\"清理并重新构建\"}",
+  "error": "Exit code 1\nrm: dist/data: Directory not empty\nrm: dist: Directory not empty",
+  "timestamp": "2026-03-14T03:15:08.302Z",
   "retry_count": 1
 }

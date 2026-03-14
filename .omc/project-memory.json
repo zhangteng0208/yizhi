@@ -135,6 +135,48 @@
   },
   "hotPaths": [
     {
+      "path": "frontend/src/views/ClassicDetail.vue",
+      "accessCount": 16,
+      "lastAccessed": 1773456582512,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/views/ChapterReader.vue",
+      "accessCount": 4,
+      "lastAccessed": 1773456519134,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/views/Classics.vue",
+      "accessCount": 4,
+      "lastAccessed": 1773456589134,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/views/DaozangReader.vue",
+      "accessCount": 3,
+      "lastAccessed": 1773456610764,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src/views/DaozangList.vue",
+      "accessCount": 3,
+      "lastAccessed": 1773456611297,
+      "type": "file"
+    },
+    {
+      "path": "frontend/src",
+      "accessCount": 3,
+      "lastAccessed": 1773456624186,
+      "type": "directory"
+    },
+    {
+      "path": "frontend/src/config/data-source.js",
+      "accessCount": 2,
+      "lastAccessed": 1773456624123,
+      "type": "file"
+    },
+    {
       "path": "nas-deploy/nginx.conf",
       "accessCount": 1,
       "lastAccessed": 1773386377657,
@@ -162,6 +204,24 @@
       "path": "nas-deploy/README.md",
       "accessCount": 1,
       "lastAccessed": 1773386378005,
+      "type": "file"
+    },
+    {
+      "path": "frontend",
+      "accessCount": 1,
+      "lastAccessed": 1773456398971,
+      "type": "directory"
+    },
+    {
+      "path": "frontend/src/views",
+      "accessCount": 1,
+      "lastAccessed": 1773456416626,
+      "type": "directory"
+    },
+    {
+      "path": "deploy.sh",
+      "accessCount": 1,
+      "lastAccessed": 1773457003846,
       "type": "file"
     }
   ],

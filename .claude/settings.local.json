@@ -74,7 +74,9 @@
       "Bash(bash \"/Users/mac/.claude/plugins/cache/omc/oh-my-claudecode/4.7.10/scripts/setup-progress.sh\" save 2 global)",
       "Bash(for file:*)",
       "Bash(cd /Users/mac/projects/yizhi && tar -czf frontend-dist.tar.gz -C frontend/dist .)",
-      "Bash(scp -o StrictHostKeyChecking=no /Users/mac/projects/yizhi/frontend-dist.tar.gz root@69.5.20.41:/tmp/)"
+      "Bash(scp -o StrictHostKeyChecking=no /Users/mac/projects/yizhi/frontend-dist.tar.gz root@69.5.20.41:/tmp/)",
+      "mcp__plugin_oh-my-claudecode_t__ast_grep_replace",
+      "Bash(./deploy.sh \"feat: 统一使用 NAS 数据源\")"
     ]
   }
 }
