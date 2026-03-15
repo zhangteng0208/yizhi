@@ -84,7 +84,8 @@
       "Bash(scp:*)",
       "Bash(git checkout:*)",
       "Bash(./deploy.sh \"fix: 恢复深度选择器显示逻辑\")",
-      "Bash(./deploy.sh \"fix: 修复深度选择器显示条件，分离重新解读按钮\")"
+      "Bash(./deploy.sh \"fix: 修复深度选择器显示条件，分离重新解读按钮\")",
+      "Bash(./deploy.sh \"feat: 添加深度选择弹窗，点击开始解读时选择分析深度\")"
     ]
   }
 }

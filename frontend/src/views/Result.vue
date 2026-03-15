@@ -141,46 +141,37 @@
           <h3 class="ai-card-title">命理解读</h3>
         </div>
 
-        <!-- 深度选择器 - 紧凑版 -->
-        <div class="depth-selector-compact" v-if="!data.ai && !store.aiLoading">
-          <van-radio-group v-model="aiDepth" direction="horizontal" class="depth-options-compact">
-            <van-radio name="simple">
-              <template #icon="props">
-                <div class="depth-option" :class="{ selected: props.checked }">
-                  <span class="option-name">简明</span>
-                </div>
-              </template>
-            </van-radio>
-            <van-radio name="normal">
-              <template #icon="props">
-                <div class="depth-option" :class="{ selected: props.checked }">
-                  <span class="option-name">标准</span>
-                </div>
-              </template>
-            </van-radio>
-            <van-radio name="pro">
-              <template #icon="props">
-                <div class="depth-option" :class="{ selected: props.checked }">
-                  <span class="option-name">专业</span>
-                </div>
-              </template>
-            </van-radio>
-          </van-radio-group>
-
-          <!-- 触发按钮 -->
-          <div class="trigger-section-compact">
-            <button class="btn-divine-compact" @click="triggerAi">
-              <span class="btn-text">开始解读</span>
-            </button>
-          </div>
+        <!-- 开始解读按钮 -->
+        <div class="trigger-section-compact" v-if="!data.ai && !store.aiLoading">
+          <button class="btn-divine-compact" @click="showDepthPicker = true">
+            <span class="btn-text">开始解读</span>
+          </button>
         </div>
 
         <!-- 重新解读按钮 -->
         <div class="trigger-section-compact" v-if="data.ai && !store.aiLoading">
-          <button class="btn-divine-compact" @click="triggerAi">
+          <button class="btn-divine-compact" @click="showDepthPicker = true">
             <span class="btn-text">重新解读</span>
           </button>
         </div>
+
+        <!-- 深度选择弹窗 -->
+        <van-action-sheet v-model:show="showDepthPicker" title="选择解读深度">
+          <div class="depth-picker-content">
+            <div
+              v-for="option in depthOptions"
+              :key="option.value"
+              class="depth-picker-item"
+              @click="selectDepth(option.value)"
+            >
+              <div class="depth-item-icon">{{ option.icon }}</div>
+              <div class="depth-item-info">
+                <div class="depth-item-name">{{ option.name }}</div>
+                <div class="depth-item-desc">{{ option.desc }}</div>
+              </div>
+            </div>
+          </div>
+        </van-action-sheet>
 
         <!-- 加载状态 -->
         <div v-if="store.aiLoading && !data.ai" class="divine-loading">
@@ -291,6 +282,13 @@ const loading = ref(false)
 const expanded = ref<string>('mingju')
 const aiDepth = ref<'simple' | 'normal' | 'pro'>('normal')
 const showPoster = ref(false)
+const showDepthPicker = ref(false)
+
+const depthOptions = [
+  { value: 'simple', name: '简明', desc: '快速判断，约 5 秒', icon: '⚡' },
+  { value: 'normal', name: '标准', desc: '详细分析，约 10 秒', icon: '📊' },
+  { value: 'pro', name: '专业', desc: '深度解读 + 过往验证，约 20 秒', icon: '🎯' },
+]
 
 const data = computed(() => store.current)
 const params = computed(() => store.inputParams)
@@ -426,6 +424,12 @@ function fmt(val: any): string {
 
 function share() {
   showPoster.value = true
+}
+
+function selectDepth(depth: 'simple' | 'normal' | 'pro') {
+  aiDepth.value = depth
+  showDepthPicker.value = false
+  triggerAi()
 }
 
 function triggerAi() {
@@ -1181,6 +1185,101 @@ onMounted(async () => {
   letter-spacing: 1px;
 }
 
+/* 深度选择弹窗 */
+.depth-picker-content {
+  padding: 16px;
+}
+
+.depth-picker-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--bg-secondary);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.depth-picker-item:last-child {
+  margin-bottom: 0;
+}
+
+.depth-picker-item:active {
+  background: var(--bg-primary);
+  border-color: #DB2777;
+  transform: scale(0.98);
+}
+
+.depth-item-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.depth-item-info {
+  flex: 1;
+}
+
+.depth-item-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.depth-item-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* 触发按钮 */
+.trigger-section-compact {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.btn-divine-compact {
+  width: 100%;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
+}
+
+.btn-divine-compact:active {
+  opacity: 0.9;
+  transform: translateY(1px);
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+  .depth-picker-item {
+    padding: 14px;
+  }
+
+  .depth-item-icon {
+    font-size: 28px;
+  }
+
+  .depth-item-name {
+    font-size: 15px;
+  }
+
+  .depth-item-desc {
+    font-size: 12px;
+  }
+}
+
+/* 旧样式 - 保留以防需要 */
 /* 深度选择器 - 紧凑版 */
 .depth-selector-compact {
   margin-bottom: 20px;
@@ -1203,6 +1302,7 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
   padding: 10px 16px;
   background: var(--bg-primary);
   border: 1.5px solid var(--border);

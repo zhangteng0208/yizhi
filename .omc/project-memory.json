@@ -121,8 +121,8 @@
   "hotPaths": [
     {
       "path": "frontend/src/views/Result.vue",
-      "accessCount": 17,
-      "lastAccessed": 1773577900062,
+      "accessCount": 26,
+      "lastAccessed": 1773578741667,
       "type": "file"
     },
     {
@@ -135,6 +135,18 @@
       "path": "deploy.sh",
       "accessCount": 1,
       "lastAccessed": 1773577764796,
+      "type": "file"
+    },
+    {
+      "path": "backend",
+      "accessCount": 1,
+      "lastAccessed": 1773578754340,
+      "type": "directory"
+    },
+    {
+      "path": "backend/src/divination/prompts/bazi.prompt.ts",
+      "accessCount": 1,
+      "lastAccessed": 1773578762324,
       "type": "file"
     }
   ],
