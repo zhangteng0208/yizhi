@@ -79,7 +79,11 @@
       "Bash(./deploy.sh \"feat: 统一使用 NAS 数据源\")",
       "Bash(for img:*)",
       "Bash(cd /Users/mac/projects/yizhi/frontend && rm -rf dist && npx vite build 2>&1 | grep \"dist/index.html\" -A 5)",
-      "Bash(cd /Users/mac/projects/yizhi/frontend && rm -rf dist && npx vite build 2>&1 | tail -3)"
+      "Bash(cd /Users/mac/projects/yizhi/frontend && rm -rf dist && npx vite build 2>&1 | tail -3)",
+      "mcp__plugin_oh-my-claudecode_t__ast_grep_search",
+      "Bash(scp:*)",
+      "Bash(git checkout:*)",
+      "Bash(./deploy.sh \"fix: 恢复深度选择器显示逻辑\")"
     ]
   }
 }

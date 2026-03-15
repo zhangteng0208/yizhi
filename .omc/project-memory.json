@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1773479971749,
+  "lastScanned": 1773567015605,
   "projectRoot": "/Users/mac/projects/yizhi",
   "techStack": {
     "languages": [],
@@ -25,6 +25,7 @@
     "isMonorepo": false,
     "workspaces": [],
     "mainDirectories": [
+      "docs",
       "scripts"
     ],
     "gitBranches": null
@@ -35,7 +36,7 @@
       "path": "backend",
       "purpose": null,
       "fileCount": 16,
-      "lastAccessed": 1773479971574,
+      "lastAccessed": 1773567015571,
       "keyFiles": [
         "README.md",
         "eslint.config.mjs",
@@ -44,11 +45,24 @@
         "package.json"
       ]
     },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 7,
+      "lastAccessed": 1773567015571,
+      "keyFiles": [
+        "AI_OPTIMIZATION_COMPLETE.md",
+        "AI_OPTIMIZATION_SUMMARY.md",
+        "AI_PROMPT_OPTIMIZATION.md",
+        "AI_SERVICE_INTEGRATION.md",
+        "AI_TESTING_EXECUTION.md"
+      ]
+    },
     "frontend": {
       "path": "frontend",
       "purpose": null,
       "fileCount": 17,
-      "lastAccessed": 1773479971577,
+      "lastAccessed": 1773567015572,
       "keyFiles": [
         "READING_OPTIMIZATION.md",
         "READING_OPTIMIZATION_PHASE2.md",
@@ -61,7 +75,7 @@
       "path": "nas-deploy",
       "purpose": null,
       "fileCount": 5,
-      "lastAccessed": 1773479971583,
+      "lastAccessed": 1773567015573,
       "keyFiles": [
         "README.md",
         "deploy-to-nas.sh",
@@ -74,7 +88,7 @@
       "path": "prompts",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1773479971600,
+      "lastAccessed": 1773567015573,
       "keyFiles": [
         "八字解读-v1.md"
       ]
@@ -82,10 +96,10 @@
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
-      "fileCount": 7,
-      "lastAccessed": 1773479971605,
+      "fileCount": 8,
+      "lastAccessed": 1773567015574,
       "keyFiles": [
-        "analyze_chapters.py",
+        "analyze-test-results.js",
         "backup-classics.sh",
         "chapter_analysis_report.json",
         "check-data-integrity.sh",
@@ -95,52 +109,33 @@
     "backend/dist": {
       "path": "backend/dist",
       "purpose": "Distribution/build output",
-      "fileCount": 5,
-      "lastAccessed": 1773479971610,
+      "fileCount": 4,
+      "lastAccessed": 1773567015574,
       "keyFiles": [
         "prisma.config.d.ts",
         "prisma.config.js",
         "prisma.config.js.map"
       ]
-    },
-    "backend/node_modules": {
-      "path": "backend/node_modules",
-      "purpose": "Dependencies",
-      "fileCount": 2,
-      "lastAccessed": 1773479971679,
-      "keyFiles": []
     }
   },
   "hotPaths": [
     {
-      "path": "frontend/src/components/HuangjiPoster.vue",
-      "accessCount": 9,
-      "lastAccessed": 1773495937297,
-      "type": "file"
-    },
-    {
       "path": "frontend/src/views/Result.vue",
-      "accessCount": 6,
-      "lastAccessed": 1773480488089,
+      "accessCount": 13,
+      "lastAccessed": 1773577705211,
       "type": "file"
     },
     {
-      "path": "frontend/src/views/Huangji.vue",
-      "accessCount": 6,
-      "lastAccessed": 1773494987893,
+      "path": "backend/src/divination/divination.service.ts",
+      "accessCount": 7,
+      "lastAccessed": 1773577168291,
       "type": "file"
     },
     {
-      "path": "frontend/src/components/BaziPoster.vue",
-      "accessCount": 2,
-      "lastAccessed": 1773480479236,
-      "type": "file"
-    },
-    {
-      "path": "frontend/src",
+      "path": "deploy.sh",
       "accessCount": 1,
-      "lastAccessed": 1773494880801,
-      "type": "directory"
+      "lastAccessed": 1773577764796,
+      "type": "file"
     }
   ],
   "userDirectives": []

@@ -135,71 +135,112 @@
         </div>
       </div>
 
-      <!-- AI 解读 -->
-      <div class="card">
-        <h3 class="card-title">命理解读</h3>
-        
-        <!-- 深度选择器 -->
-        <div class="ai-depth-selector" v-if="!data.ai">
-          <div class="depth-label">解读深度</div>
-          <van-radio-group v-model="aiDepth" direction="horizontal">
+      <!-- AI 解读 - 简洁版 -->
+      <div class="ai-divination-card">
+        <div class="ai-card-header">
+          <h3 class="ai-card-title">命理解读</h3>
+        </div>
+
+        <!-- 深度选择器 - 紧凑版 -->
+        <div class="depth-selector-compact" v-if="!data.ai">
+          <van-radio-group v-model="aiDepth" direction="horizontal" class="depth-options-compact">
             <van-radio name="simple">
               <template #icon="props">
-                <div class="depth-radio" :class="{ active: props.checked }">
-                  <div class="depth-icon">⚡</div>
-                  <div class="depth-name">简明</div>
-                  <div class="depth-desc">快速判断</div>
+                <div class="depth-option" :class="{ selected: props.checked }">
+                  <span class="option-name">简明</span>
                 </div>
               </template>
             </van-radio>
             <van-radio name="normal">
               <template #icon="props">
-                <div class="depth-radio" :class="{ active: props.checked }">
-                  <div class="depth-icon">📊</div>
-                  <div class="depth-name">标准</div>
-                  <div class="depth-desc">详细分析</div>
+                <div class="depth-option" :class="{ selected: props.checked }">
+                  <span class="option-name">标准</span>
                 </div>
               </template>
             </van-radio>
             <van-radio name="pro">
               <template #icon="props">
-                <div class="depth-radio" :class="{ active: props.checked }">
-                  <div class="depth-icon">🎯</div>
-                  <div class="depth-name">专业</div>
-                  <div class="depth-desc">深度解读</div>
+                <div class="depth-option" :class="{ selected: props.checked }">
+                  <span class="option-name">专业</span>
                 </div>
               </template>
             </van-radio>
           </van-radio-group>
-          <div class="depth-tips">
-            <div v-if="aiDepth === 'simple'" class="depth-tip">⚡ 简明模式：快速判断，约 5 秒</div>
-            <div v-else-if="aiDepth === 'normal'" class="depth-tip">📊 标准模式：详细分析，约 10 秒</div>
-            <div v-else class="depth-tip">🎯 专业模式：深度解读 + 过往验证，约 20 秒</div>
+
+          <!-- 触发按钮 -->
+          <div class="trigger-section-compact">
+            <button class="btn-divine-compact" @click="triggerAi">
+              <span class="btn-text">{{ data.ai ? '重新解读' : '开始解读' }}</span>
+            </button>
           </div>
         </div>
 
-        <div v-if="!data.ai && !store.aiLoading" class="ai-trigger">
-          <button class="btn-ai" @click="triggerAi">分析详解</button>
-        </div>
-        <!-- 综合得分 -->
-        <div class="ai-score-section" v-if="data.ai?.score">
-          <div class="ai-score-wrap">
-            <div class="taiji-bg"></div>
-            <span class="ai-score">{{ data.ai.score }}</span>
-          </div>
-          <span class="ai-score-label">综合得分</span>
-        </div>
-        <div v-if="store.aiLoading && !data.ai" class="ai-loading">
-          <span class="ai-spinner"><BrandLogo /></span>
-          <span>卦象解析中...</span>
-        </div>
-        <div v-else-if="data.ai" class="accordion">
-          <div v-for="sec in sections" :key="sec.key" class="acc-item" v-show="data.ai[sec.key]">
-            <div class="acc-header" @click="toggle(sec.key)">
-              <span>{{ sec.label }}</span>
-              <span class="acc-arrow" :class="{ open: expanded === sec.key }">›</span>
+        <!-- 加载状态 -->
+        <div v-if="store.aiLoading && !data.ai" class="divine-loading">
+          <div class="loading-rings">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <div class="loading-center">
+              <BrandLogo />
             </div>
-            <div v-if="expanded === sec.key" class="acc-body">{{ data.ai[sec.key] }}</div>
+          </div>
+          <div class="loading-text">
+            <span class="text-main">解读中</span>
+            <span class="text-dots">
+              <span>.</span><span>.</span><span>.</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- 综合得分 -->
+        <div class="score-revelation" v-if="data.ai?.score">
+          <div class="score-container">
+            <div class="score-bg-pattern"></div>
+            <div class="score-rings">
+              <svg viewBox="0 0 120 120" class="score-svg">
+                <defs>
+                  <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#DB2777;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#CA8A04;stop-opacity:1" />
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r="54" class="score-circle-bg"/>
+                <circle cx="60" cy="60" r="54" class="score-circle-fill"
+                  :style="{ strokeDashoffset: 339 - (339 * data.ai.score / 100) }"/>
+              </svg>
+            </div>
+            <div class="score-value">{{ data.ai.score }}</div>
+          </div>
+          <div class="score-label">
+            <span class="label-line"></span>
+            <span class="label-text">综合得分</span>
+            <span class="label-line"></span>
+          </div>
+        </div>
+
+        <!-- 手风琴内容 -->
+        <div v-if="data.ai" class="insights-accordion">
+          <div v-for="(sec, idx) in sections" :key="sec.key"
+               class="insight-item"
+               :class="{ expanded: expanded === sec.key }"
+               v-show="data.ai[sec.key]"
+               :style="{ '--delay': idx * 0.05 + 's' }">
+            <div class="insight-header" @click="toggle(sec.key)">
+              <div class="header-left">
+                <span class="header-icon">{{ getSectionIcon(sec.key) }}</span>
+                <span class="header-title">{{ sec.label }}</span>
+              </div>
+              <div class="header-right">
+                <span class="expand-indicator">
+                  <span class="indicator-line line-1"></span>
+                  <span class="indicator-line line-2"></span>
+                </span>
+              </div>
+            </div>
+            <div class="insight-body" v-if="expanded === sec.key">
+              <div class="body-content">{{ data.ai[sec.key] }}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -221,10 +262,10 @@
         <button class="btn-share" @click="share">分享</button>
         <button class="btn-back" @click="$router.push('/')">返回首页</button>
       </div>
-    </template>
 
-    <!-- 海报弹窗 -->
-    <BaziPoster v-model="showPoster" :data="data" :params="params" />
+      <!-- 海报弹窗 -->
+      <BaziPoster v-model="showPoster" :data="data" :params="params" />
+    </template>
   </div>
 </template>
 
@@ -353,6 +394,20 @@ const sections = [
   { key: 'yanzheng', label: '过往验证' },
 ]
 
+function getSectionIcon(key: string): string {
+  const icons: Record<string, string> = {
+    mingju: '☰',
+    xingge: '☲',
+    shiye: '☳',
+    caiyun: '☴',
+    ganqing: '☵',
+    jiankang: '☶',
+    liunian: '☷',
+    yanzheng: '☱',
+  }
+  return icons[key] || '☯'
+}
+
 function toggle(key: string) {
   expanded.value = expanded.value === key ? '' : key
 }
@@ -367,11 +422,16 @@ function share() {
 }
 
 function triggerAi() {
-  if (store.current && !store.current.ai) {
+  if (store.current) {
+    // 清空旧的 AI 解读内容，以便显示加载状态
+    if (store.current.ai) {
+      store.current = { ...store.current, ai: null }
+    }
+
     const p = store.inputParams
     store.fetchAi('bazi', store.current.bazi, {
-      name: p?.name, 
-      gender: p?.gender === '男' ? 1 : 2, 
+      name: p?.name,
+      gender: p?.gender === '男' ? 1 : 2,
       question: p?.question,
       depth: aiDepth.value, // 传递深度参数
     }, store.current.id)
@@ -1086,80 +1146,858 @@ onMounted(async () => {
 .ai-spinner { display: inline-flex; align-items: center; justify-content: center; font-size: 24px; animation: spin 2s linear infinite; margin-right: 8px; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-/* AI 深度选择器样式 */
-.ai-depth-selector {
-  margin-bottom: 20px;
-  padding: 16px;
-  background: var(--bg-primary);
-  border-radius: 12px;
+/* ========================================
+   AI 解读模块 - 简洁版
+   ======================================== */
+
+/* 主卡片容器 */
+.ai-divination-card {
+  position: relative;
+  margin: 0 16px 24px;
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: 16px;
   border: 1px solid var(--border);
 }
 
-.depth-label {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 12px;
+/* 卡片标题 */
+.ai-card-header {
+  margin-bottom: 20px;
+}
+
+.ai-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
   text-align: center;
   letter-spacing: 1px;
 }
 
-.ai-depth-selector :deep(.van-radio-group) {
+/* 深度选择器 - 紧凑版 */
+.depth-selector-compact {
+  margin-bottom: 20px;
+}
+
+.depth-options-compact :deep(.van-radio-group) {
   display: flex;
   gap: 8px;
   justify-content: space-between;
+  margin-bottom: 16px;
+  height: 50px;
 }
 
-.ai-depth-selector :deep(.van-radio) {
+.depth-options-compact :deep(.van-radio) {
   flex: 1;
   margin: 0;
 }
 
-.depth-radio {
+.depth-option {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 12px 8px;
-  background: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  justify-content: center;
+  padding: 10px 16px;
+  background: var(--bg-primary);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.depth-radio.active {
+.depth-option.selected {
   background: linear-gradient(135deg, rgba(219, 39, 119, 0.1) 0%, rgba(202, 138, 4, 0.1) 100%);
   border-color: #DB2777;
   box-shadow: 0 2px 8px rgba(219, 39, 119, 0.2);
 }
 
-.depth-icon {
-  font-size: 24px;
-  margin-bottom: 6px;
-}
-
-.depth-name {
+.option-name {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  letter-spacing: 0.5px;
 }
 
-.depth-desc {
-  font-size: 11px;
-  color: var(--text-secondary);
-}
-
-.depth-tips {
-  margin-top: 12px;
+/* 触发按钮 - 紧凑版 */
+.trigger-section-compact {
   text-align: center;
 }
 
-.depth-tip {
+.btn-divine-compact {
+  width: 100%;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3);
+}
+
+.btn-divine-compact:active {
+  opacity: 0.9;
+  transform: translateY(1px);
+}
+
+/* 加载状态 */
+.divine-loading {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.loading-rings {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  animation: ring-rotate 3s linear infinite;
+}
+
+.ring-1 {
+  border-top-color: #DB2777;
+  animation-duration: 2s;
+}
+
+.ring-2 {
+  border-right-color: #CA8A04;
+  animation-duration: 3s;
+  animation-direction: reverse;
+}
+
+.ring-3 {
+  border-bottom-color: rgba(219, 39, 119, 0.5);
+  animation-duration: 4s;
+}
+
+@keyframes ring-rotate {
+  to { transform: rotate(360deg); }
+}
+
+.loading-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  animation: pulse-scale 2s ease-in-out infinite;
+}
+
+@keyframes pulse-scale {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.loading-text {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.text-main {
+  font-size: 14px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+}
+
+.text-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.text-dots span {
+  animation: dot-blink 1.4s infinite;
+}
+
+.text-dots span:nth-child(2) { animation-delay: 0.2s; }
+.text-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-blink {
+  0%, 60%, 100% { opacity: 0; }
+  30% { opacity: 1; }
+}
+
+/* 综合得分 */
+.score-revelation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+  margin: 20px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.score-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 16px;
+}
+
+.score-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(219, 39, 119, 0.05) 0%, transparent 70%);
+}
+
+.score-rings {
+  position: absolute;
+  inset: 10px;
+}
+
+.score-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.score-circle-bg {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 3;
+}
+
+.score-circle-fill {
+  fill: none;
+  stroke: url(#scoreGradient);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 339;
+  stroke-dashoffset: 339;
+  transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.score-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 42px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: score-appear 1s ease-out;
+}
+
+@keyframes score-appear {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.score-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.label-line {
+  width: 30px;
+  height: 1px;
+  background: var(--border);
+}
+
+.label-text {
   font-size: 12px;
   color: var(--text-secondary);
-  padding: 8px 12px;
+  letter-spacing: 2px;
+}
+
+/* 手风琴内容 */
+.insights-accordion {
+  margin-top: 20px;
+}
+
+.insight-item {
+  margin-bottom: 10px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  animation: item-fade-in 0.4s ease-out backwards;
+  animation-delay: var(--delay);
+}
+
+@keyframes item-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.insight-item.expanded {
+  border-color: rgba(219, 39, 119, 0.3);
+  box-shadow: 0 2px 12px rgba(219, 39, 119, 0.1);
+}
+
+.insight-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.insight-header:active {
   background: var(--bg-secondary);
-  border-radius: 8px;
-  border-left: 3px solid #DB2777;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-icon {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.header-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.5px;
+}
+
+.expand-indicator {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicator-line {
+  position: absolute;
+  width: 10px;
+  height: 2px;
+  background: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.line-1 {
+  transform: rotate(0deg);
+}
+
+.line-2 {
+  transform: rotate(90deg);
+}
+
+.insight-item.expanded .line-1 {
+  transform: rotate(180deg);
+  opacity: 0;
+}
+
+.insight-item.expanded .line-2 {
+  transform: rotate(180deg);
+}
+
+.insight-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.insight-item.expanded .insight-body {
+  max-height: 2000px;
+}
+
+.body-content {
+  padding: 0 16px 16px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+  white-space: pre-wrap;
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+  .ai-divination-card {
+    margin: 0 12px 20px;
+    padding: 16px;
+  }
+
+  .ai-card-title {
+    font-size: 15px;
+  }
+
+  .depth-option {
+    padding: 9px 12px;
+  }
+
+  .option-name {
+    font-size: 13px;
+  }
+
+  .btn-divine-compact {
+    padding: 11px 20px;
+    font-size: 14px;
+  }
+
+  .score-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .score-value {
+    font-size: 36px;
+  }
+}
+
+/* 触发按钮 */
+.trigger-section {
+  text-align: center;
+  margin: 28px 0;
+}
+
+.trigger-section-inline {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.btn-divine {
+  position: relative;
+  padding: 14px 48px;
+  background: transparent;
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #DB2777, #CA8A04) 1;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+
+.btn-bg-effect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #DB2777, #CA8A04);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.btn-divine:active .btn-bg-effect {
+  opacity: 1;
+}
+
+.btn-text {
+  position: relative;
+  z-index: 1;
+}
+
+.btn-icon {
+  position: relative;
+  z-index: 1;
+  margin-left: 8px;
+  display: inline-block;
+  transition: transform 0.4s ease;
+}
+
+.btn-divine:active .btn-icon {
+  transform: translateX(4px);
+}
+
+/* 加载状态 */
+.divine-loading {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 0;
+}
+
+.loading-rings {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  animation: ring-rotate 3s linear infinite;
+}
+
+.ring-1 {
+  border-top-color: #DB2777;
+  animation-duration: 2s;
+}
+
+.ring-2 {
+  border-right-color: #CA8A04;
+  animation-duration: 3s;
+  animation-direction: reverse;
+}
+
+.ring-3 {
+  border-bottom-color: rgba(219, 39, 119, 0.5);
+  animation-duration: 4s;
+}
+
+@keyframes ring-rotate {
+  to { transform: rotate(360deg); }
+}
+
+.loading-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  animation: pulse-scale 2s ease-in-out infinite;
+}
+
+@keyframes pulse-scale {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.loading-text {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.text-main {
+  font-size: 15px;
+  color: rgba(202, 138, 4, 0.9);
+  letter-spacing: 2px;
+}
+
+.text-dots {
+  display: flex;
+  gap: 2px;
+}
+
+.text-dots span {
+  animation: dot-blink 1.4s infinite;
+}
+
+.text-dots span:nth-child(2) { animation-delay: 0.2s; }
+.text-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-blink {
+  0%, 60%, 100% { opacity: 0; }
+  30% { opacity: 1; }
+}
+
+.loading-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  font-size: 12px;
+  color: rgba(202, 138, 4, 0.6);
+  animation: particle-orbit 8s linear infinite;
+  animation-delay: calc(var(--i) * -0.666s);
+}
+
+@keyframes particle-orbit {
+  0% {
+    transform: rotate(0deg) translateX(80px) rotate(0deg);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg) translateX(80px) rotate(-360deg);
+    opacity: 0;
+  }
+}
+
+/* 综合得分 */
+.score-revelation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 0;
+  margin: 24px 0;
+  border-top: 1px solid rgba(202, 138, 4, 0.2);
+  border-bottom: 1px solid rgba(202, 138, 4, 0.2);
+}
+
+.score-container {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 20px;
+}
+
+.score-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(219, 39, 119, 0.1) 0%, transparent 70%);
+  animation: pulse-bg 3s ease-in-out infinite;
+}
+
+@keyframes pulse-bg {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+.score-rings {
+  position: absolute;
+  inset: 10px;
+}
+
+.score-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.score-circle-bg {
+  fill: none;
+  stroke: rgba(202, 138, 4, 0.1);
+  stroke-width: 3;
+}
+
+.score-circle-fill {
+  fill: none;
+  stroke: url(#scoreGradient);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 339;
+  stroke-dashoffset: 339;
+  transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 0 8px rgba(219, 39, 119, 0.6));
+}
+
+.score-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 12px rgba(219, 39, 119, 0.4));
+  animation: score-appear 1s ease-out;
+}
+
+@keyframes score-appear {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.score-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.label-line {
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(202, 138, 4, 0.6), transparent);
+}
+
+.label-text {
+  font-size: 13px;
+  color: rgba(202, 138, 4, 0.9);
+  letter-spacing: 3px;
+  font-weight: 500;
+}
+
+/* 手风琴内容 */
+.insights-accordion {
+  margin-top: 24px;
+}
+
+.insight-item {
+  margin-bottom: 12px;
+  background: rgba(30, 30, 40, 0.4);
+  border: 1px solid rgba(202, 138, 4, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  animation: item-fade-in 0.5s ease-out backwards;
+  animation-delay: var(--delay);
+}
+
+@keyframes item-fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.insight-item.expanded {
+  border-color: rgba(219, 39, 119, 0.4);
+  box-shadow: 0 4px 16px rgba(219, 39, 119, 0.2);
+}
+
+.insight-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.insight-header:active {
+  background: rgba(40, 35, 50, 0.6);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.header-icon {
+  font-size: 18px;
+  color: rgba(202, 138, 4, 0.8);
+  transition: transform 0.4s ease;
+}
+
+.insight-item.expanded .header-icon {
+  transform: scale(1.2);
+}
+
+.header-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.expand-indicator {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicator-line {
+  position: absolute;
+  width: 12px;
+  height: 2px;
+  background: rgba(202, 138, 4, 0.8);
+  transition: all 0.4s ease;
+}
+
+.line-1 {
+  transform: rotate(0deg);
+}
+
+.line-2 {
+  transform: rotate(90deg);
+}
+
+.insight-item.expanded .line-1 {
+  transform: rotate(180deg);
+  opacity: 0;
+}
+
+.insight-item.expanded .line-2 {
+  transform: rotate(180deg);
+}
+
+.insight-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.insight-item.expanded .insight-body {
+  max-height: 2000px;
+}
+
+.body-content {
+  padding: 0 18px 20px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.3px;
+  white-space: pre-wrap;
+}
+
+/* 移动端优化 */
+@media (max-width: 640px) {
+  .ai-divination-card {
+    margin: 0 12px 20px;
+    padding: 20px 16px;
+  }
+
+  .ai-card-title {
+    font-size: 18px;
+    letter-spacing: 3px;
+  }
+
+  .depth-selector-mystical {
+    padding: 0 2px;
+  }
+
+  .depth-options :deep(.van-radio-group) {
+    gap: 6px;
+  }
+
+  .depth-card {
+    padding: 16px 8px 12px;
+    min-height: 105px;
+  }
+
+  .depth-symbol {
+    font-size: 24px;
+    margin-bottom: 6px;
+  }
+
+  .depth-title {
+    font-size: 13px;
+  }
+
+  .depth-subtitle {
+    font-size: 10px;
+  }
+
+  .depth-time {
+    font-size: 9px;
+  }
+
+  .btn-divine {
+    padding: 12px 36px;
+    font-size: 14px;
+  }
+
+  .score-container {
+    width: 120px;
+    height: 120px;
+  }
+
+  .score-value {
+    font-size: 36px;
+  }
 }
 </style>
+
