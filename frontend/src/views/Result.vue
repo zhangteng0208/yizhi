@@ -138,6 +138,46 @@
       <!-- AI 解读 -->
       <div class="card">
         <h3 class="card-title">命理解读</h3>
+        
+        <!-- 深度选择器 -->
+        <div class="ai-depth-selector" v-if="!data.ai">
+          <div class="depth-label">解读深度</div>
+          <van-radio-group v-model="aiDepth" direction="horizontal">
+            <van-radio name="simple">
+              <template #icon="props">
+                <div class="depth-radio" :class="{ active: props.checked }">
+                  <div class="depth-icon">⚡</div>
+                  <div class="depth-name">简明</div>
+                  <div class="depth-desc">快速判断</div>
+                </div>
+              </template>
+            </van-radio>
+            <van-radio name="normal">
+              <template #icon="props">
+                <div class="depth-radio" :class="{ active: props.checked }">
+                  <div class="depth-icon">📊</div>
+                  <div class="depth-name">标准</div>
+                  <div class="depth-desc">详细分析</div>
+                </div>
+              </template>
+            </van-radio>
+            <van-radio name="pro">
+              <template #icon="props">
+                <div class="depth-radio" :class="{ active: props.checked }">
+                  <div class="depth-icon">🎯</div>
+                  <div class="depth-name">专业</div>
+                  <div class="depth-desc">深度解读</div>
+                </div>
+              </template>
+            </van-radio>
+          </van-radio-group>
+          <div class="depth-tips">
+            <div v-if="aiDepth === 'simple'" class="depth-tip">⚡ 简明模式：快速判断，约 5 秒</div>
+            <div v-else-if="aiDepth === 'normal'" class="depth-tip">📊 标准模式：详细分析，约 10 秒</div>
+            <div v-else class="depth-tip">🎯 专业模式：深度解读 + 过往验证，约 20 秒</div>
+          </div>
+        </div>
+
         <div v-if="!data.ai && !store.aiLoading" class="ai-trigger">
           <button class="btn-ai" @click="triggerAi">分析详解</button>
         </div>
@@ -201,6 +241,7 @@ const router = useRouter()
 const store = useDivinationStore()
 const loading = ref(false)
 const expanded = ref<string>('mingju')
+const aiDepth = ref<'simple' | 'normal' | 'pro'>('normal')
 const showPoster = ref(false)
 
 const data = computed(() => store.current)
@@ -329,7 +370,10 @@ function triggerAi() {
   if (store.current && !store.current.ai) {
     const p = store.inputParams
     store.fetchAi('bazi', store.current.bazi, {
-      name: p?.name, gender: p?.gender === '男' ? 1 : 2, question: p?.question,
+      name: p?.name, 
+      gender: p?.gender === '男' ? 1 : 2, 
+      question: p?.question,
+      depth: aiDepth.value, // 传递深度参数
     }, store.current.id)
   }
 }
@@ -1041,4 +1085,81 @@ onMounted(async () => {
 .ai-loading { text-align: center; padding: 32px 0; color: var(--text-secondary); }
 .ai-spinner { display: inline-flex; align-items: center; justify-content: center; font-size: 24px; animation: spin 2s linear infinite; margin-right: 8px; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* AI 深度选择器样式 */
+.ai-depth-selector {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--bg-primary);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.depth-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.ai-depth-selector :deep(.van-radio-group) {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.ai-depth-selector :deep(.van-radio) {
+  flex: 1;
+  margin: 0;
+}
+
+.depth-radio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.depth-radio.active {
+  background: linear-gradient(135deg, rgba(219, 39, 119, 0.1) 0%, rgba(202, 138, 4, 0.1) 100%);
+  border-color: #DB2777;
+  box-shadow: 0 2px 8px rgba(219, 39, 119, 0.2);
+}
+
+.depth-icon {
+  font-size: 24px;
+  margin-bottom: 6px;
+}
+
+.depth-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.depth-desc {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.depth-tips {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.depth-tip {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+  border-left: 3px solid #DB2777;
+}
 </style>
