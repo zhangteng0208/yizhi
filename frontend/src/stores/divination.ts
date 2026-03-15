@@ -18,6 +18,7 @@ export interface SubmitParams {
   hour: string
   calendar: string
   question?: string
+  type?: string  // 占卜类型
 }
 
 export const useDivinationStore = defineStore('divination', () => {
@@ -42,7 +43,9 @@ export const useDivinationStore = defineStore('divination', () => {
         isLunar: params.calendar === '农历',
         question: params.question || undefined,
       }
-      const res: any = await http.post('/divination/bazi', body)
+      // 使用传入的 type 或默认为 bazi
+      const type = params.type || 'bazi'
+      const res: any = await http.post(`/divination/${type}`, body)
       const data = res.data ?? res
       current.value = data
       return data

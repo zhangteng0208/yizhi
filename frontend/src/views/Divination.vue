@@ -141,6 +141,7 @@ async function onSubmit() {
       hour: form.hour,
       calendar: form.calendar,
       question: form.question || undefined,
+      type: route.params.code as string,  // 传递占卜类型
     })
     router.push(`/result/${result.id}`)
   } catch {
