@@ -15,6 +15,22 @@ import { PartnershipResult } from './shengyi.service.js';
 import { FaceAnalysisResult } from './face.service.js';
 import { PalmAnalysisResult } from './palm.service.js';
 import { FengshuiAnalysisResult } from './fengshui.service.js';
+import {
+  BAZI_PROMPT_TEMPLATE,
+  LIUYAO_PROMPT_TEMPLATE,
+  ZIWEI_PROMPT_TEMPLATE,
+  MEIHUA_PROMPT_TEMPLATE,
+  QIMEN_PROMPT_TEMPLATE,
+  YIJING_PROMPT_TEMPLATE,
+  XIAOLIUREN_PROMPT_TEMPLATE,
+  ZEJI_PROMPT_TEMPLATE,
+  XUNWU_PROMPT_TEMPLATE,
+  HEHUN_PROMPT_TEMPLATE,
+  NAMING_PROMPT_TEMPLATE,
+} from './prompts/index.js';
+
+// AI 解读深度类型
+export type AiDepth = 'simple' | 'normal' | 'pro';
 
 const SYSTEM_PROMPT = `你是一位顶尖的八字命理大师，精通《穷通宝鉴》《三命通会》等古籍。
 请为命主：
@@ -1610,6 +1626,133 @@ ${bestInfo}
 
   /** 获取指定类型的 prompt 配置 */
   getPromptConfig(
+    type: string,
+    data: any,
+    extraParams?: {
+      depth?: AiDepth;
+      question?: string;
+      [key: string]: any;
+    },
+  ): {
+    system: string;
+    user: string;
+    maxTokens: number;
+    timeout: number;
+    temperature: number;
+  } {
+    const depth = extraParams?.depth || 'normal';
+    const question = extraParams?.question;
+
+    // 使用新的提示词模板
+    switch (type) {
+      case 'bazi': {
+        return {
+          system: BAZI_PROMPT_TEMPLATE.system(depth),
+          user: BAZI_PROMPT_TEMPLATE.user(data, question),
+          maxTokens: depth === 'pro' ? 4000 : depth === 'normal' ? 2500 : 1500,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'liuyao': {
+        return {
+          system: LIUYAO_PROMPT_TEMPLATE.system(depth),
+          user: LIUYAO_PROMPT_TEMPLATE.user(data, question || ''),
+          maxTokens: depth === 'pro' ? 3000 : depth === 'normal' ? 2000 : 1000,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'ziwei': {
+        return {
+          system: ZIWEI_PROMPT_TEMPLATE.system(depth),
+          user: ZIWEI_PROMPT_TEMPLATE.user(data, question),
+          maxTokens: depth === 'pro' ? 4000 : depth === 'normal' ? 2500 : 1500,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'meihua': {
+        return {
+          system: MEIHUA_PROMPT_TEMPLATE.system(depth),
+          user: MEIHUA_PROMPT_TEMPLATE.user(data, question),
+          maxTokens: depth === 'pro' ? 2500 : depth === 'normal' ? 1500 : 800,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'qimen': {
+        return {
+          system: QIMEN_PROMPT_TEMPLATE.system(depth),
+          user: QIMEN_PROMPT_TEMPLATE.user(data, question),
+          maxTokens: depth === 'pro' ? 3000 : depth === 'normal' ? 2000 : 1000,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'yijing': {
+        return {
+          system: YIJING_PROMPT_TEMPLATE.system(depth),
+          user: YIJING_PROMPT_TEMPLATE.user(data, question || ''),
+          maxTokens: depth === 'pro' ? 2500 : depth === 'normal' ? 1500 : 800,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'xiaoliuren': {
+        return {
+          system: XIAOLIUREN_PROMPT_TEMPLATE.system(depth),
+          user: XIAOLIUREN_PROMPT_TEMPLATE.user(data, question || ''),
+          maxTokens: depth === 'pro' ? 2500 : depth === 'normal' ? 1500 : 800,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'zeji': {
+        return {
+          system: ZEJI_PROMPT_TEMPLATE.system(depth),
+          user: ZEJI_PROMPT_TEMPLATE.user(data),
+          maxTokens: depth === 'pro' ? 2500 : depth === 'normal' ? 1500 : 800,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'xunwu': {
+        return {
+          system: XUNWU_PROMPT_TEMPLATE.system(depth),
+          user: XUNWU_PROMPT_TEMPLATE.user(data, question || ''),
+          maxTokens: depth === 'pro' ? 2500 : depth === 'normal' ? 1500 : 800,
+          timeout: 60000,
+          temperature: 0.7,
+        };
+      }
+      case 'hehun': {
+        return {
+          system: HEHUN_PROMPT_TEMPLATE.system(depth),
+          user: HEHUN_PROMPT_TEMPLATE.user(data),
+          maxTokens: depth === 'pro' ? 3500 : depth === 'normal' ? 2500 : 1500,
+          timeout: 120000,
+          temperature: 0.7,
+        };
+      }
+      case 'naming':
+      case 'namingCheck': {
+        return {
+          system: NAMING_PROMPT_TEMPLATE.system(depth),
+          user: NAMING_PROMPT_TEMPLATE.user(data),
+          maxTokens: depth === 'pro' ? 5000 : depth === 'normal' ? 3500 : 2000,
+          timeout: 120000,
+          temperature: 0.8,
+        };
+      }
+      // 其他类型保持原有逻辑（暂时）
+      default:
+        return this.getOriginalPromptConfig(type, data, extraParams);
+    }
+  }
+
+  // 保留原有的提示词配置逻辑（用于未迁移的类型）
+  private getOriginalPromptConfig(
     type: string,
     data: any,
     extraParams?: any,
