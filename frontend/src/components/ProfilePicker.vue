@@ -168,11 +168,11 @@ onMounted(() => {
 }
 .item-badge {
   font-size: 10px;
-  background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  color: #fff;
+  background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%);
   border: 1px solid rgba(219, 39, 119, 0.4);
   border-radius: 4px;
   padding: 1px 6px;
-  background: rgba(219, 39, 119, 0.1);
 }
 .sheet-empty {
   padding: 40px 20px;
