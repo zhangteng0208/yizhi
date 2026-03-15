@@ -83,7 +83,8 @@
       "mcp__plugin_oh-my-claudecode_t__ast_grep_search",
       "Bash(scp:*)",
       "Bash(git checkout:*)",
-      "Bash(./deploy.sh \"fix: 恢复深度选择器显示逻辑\")"
+      "Bash(./deploy.sh \"fix: 恢复深度选择器显示逻辑\")",
+      "Bash(./deploy.sh \"fix: 修复深度选择器显示条件，分离重新解读按钮\")"
     ]
   }
 }

@@ -142,7 +142,7 @@
         </div>
 
         <!-- 深度选择器 - 紧凑版 -->
-        <div class="depth-selector-compact" v-if="!data.ai">
+        <div class="depth-selector-compact" v-if="!data.ai && !store.aiLoading">
           <van-radio-group v-model="aiDepth" direction="horizontal" class="depth-options-compact">
             <van-radio name="simple">
               <template #icon="props">
@@ -170,9 +170,16 @@
           <!-- 触发按钮 -->
           <div class="trigger-section-compact">
             <button class="btn-divine-compact" @click="triggerAi">
-              <span class="btn-text">{{ data.ai ? '重新解读' : '开始解读' }}</span>
+              <span class="btn-text">开始解读</span>
             </button>
           </div>
+        </div>
+
+        <!-- 重新解读按钮 -->
+        <div class="trigger-section-compact" v-if="data.ai && !store.aiLoading">
+          <button class="btn-divine-compact" @click="triggerAi">
+            <span class="btn-text">重新解读</span>
+          </button>
         </div>
 
         <!-- 加载状态 -->
