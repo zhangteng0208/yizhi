@@ -21,11 +21,14 @@ export class WeatherService {
     try {
       // 第一步：通过逆地理编码获取城市adcode
       const geoResponse = await this.axiosInstance.get(
-        `https://restapi.amap.com/v3/geocode/regeo?key=${amapKey}&location=${lng},${lat}`
+        `https://restapi.amap.com/v3/geocode/regeo?key=${amapKey}&location=${lng},${lat}`,
       );
       const geoData = geoResponse.data;
 
-      if (geoData.status !== '1' || !geoData.regeocode?.addressComponent?.adcode) {
+      if (
+        geoData.status !== '1' ||
+        !geoData.regeocode?.addressComponent?.adcode
+      ) {
         throw new Error('Failed to get city code from location');
       }
 
@@ -33,13 +36,13 @@ export class WeatherService {
 
       // 第二步：获取实时天气
       const weatherResponse = await this.axiosInstance.get(
-        `https://restapi.amap.com/v3/weather/weatherInfo?key=${amapKey}&city=${adcode}&extensions=base`
+        `https://restapi.amap.com/v3/weather/weatherInfo?key=${amapKey}&city=${adcode}&extensions=base`,
       );
       const weatherData = weatherResponse.data;
 
       // 第三步：获取天气预报（包含最高最低温）
       const forecastResponse = await this.axiosInstance.get(
-        `https://restapi.amap.com/v3/weather/weatherInfo?key=${amapKey}&city=${adcode}&extensions=all`
+        `https://restapi.amap.com/v3/weather/weatherInfo?key=${amapKey}&city=${adcode}&extensions=all`,
       );
       const forecastData = forecastResponse.data;
 
@@ -70,7 +73,11 @@ export class WeatherService {
       });
 
       if (axios.isAxiosError(error)) {
-        const message = error.response?.data?.message || error.message || error.code || 'Axios request failed';
+        const message =
+          error.response?.data?.message ||
+          error.message ||
+          error.code ||
+          'Axios request failed';
         throw new Error(`Weather API error: ${message}`);
       }
       const message = error instanceof Error ? error.message : 'Unknown error';
@@ -88,11 +95,14 @@ export class WeatherService {
     try {
       // 第一步：通过逆地理编码获取城市adcode
       const geoResponse = await this.axiosInstance.get(
-        `https://restapi.amap.com/v3/geocode/regeo?key=${amapKey}&location=${lng},${lat}`
+        `https://restapi.amap.com/v3/geocode/regeo?key=${amapKey}&location=${lng},${lat}`,
       );
       const geoData = geoResponse.data;
 
-      if (geoData.status !== '1' || !geoData.regeocode?.addressComponent?.adcode) {
+      if (
+        geoData.status !== '1' ||
+        !geoData.regeocode?.addressComponent?.adcode
+      ) {
         throw new Error('Failed to get city code from location');
       }
 
@@ -100,13 +110,13 @@ export class WeatherService {
 
       // 第二步：获取实时天气
       const weatherResponse = await this.axiosInstance.get(
-        `https://restapi.amap.com/v3/weather/weatherInfo?key=${amapKey}&city=${adcode}&extensions=base`
+        `https://restapi.amap.com/v3/weather/weatherInfo?key=${amapKey}&city=${adcode}&extensions=base`,
       );
       const weatherData = weatherResponse.data;
 
       // 第三步：获取天气预报（未来几天）
       const forecastResponse = await this.axiosInstance.get(
-        `https://restapi.amap.com/v3/weather/weatherInfo?key=${amapKey}&city=${adcode}&extensions=all`
+        `https://restapi.amap.com/v3/weather/weatherInfo?key=${amapKey}&city=${adcode}&extensions=all`,
       );
       const forecastData = forecastResponse.data;
 
@@ -117,7 +127,15 @@ export class WeatherService {
         // 格式化预报数据
         const formattedForecast = forecasts.map((cast: any) => {
           const date = new Date(cast.date);
-          const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+          const weekdays = [
+            '周日',
+            '周一',
+            '周二',
+            '周三',
+            '周四',
+            '周五',
+            '周六',
+          ];
 
           return {
             date: `${date.getMonth() + 1}/${date.getDate()}`,
@@ -151,7 +169,11 @@ export class WeatherService {
       console.error('Weather detail service error:', error);
 
       if (axios.isAxiosError(error)) {
-        const message = error.response?.data?.message || error.message || error.code || 'Axios request failed';
+        const message =
+          error.response?.data?.message ||
+          error.message ||
+          error.code ||
+          'Axios request failed';
         throw new Error(`Weather API error: ${message}`);
       }
       const message = error instanceof Error ? error.message : 'Unknown error';

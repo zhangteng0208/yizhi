@@ -4,37 +4,53 @@ import { YijingService, YijingResult } from './yijing.service.js';
 
 /** 天干五行 */
 const GAN_WUXING: Record<string, string> = {
-  '甲': '木', '乙': '木', '丙': '火', '丁': '火', '戊': '土',
-  '己': '土', '庚': '金', '辛': '金', '壬': '水', '癸': '水',
+  甲: '木',
+  乙: '木',
+  丙: '火',
+  丁: '火',
+  戊: '土',
+  己: '土',
+  庚: '金',
+  辛: '金',
+  壬: '水',
+  癸: '水',
 };
 
 /** 五行相生 */
 const WUXING_SHENG: Record<string, string> = {
-  '金': '水', '水': '木', '木': '火', '火': '土', '土': '金',
+  金: '水',
+  水: '木',
+  木: '火',
+  火: '土',
+  土: '金',
 };
 
 /** 五行相克 */
 const WUXING_KE: Record<string, string> = {
-  '金': '木', '木': '土', '土': '水', '水': '火', '火': '金',
+  金: '木',
+  木: '土',
+  土: '水',
+  水: '火',
+  火: '金',
 };
 
 /** 行业与五行对应 */
 const INDUSTRY_WUXING: Record<string, string> = {
-  '科技': '木',    // 互联网、软件、科技创新 - 木性生发
-  '金融': '水',    // 银行、保险、投资 - 水性流动
-  '制造': '土',    // 制造业、房地产、建筑 - 土性厚重
-  '能源': '火',    // 电力、能源、煤炭 - 火性热烈
-  '医疗': '金',    // 医疗器械、医药 - 金性刚毅
-  '教育': '火',    // 教育培训 - 火性文明
-  '餐饮': '火',    // 餐饮 - 火性烹饪
-  '贸易': '金',    // 国际贸易、零售 - 金性果断
-  '农业': '土',    // 农业 - 土性生长
-  '传媒': '木',    // 传媒、广告 - 木性传播
-  '咨询': '水',    // 咨询、顾问 - 水性智慧
-  '物流': '水',    // 物流、运输 - 水性流通
-  '娱乐': '火',    // 娱乐、演艺 - 火性热烈
-  '服务': '土',    // 服务业 - 土性承载
-  '其他': '土',    // 其他行业
+  科技: '木', // 互联网、软件、科技创新 - 木性生发
+  金融: '水', // 银行、保险、投资 - 水性流动
+  制造: '土', // 制造业、房地产、建筑 - 土性厚重
+  能源: '火', // 电力、能源、煤炭 - 火性热烈
+  医疗: '金', // 医疗器械、医药 - 金性刚毅
+  教育: '火', // 教育培训 - 火性文明
+  餐饮: '火', // 餐饮 - 火性烹饪
+  贸易: '金', // 国际贸易、零售 - 金性果断
+  农业: '土', // 农业 - 土性生长
+  传媒: '木', // 传媒、广告 - 木性传播
+  咨询: '水', // 咨询、顾问 - 水性智慧
+  物流: '水', // 物流、运输 - 水性流通
+  娱乐: '火', // 娱乐、演艺 - 火性热烈
+  服务: '土', // 服务业 - 土性承载
+  其他: '土', // 其他行业
 };
 
 /** 行业列表 */
@@ -61,7 +77,7 @@ export interface PartnerInput {
   birthYear: number;
   birthMonth: number;
   birthDay: number;
-  birthHour: string;    // 地支，如 "寅"
+  birthHour: string; // 地支，如 "寅"
 }
 
 export interface CompatibilityDimension {
@@ -122,16 +138,24 @@ export class ShengyiService {
   ): PartnershipResult {
     // 1. 计算自己的八字
     const selfBazi = this.baziService.calculate(
-      self.birthYear, self.birthMonth, self.birthDay,
-      self.birthHour, 1, false, // 默认男
+      self.birthYear,
+      self.birthMonth,
+      self.birthDay,
+      self.birthHour,
+      1,
+      false, // 默认男
     );
 
     // 2. 计算每个合伙人的八字
-    const partnerBazis = partners.map(p => ({
+    const partnerBazis = partners.map((p) => ({
       name: p.name,
       bazi: this.baziService.calculate(
-        p.birthYear, p.birthMonth, p.birthDay,
-        p.birthHour, 2, false, // 默认女，实际用性别影响不大
+        p.birthYear,
+        p.birthMonth,
+        p.birthDay,
+        p.birthHour,
+        2,
+        false, // 默认女，实际用性别影响不大
       ),
     }));
 
@@ -144,21 +168,36 @@ export class ShengyiService {
     // 5. 计算各个维度
     const wuxingMatch = this.scoreWuXingMatch(selfBazi, partnerBazis);
     const baziHarmony = this.scoreBaziHarmony(selfBazi, partnerBazis);
-    const industrySuitability = this.scoreIndustrySuitability(selfBazi, partnerBazis, industry, industryWuXing);
-    const leadershipBalance = this.scoreLeadershipBalance(selfBazi, partnerBazis);
+    const industrySuitability = this.scoreIndustrySuitability(
+      selfBazi,
+      partnerBazis,
+      industry,
+      industryWuXing,
+    );
+    const leadershipBalance = this.scoreLeadershipBalance(
+      selfBazi,
+      partnerBazis,
+    );
 
     // 6. 计算总分
     const overallScore = Math.round(
       wuxingMatch.score * 0.25 +
-      baziHarmony.score * 0.30 +
-      industrySuitability.score * 0.25 +
-      leadershipBalance.score * 0.20
+        baziHarmony.score * 0.3 +
+        industrySuitability.score * 0.25 +
+        leadershipBalance.score * 0.2,
     );
 
     // 7. 生成建议
     const recommendation = this.generateRecommendation(
-      self, partnerBazis, industry, industryWuXing,
-      overallScore, wuxingMatch, baziHarmony, industrySuitability, leadershipBalance
+      self,
+      partnerBazis,
+      industry,
+      industryWuXing,
+      overallScore,
+      wuxingMatch,
+      baziHarmony,
+      industrySuitability,
+      leadershipBalance,
     );
 
     return {
@@ -170,12 +209,20 @@ export class ShengyiService {
       overallScore: Math.max(0, Math.min(100, overallScore)),
       overallLevel: getOverallLevel(overallScore),
       recommendation,
-      dimensions: { wuxingMatch, baziHarmony, industrySuitability, leadershipBalance },
+      dimensions: {
+        wuxingMatch,
+        baziHarmony,
+        industrySuitability,
+        leadershipBalance,
+      },
     };
   }
 
   /** 五行匹配度分析 */
-  private scoreWuXingMatch(self: BaZiResult, partners: { name: string; bazi: BaZiResult }[]): CompatibilityDimension {
+  private scoreWuXingMatch(
+    self: BaZiResult,
+    partners: { name: string; bazi: BaZiResult }[],
+  ): CompatibilityDimension {
     let totalScore = 0;
     const details: string[] = [];
 
@@ -234,7 +281,10 @@ export class ShengyiService {
   }
 
   /** 八字和谐度分析 */
-  private scoreBaziHarmony(self: BaZiResult, partners: { name: string; bazi: BaZiResult }[]): CompatibilityDimension {
+  private scoreBaziHarmony(
+    self: BaZiResult,
+    partners: { name: string; bazi: BaZiResult }[],
+  ): CompatibilityDimension {
     let totalScore = 0;
     const details: string[] = [];
 
@@ -245,17 +295,50 @@ export class ShengyiService {
       const selfZhi = self.siZhu.year.diZhi;
       const partnerZhi = partner.bazi.siZhu.year.diZhi;
 
-      const liuhe = [['子','丑'], ['寅','亥'], ['卯','戌'], ['辰','酉'], ['巳','申'], ['午','未']];
-      const sanhe = [['申','子','辰'], ['寅','午','戌'], ['巳','酉','丑'], ['亥','卯','未']];
-      const xiangchong = [['子','午'], ['丑','未'], ['寅','申'], ['卯','酉'], ['辰','戌'], ['巳','亥']];
+      const liuhe = [
+        ['子', '丑'],
+        ['寅', '亥'],
+        ['卯', '戌'],
+        ['辰', '酉'],
+        ['巳', '申'],
+        ['午', '未'],
+      ];
+      const sanhe = [
+        ['申', '子', '辰'],
+        ['寅', '午', '戌'],
+        ['巳', '酉', '丑'],
+        ['亥', '卯', '未'],
+      ];
+      const xiangchong = [
+        ['子', '午'],
+        ['丑', '未'],
+        ['寅', '申'],
+        ['卯', '酉'],
+        ['辰', '戌'],
+        ['巳', '亥'],
+      ];
 
-      if (liuhe.some(([a,b]) => (a===selfZhi && b===partnerZhi) || (a===partnerZhi && b===selfZhi))) {
+      if (
+        liuhe.some(
+          ([a, b]) =>
+            (a === selfZhi && b === partnerZhi) ||
+            (a === partnerZhi && b === selfZhi),
+        )
+      ) {
         score += 25;
         details.push('属相六合');
-      } else if (sanhe.some(g => g.includes(selfZhi) && g.includes(partnerZhi))) {
+      } else if (
+        sanhe.some((g) => g.includes(selfZhi) && g.includes(partnerZhi))
+      ) {
         score += 20;
         details.push('属相三合');
-      } else if (xiangchong.some(([a,b]) => (a===selfZhi && b===partnerZhi) || (a===partnerZhi && b===selfZhi))) {
+      } else if (
+        xiangchong.some(
+          ([a, b]) =>
+            (a === selfZhi && b === partnerZhi) ||
+            (a === partnerZhi && b === selfZhi),
+        )
+      ) {
         score -= 15;
         details.push('属相相冲');
       }
@@ -263,9 +346,21 @@ export class ShengyiService {
       // 天干合
       const selfGan = self.siZhu.day.tianGan;
       const partnerGan = partner.bazi.siZhu.day.tianGan;
-      const tianganhe = [['甲','己'], ['乙','庚'], ['丙','辛'], ['丁','壬'], ['戊','癸']];
+      const tianganhe = [
+        ['甲', '己'],
+        ['乙', '庚'],
+        ['丙', '辛'],
+        ['丁', '壬'],
+        ['戊', '癸'],
+      ];
 
-      if (tianganhe.some(([a,b]) => (a===selfGan && b===partnerGan) || (a===partnerGan && b===selfGan))) {
+      if (
+        tianganhe.some(
+          ([a, b]) =>
+            (a === selfGan && b === partnerGan) ||
+            (a === partnerGan && b === selfGan),
+        )
+      ) {
         score += 15;
         details.push('天干五合');
       }
@@ -273,20 +368,46 @@ export class ShengyiService {
       // 日主关系
       const selfRi = self.siZhu.day.tianGan;
       const partnerRi = partner.bazi.siZhu.day.tianGan;
-      const selfGanIdx = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'].indexOf(selfRi);
-      const partnerGanIdx = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'].indexOf(partnerRi);
+      const selfGanIdx = [
+        '甲',
+        '乙',
+        '丙',
+        '丁',
+        '戊',
+        '己',
+        '庚',
+        '辛',
+        '壬',
+        '癸',
+      ].indexOf(selfRi);
+      const partnerGanIdx = [
+        '甲',
+        '乙',
+        '丙',
+        '丁',
+        '戊',
+        '己',
+        '庚',
+        '辛',
+        '壬',
+        '癸',
+      ].indexOf(partnerRi);
 
       // 比肩/劫财 - 合作
       if (selfRi === partnerRi) {
         score += 10;
         details.push('日主相同，比肩相帮');
-      } else if (Math.abs(selfGanIdx - partnerGanIdx) === 5) { // 相邻天干
+      } else if (Math.abs(selfGanIdx - partnerGanIdx) === 5) {
+        // 相邻天干
         score += 5;
         details.push('天干相邻');
       }
 
       // 身强身弱配合
-      if (self.shenQiangRuo === '身强' && partner.bazi.shenQiangRuo === '身弱') {
+      if (
+        self.shenQiangRuo === '身强' &&
+        partner.bazi.shenQiangRuo === '身弱'
+      ) {
         score += 10;
         details.push('强弱互补');
       } else if (self.shenQiangRuo === partner.bazi.shenQiangRuo) {
@@ -312,7 +433,7 @@ export class ShengyiService {
     self: BaZiResult,
     partners: { name: string; bazi: BaZiResult }[],
     industry: string,
-    industryWuXing: string
+    industryWuXing: string,
   ): CompatibilityDimension {
     let score = 50;
     const details: string[] = [];
@@ -321,7 +442,10 @@ export class ShengyiService {
     const selfRiWx = GAN_WUXING[self.siZhu.day.tianGan] || '土';
 
     // 行业五行生身
-    if (WUXING_SHENG[industryWuXing] === selfRiWx || industryWuXing === selfRiWx) {
+    if (
+      WUXING_SHENG[industryWuXing] === selfRiWx ||
+      industryWuXing === selfRiWx
+    ) {
       score += 15;
       details.push(`行业${industryWuXing}生助日主${selfRiWx}`);
     } else if (WUXING_KE[industryWuXing] === selfRiWx) {
@@ -330,7 +454,10 @@ export class ShengyiService {
     }
 
     // 用神与行业
-    if (self.yongShen === industryWuXing || WUXING_SHENG[industryWuXing] === self.yongShen) {
+    if (
+      self.yongShen === industryWuXing ||
+      WUXING_SHENG[industryWuXing] === self.yongShen
+    ) {
       score += 15;
       details.push('用神得行业五行助力');
     }
@@ -339,7 +466,10 @@ export class ShengyiService {
     let partnerSupport = 0;
     for (const partner of partners) {
       const partnerRiWx = GAN_WUXING[partner.bazi.siZhu.day.tianGan] || '土';
-      if (WUXING_SHENG[partnerRiWx] === industryWuXing || industryWuXing === partnerRiWx) {
+      if (
+        WUXING_SHENG[partnerRiWx] === industryWuXing ||
+        industryWuXing === partnerRiWx
+      ) {
         partnerSupport += 10;
       }
     }
@@ -349,8 +479,11 @@ export class ShengyiService {
     }
 
     // 检查是否有多人忌神一致（不利）
-    const jiShens = partners.map(p => p.bazi.jiShen);
-    if (jiShens.every(j => j === jiShens[0]) && jiShens[0] === industryWuXing) {
+    const jiShens = partners.map((p) => p.bazi.jiShen);
+    if (
+      jiShens.every((j) => j === jiShens[0]) &&
+      jiShens[0] === industryWuXing
+    ) {
       score -= 10;
       details.push('多人忌神与行业五行冲突');
     }
@@ -366,16 +499,22 @@ export class ShengyiService {
   }
 
   /** 领导力平衡分析 */
-  private scoreLeadershipBalance(self: BaZiResult, partners: { name: string; bazi: BaZiResult }[]): CompatibilityDimension {
+  private scoreLeadershipBalance(
+    self: BaZiResult,
+    partners: { name: string; bazi: BaZiResult }[],
+  ): CompatibilityDimension {
     let score = 60;
     const details: string[] = [];
 
     // 判断各自的身强身弱（领导力）
     const selfStrong = self.shenQiangRuo === '身强';
-    const partnerStrengths = partners.map(p => p.bazi.shenQiangRuo === '身强');
+    const partnerStrengths = partners.map(
+      (p) => p.bazi.shenQiangRuo === '身强',
+    );
 
     // 统计强弱
-    const strongCount = (selfStrong ? 1 : 0) + partnerStrengths.filter(s => s).length;
+    const strongCount =
+      (selfStrong ? 1 : 0) + partnerStrengths.filter((s) => s).length;
     const totalCount = partners.length + 1;
 
     if (strongCount === 0) {
@@ -394,12 +533,14 @@ export class ShengyiService {
 
     // 检查格局冲突
     const selfGeJu = self.geJu;
-    const partnerGeJus = partners.map(p => p.bazi.geJu);
+    const partnerGeJus = partners.map((p) => p.bazi.geJu);
 
     // 如果有相同的权威格局，可能有冲突
     const authorityGees = ['正官格', '七杀格', '正财格', '偏财格'];
     const selfAuth = authorityGees.includes(selfGeJu);
-    const partnerAuthCount = partnerGeJus.filter(g => authorityGees.includes(g)).length;
+    const partnerAuthCount = partnerGeJus.filter((g) =>
+      authorityGees.includes(g),
+    ).length;
 
     if (selfAuth && partnerAuthCount > 0) {
       score -= 5 * partnerAuthCount;
@@ -408,7 +549,7 @@ export class ShengyiService {
 
     // 检查是否有共同的忌神（容易产生矛盾）
     const selfJiShen = self.jiShen;
-    const partnerHasJiShen = partners.some(p => p.bazi.jiShen === selfJiShen);
+    const partnerHasJiShen = partners.some((p) => p.bazi.jiShen === selfJiShen);
     if (partnerHasJiShen) {
       score -= 10;
       details.push('忌神相同，易生嫌隙');
@@ -434,17 +575,23 @@ export class ShengyiService {
     wuxingMatch: CompatibilityDimension,
     baziHarmony: CompatibilityDimension,
     industrySuitability: CompatibilityDimension,
-    leadershipBalance: CompatibilityDimension
+    leadershipBalance: CompatibilityDimension,
   ): string {
     const parts: string[] = [];
 
     // 整体评价
     if (overallScore >= 80) {
-      parts.push(`「${self.name}」与${partners.map(p => p.name).join('、')}的生意合伙为上等合作，适合共同发展${industry}行业。`);
+      parts.push(
+        `「${self.name}」与${partners.map((p) => p.name).join('、')}的生意合伙为上等合作，适合共同发展${industry}行业。`,
+      );
     } else if (overallScore >= 60) {
-      parts.push(`「${self.name}」与${partners.map(p => p.name).join('、')}的合伙为中等合作，可尝试${industry}行业但需注意互补。`);
+      parts.push(
+        `「${self.name}」与${partners.map((p) => p.name).join('、')}的合伙为中等合作，可尝试${industry}行业但需注意互补。`,
+      );
     } else {
-      parts.push(`「${self.name}」与${partners.map(p => p.name).join('、')}的合伙存在较大挑战，建议谨慎合作或寻找其他合伙人。`);
+      parts.push(
+        `「${self.name}」与${partners.map((p) => p.name).join('、')}的合伙存在较大挑战，建议谨慎合作或寻找其他合伙人。`,
+      );
     }
 
     // 关键建议
@@ -457,7 +604,9 @@ export class ShengyiService {
     }
 
     if (industrySuitability.score < 60) {
-      parts.push(`行业建议：${industry}（${industryWuXing}）与合伙人五行有一定冲克，可考虑五行属木或属火的行业。`);
+      parts.push(
+        `行业建议：${industry}（${industryWuXing}）与合伙人五行有一定冲克，可考虑五行属木或属火的行业。`,
+      );
     }
 
     if (leadershipBalance.score < 50) {
@@ -469,7 +618,9 @@ export class ShengyiService {
     }
 
     // 易经建议
-    parts.push(`易经卦象提示：${partners.length > 1 ? '多人合作' : '双人合伙'}宜「和气生财」，保持沟通与信任。`);
+    parts.push(
+      `易经卦象提示：${partners.length > 1 ? '多人合作' : '双人合伙'}宜「和气生财」，保持沟通与信任。`,
+    );
 
     return parts.join(' ');
   }

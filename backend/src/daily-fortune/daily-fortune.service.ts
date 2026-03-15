@@ -25,7 +25,12 @@ export class DailyFortuneService {
 
     // 查数据库
     let fortune = await this.prisma.daily_fortune.findUnique({
-      where: { profile_id_fortune_date: { profile_id: profile.id, fortune_date: today } },
+      where: {
+        profile_id_fortune_date: {
+          profile_id: profile.id,
+          fortune_date: today,
+        },
+      },
     });
 
     if (!fortune) {

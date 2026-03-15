@@ -1,7 +1,12 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthService } from './auth.service.js';
-import { RegisterDto, PasswordLoginDto, PhoneLoginDto, WechatLoginDto } from './dto/auth.dto.js';
+import {
+  RegisterDto,
+  PasswordLoginDto,
+  PhoneLoginDto,
+  WechatLoginDto,
+} from './dto/auth.dto.js';
 
 @ApiTags('认证')
 @Controller('auth')

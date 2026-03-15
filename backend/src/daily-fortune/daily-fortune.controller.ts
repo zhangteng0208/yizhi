@@ -1,7 +1,10 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
-import { CurrentUser, JwtPayload } from '../common/decorators/current-user.decorator.js';
+import {
+  CurrentUser,
+  JwtPayload,
+} from '../common/decorators/current-user.decorator.js';
 import { DailyFortuneService } from './daily-fortune.service.js';
 
 @ApiTags('每日运势')

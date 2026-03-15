@@ -9,7 +9,11 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: '获取产品列表' })
-  @ApiQuery({ name: 'category', required: false, description: '分类筛选：八字、塔罗、起名、风水' })
+  @ApiQuery({
+    name: 'category',
+    required: false,
+    description: '分类筛选：八字、塔罗、起名、风水',
+  })
   findAll(@Query('category') category?: string) {
     return this.productsService.findAll(category);
   }

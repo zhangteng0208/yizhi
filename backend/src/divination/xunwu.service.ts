@@ -65,9 +65,36 @@ export interface XunwuResult {
   personName?: string; // 人名
   lostTime?: string; // 丢失时间
   lostPlace?: string; // 丢失地点
-  monthShen: { name: string; wuxing: string; direction: string; location: string; desc: string; xunwu: string; xunren: string; index: number };
-  dayShen: { name: string; wuxing: string; direction: string; location: string; desc: string; xunwu: string; xunren: string; index: number };
-  hourShen: { name: string; wuxing: string; direction: string; location: string; desc: string; xunwu: string; xunren: string; index: number };
+  monthShen: {
+    name: string;
+    wuxing: string;
+    direction: string;
+    location: string;
+    desc: string;
+    xunwu: string;
+    xunren: string;
+    index: number;
+  };
+  dayShen: {
+    name: string;
+    wuxing: string;
+    direction: string;
+    location: string;
+    desc: string;
+    xunwu: string;
+    xunren: string;
+    index: number;
+  };
+  hourShen: {
+    name: string;
+    wuxing: string;
+    direction: string;
+    location: string;
+    desc: string;
+    xunwu: string;
+    xunren: string;
+    index: number;
+  };
   jixiong: string;
   direction: string; // 综合方位
   canFind: boolean; // 能否找到
@@ -89,18 +116,30 @@ export class XunwuService {
     lostPlace?: string,
   ): XunwuResult {
     // 使用三个数字起卦
-    const monthIndex = ((numbers[0] - 1) % 6 + 6) % 6;
-    const dayIndex = ((numbers[1] - 1) % 6 + 6) % 6;
-    const hourIndex = ((numbers[2] - 1) % 6 + 6) % 6;
+    const monthIndex = (((numbers[0] - 1) % 6) + 6) % 6;
+    const dayIndex = (((numbers[1] - 1) % 6) + 6) % 6;
+    const hourIndex = (((numbers[2] - 1) % 6) + 6) % 6;
 
     const monthShen = LIU_SHEN[monthIndex];
     const dayShen = LIU_SHEN[dayIndex];
     const hourShen = LIU_SHEN[hourIndex];
 
-    const jixiong = this.judgeJixiong(monthShen.name, dayShen.name, hourShen.name);
+    const jixiong = this.judgeJixiong(
+      monthShen.name,
+      dayShen.name,
+      hourShen.name,
+    );
     const direction = this.judgeDirection(monthShen, dayShen, hourShen);
-    const canFind = this.judgeCanFind(monthShen.name, dayShen.name, hourShen.name);
-    const timeframe = this.judgeTimeframe(monthShen.name, dayShen.name, hourShen.name);
+    const canFind = this.judgeCanFind(
+      monthShen.name,
+      dayShen.name,
+      hourShen.name,
+    );
+    const timeframe = this.judgeTimeframe(
+      monthShen.name,
+      dayShen.name,
+      hourShen.name,
+    );
 
     return {
       type,
@@ -121,7 +160,7 @@ export class XunwuService {
 
   private judgeJixiong(month: string, day: string, hour: string): string {
     const ji = ['大安', '速喜', '小吉'];
-    const count = [month, day, hour].filter(n => ji.includes(n)).length;
+    const count = [month, day, hour].filter((n) => ji.includes(n)).length;
     if (count === 3) return '大吉';
     if (count === 2) return '中吉';
     if (count === 1) return '小吉';
@@ -144,7 +183,7 @@ export class XunwuService {
     if (uniqueDirs.length === 1) {
       return mainDir;
     } else if (uniqueDirs.length === 2) {
-      return `${mainDir}，兼看${uniqueDirs.find(d => d !== mainDir)}`;
+      return `${mainDir}，兼看${uniqueDirs.find((d) => d !== mainDir)}`;
     } else {
       return `${mainDir}为主，方位不定`;
     }
@@ -153,11 +192,11 @@ export class XunwuService {
   private judgeCanFind(month: string, day: string, hour: string): boolean {
     // 空亡、赤口不利寻找
     const bad = ['空亡', '赤口'];
-    const badCount = [month, day, hour].filter(n => bad.includes(n)).length;
+    const badCount = [month, day, hour].filter((n) => bad.includes(n)).length;
 
     // 大安、速喜、小吉有利寻找
     const good = ['大安', '速喜', '小吉'];
-    const goodCount = [month, day, hour].filter(n => good.includes(n)).length;
+    const goodCount = [month, day, hour].filter((n) => good.includes(n)).length;
 
     return goodCount > badCount;
   }

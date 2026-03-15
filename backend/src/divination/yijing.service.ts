@@ -4,9 +4,9 @@ import { Injectable, Logger } from '@nestjs/common';
 const { HEXAGRAM } = require('cantian-liuyao');
 
 export interface YijingYao {
-  position: string;   // 初九、六二...
-  value: number;       // 6老阴 7少阳 8少阴 9老阳
-  text: string;        // 爻辞
+  position: string; // 初九、六二...
+  value: number; // 6老阴 7少阳 8少阴 9老阳
+  text: string; // 爻辞
   isMoving: boolean;
 }
 
@@ -15,8 +15,8 @@ export interface YijingGua {
   gua: string;
   symbol: string;
   sequence: number;
-  judgement: string;   // 卦辞
-  text: string;        // 大象
+  judgement: string; // 卦辞
+  text: string; // 大象
   upper: { name: string; nick: string; symbol: string };
   lower: { name: string; nick: string; symbol: string };
 }
@@ -78,15 +78,21 @@ export class YijingService {
 
   private buildResult(values: number[]): YijingResult {
     // 构建二进制卦码（0=阴 1=阳，从初爻到上爻）
-    const originBits = values.map(v => (v === 7 || v === 9) ? '1' : '0').join('');
-    const changedBits = values.map(v => {
-      if (v === 9) return '0'; // 老阳变阴
-      if (v === 6) return '1'; // 老阴变阳
-      return (v === 7) ? '1' : '0';
-    }).join('');
+    const originBits = values
+      .map((v) => (v === 7 || v === 9 ? '1' : '0'))
+      .join('');
+    const changedBits = values
+      .map((v) => {
+        if (v === 9) return '0'; // 老阳变阴
+        if (v === 6) return '1'; // 老阴变阳
+        return v === 7 ? '1' : '0';
+      })
+      .join('');
 
     const originGua = this.findGua(originBits);
-    const movingIndexes = values.map((v, i) => (v === 6 || v === 9) ? i : -1).filter(i => i >= 0);
+    const movingIndexes = values
+      .map((v, i) => (v === 6 || v === 9 ? i : -1))
+      .filter((i) => i >= 0);
     const hasChanged = movingIndexes.length > 0;
     const changedGua = hasChanged ? this.findGua(changedBits) : null;
 
@@ -97,9 +103,17 @@ export class YijingService {
       isMoving: v === 6 || v === 9,
     }));
 
-    const { rule, focus } = this.getReadingRule(values, yaos, originGua, changedGua, originBits);
+    const { rule, focus } = this.getReadingRule(
+      values,
+      yaos,
+      originGua,
+      changedGua,
+      originBits,
+    );
 
-    this.logger.log(`易经占卜 - movingCount: ${movingIndexes.length}, focus: ${JSON.stringify(focus)}`);
+    this.logger.log(
+      `易经占卜 - movingCount: ${movingIndexes.length}, focus: ${JSON.stringify(focus)}`,
+    );
 
     return {
       origin: this.mapGua(originGua),
@@ -116,7 +130,9 @@ export class YijingService {
     const upperBits = bits.substring(3, 6);
     const key = upperBits + lowerBits; // HEXAGRAM key: upper+lower
     // 尝试两种顺序
-    return HEXAGRAM[key] || HEXAGRAM[lowerBits + upperBits] || this.searchGua(bits);
+    return (
+      HEXAGRAM[key] || HEXAGRAM[lowerBits + upperBits] || this.searchGua(bits)
+    );
   }
 
   private searchGua(bits: string): any {
@@ -127,7 +143,17 @@ export class YijingService {
   }
 
   private mapGua(g: any): YijingGua {
-    if (!g) return { name: '未知', gua: '', symbol: '', sequence: 0, judgement: '', text: '', upper: { name: '', nick: '', symbol: '' }, lower: { name: '', nick: '', symbol: '' } };
+    if (!g)
+      return {
+        name: '未知',
+        gua: '',
+        symbol: '',
+        sequence: 0,
+        judgement: '',
+        text: '',
+        upper: { name: '', nick: '', symbol: '' },
+        lower: { name: '', nick: '', symbol: '' },
+      };
     return {
       name: g.name || '',
       gua: g.gua || '',
@@ -143,9 +169,17 @@ export class YijingService {
   /**
    * 朱熹《筮仪》断卦规则
    */
-  private getReadingRule(values: number[], yaos: YijingYao[], origin: any, changed: any, originBits: string): { rule: string; focus: string[] } {
-    const movingCount = values.filter(v => v === 6 || v === 9).length;
-    const movingIndexes = values.map((v, i) => (v === 6 || v === 9) ? i : -1).filter(i => i >= 0);
+  private getReadingRule(
+    values: number[],
+    yaos: YijingYao[],
+    origin: any,
+    changed: any,
+    originBits: string,
+  ): { rule: string; focus: string[] } {
+    const movingCount = values.filter((v) => v === 6 || v === 9).length;
+    const movingIndexes = values
+      .map((v, i) => (v === 6 || v === 9 ? i : -1))
+      .filter((i) => i >= 0);
     const focus: string[] = [];
 
     if (movingCount === 0) {
@@ -158,7 +192,9 @@ export class YijingService {
       return { rule: '一爻变，以本卦变爻爻辞断之', focus };
     }
     if (movingCount === 2) {
-      movingIndexes.forEach(idx => focus.push(`本卦${yaos[idx].position}：${yaos[idx].text}`));
+      movingIndexes.forEach((idx) =>
+        focus.push(`本卦${yaos[idx].position}：${yaos[idx].text}`),
+      );
       return { rule: '二爻变，以本卦二变爻爻辞断之，以上爻为主', focus };
     }
     if (movingCount === 3) {
@@ -167,19 +203,23 @@ export class YijingService {
       return { rule: '三爻变，以本卦卦辞为贞、变卦卦辞为悔', focus };
     }
     if (movingCount === 4) {
-      const stillIndexes = values.map((v, i) => (v === 7 || v === 8) ? i : -1).filter(i => i >= 0);
-      stillIndexes.forEach(idx => {
+      const stillIndexes = values
+        .map((v, i) => (v === 7 || v === 8 ? i : -1))
+        .filter((i) => i >= 0);
+      stillIndexes.forEach((idx) => {
         const changedYaoText = changed?.lineTexts?.[idx]?.text || '';
-        const changedYaoLabel = changed?.lineTexts?.[idx]?.label || `第${idx + 1}爻`;
+        const changedYaoLabel =
+          changed?.lineTexts?.[idx]?.label || `第${idx + 1}爻`;
         focus.push(`变卦${changedYaoLabel}：${changedYaoText}`);
       });
       return { rule: '四爻变，以变卦二不变爻爻辞断之，以下爻为主', focus };
     }
     if (movingCount === 5) {
-      const stillIdx = values.findIndex(v => v === 7 || v === 8);
+      const stillIdx = values.findIndex((v) => v === 7 || v === 8);
       if (stillIdx >= 0) {
         const changedYaoText = changed?.lineTexts?.[stillIdx]?.text || '';
-        const changedYaoLabel = changed?.lineTexts?.[stillIdx]?.label || `第${stillIdx + 1}爻`;
+        const changedYaoLabel =
+          changed?.lineTexts?.[stillIdx]?.label || `第${stillIdx + 1}爻`;
         focus.push(`变卦${changedYaoLabel}：${changedYaoText}`);
       }
       return { rule: '五爻变，以变卦不变爻爻辞断之', focus };
@@ -192,6 +232,9 @@ export class YijingService {
     } else {
       focus.push(`变卦卦辞：${changed?.judgement || ''}`);
     }
-    return { rule: '六爻皆变，乾用"用九"、坤用"用六"，余卦以变卦卦辞断之', focus };
+    return {
+      rule: '六爻皆变，乾用"用九"、坤用"用六"，余卦以变卦卦辞断之',
+      focus,
+    };
   }
 }

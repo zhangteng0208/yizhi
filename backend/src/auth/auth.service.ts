@@ -1,9 +1,19 @@
-import { Injectable, UnauthorizedException, BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+  ConflictException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { RedisService } from '../redis/redis.service.js';
-import { RegisterDto, PasswordLoginDto, PhoneLoginDto, WechatLoginDto } from './dto/auth.dto.js';
+import {
+  RegisterDto,
+  PasswordLoginDto,
+  PhoneLoginDto,
+  WechatLoginDto,
+} from './dto/auth.dto.js';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -80,7 +90,9 @@ export class AuthService {
       throw new UnauthorizedException('验证码错误');
     }
 
-    let user = await this.prisma.users.findUnique({ where: { phone: dto.phone } });
+    let user = await this.prisma.users.findUnique({
+      where: { phone: dto.phone },
+    });
     if (!user) {
       user = await this.prisma.users.create({
         data: { phone: dto.phone, nickname: `用户${dto.phone.slice(-4)}` },
@@ -95,7 +107,9 @@ export class AuthService {
     // TODO: 调用微信API用code换取openid
     const mockOpenid = `wx_${dto.code}`;
 
-    let user = await this.prisma.users.findUnique({ where: { openid: mockOpenid } });
+    let user = await this.prisma.users.findUnique({
+      where: { openid: mockOpenid },
+    });
     if (!user) {
       user = await this.prisma.users.create({
         data: { openid: mockOpenid, nickname: '微信用户' },

@@ -23,6 +23,27 @@ import { ChouqianService } from './chouqian.service.js';
 
 @Module({
   controllers: [DivinationController],
-  providers: [DivinationService, BaZiService, AiService, MeihuaService, ZiweiService, QimenService, LiuyaoService, YijingService, XiaoliurenService, XunwuService, ZejiService, NamingService, HehunService, ShengyiService, FaceService, PalmService, TongueService, FengshuiService, DreamService, ChouqianService],
+  providers: [
+    DivinationService,
+    BaZiService,
+    AiService,
+    MeihuaService,
+    ZiweiService,
+    QimenService,
+    LiuyaoService,
+    YijingService,
+    XiaoliurenService,
+    XunwuService,
+    ZejiService,
+    NamingService,
+    HehunService,
+    ShengyiService,
+    FaceService,
+    PalmService,
+    TongueService,
+    FengshuiService,
+    DreamService,
+    ChouqianService,
+  ],
 })
 export class DivinationModule {}

@@ -19,7 +19,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       const res = exception.getResponse();
-      message = typeof res === 'string' ? res : (res as Record<string, unknown>)['message'] as string || exception.message;
+      message =
+        typeof res === 'string'
+          ? res
+          : ((res as Record<string, unknown>)['message'] as string) ||
+            exception.message;
     } else {
       // 记录非HTTP异常的详细信息
       console.error('Unhandled exception:', exception);

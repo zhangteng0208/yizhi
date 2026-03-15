@@ -3,59 +3,102 @@ import { BaZiService, BaZiResult } from './bazi.service.js';
 
 /** 天干五行 */
 const GAN_WUXING: Record<string, string> = {
-  '甲': '木', '乙': '木', '丙': '火', '丁': '火', '戊': '土',
-  '己': '土', '庚': '金', '辛': '金', '壬': '水', '癸': '水',
+  甲: '木',
+  乙: '木',
+  丙: '火',
+  丁: '火',
+  戊: '土',
+  己: '土',
+  庚: '金',
+  辛: '金',
+  壬: '水',
+  癸: '水',
 };
 
 /** 五行相生 */
 const WUXING_SHENG: Record<string, string> = {
-  '金': '水', '水': '木', '木': '火', '火': '土', '土': '金',
+  金: '水',
+  水: '木',
+  木: '火',
+  火: '土',
+  土: '金',
 };
 
 /** 五行相克 */
 const WUXING_KE: Record<string, string> = {
-  '金': '木', '木': '土', '土': '水', '水': '火', '火': '金',
+  金: '木',
+  木: '土',
+  土: '水',
+  水: '火',
+  火: '金',
 };
 
 /** 天干合 */
 const TIANGAN_HE: [string, string][] = [
-  ['甲', '己'], ['乙', '庚'], ['丙', '辛'], ['丁', '壬'], ['戊', '癸'],
+  ['甲', '己'],
+  ['乙', '庚'],
+  ['丙', '辛'],
+  ['丁', '壬'],
+  ['戊', '癸'],
 ];
 
 /** 六合 */
 const LIUHE: [string, string][] = [
-  ['子', '丑'], ['寅', '亥'], ['卯', '戌'], ['辰', '酉'], ['巳', '申'], ['午', '未'],
+  ['子', '丑'],
+  ['寅', '亥'],
+  ['卯', '戌'],
+  ['辰', '酉'],
+  ['巳', '申'],
+  ['午', '未'],
 ];
 
 /** 三合 */
 const SANHE: [string, string, string][] = [
-  ['申', '子', '辰'], ['寅', '午', '戌'], ['巳', '酉', '丑'], ['亥', '卯', '未'],
+  ['申', '子', '辰'],
+  ['寅', '午', '戌'],
+  ['巳', '酉', '丑'],
+  ['亥', '卯', '未'],
 ];
 
 /** 相冲 */
 const XIANGCHONG: [string, string][] = [
-  ['子', '午'], ['丑', '未'], ['寅', '申'], ['卯', '酉'], ['辰', '戌'], ['巳', '亥'],
+  ['子', '午'],
+  ['丑', '未'],
+  ['寅', '申'],
+  ['卯', '酉'],
+  ['辰', '戌'],
+  ['巳', '亥'],
 ];
 
 /** 相害 */
 const XIANGHAI: [string, string][] = [
-  ['子', '未'], ['丑', '午'], ['寅', '巳'], ['卯', '辰'], ['申', '亥'], ['酉', '戌'],
+  ['子', '未'],
+  ['丑', '午'],
+  ['寅', '巳'],
+  ['卯', '辰'],
+  ['申', '亥'],
+  ['酉', '戌'],
 ];
 
 /** 相刑 */
 const XIANGXING: [string, string][] = [
-  ['寅', '巳'], ['巳', '申'], ['寅', '申'],
-  ['丑', '戌'], ['戌', '未'], ['丑', '未'],
-  ['子', '卯'], ['卯', '子'],
+  ['寅', '巳'],
+  ['巳', '申'],
+  ['寅', '申'],
+  ['丑', '戌'],
+  ['戌', '未'],
+  ['丑', '未'],
+  ['子', '卯'],
+  ['卯', '子'],
 ];
 
 export interface PersonInput {
   name: string;
-  gender: number;       // 1=male, 2=female
+  gender: number; // 1=male, 2=female
   birthYear: number;
   birthMonth: number;
   birthDay: number;
-  birthHour: string;    // 地支，如 "寅"
+  birthHour: string; // 地支，如 "寅"
 }
 
 export interface CompatibilityDimension {
@@ -101,7 +144,7 @@ function matchPair(a: string, b: string, pairs: [string, string][]): boolean {
 }
 
 function inSanhe(a: string, b: string): boolean {
-  return SANHE.some(g => g.includes(a) && g.includes(b));
+  return SANHE.some((g) => g.includes(a) && g.includes(b));
 }
 
 function extractNayinWuxing(nayin: string): string {
@@ -116,12 +159,20 @@ export class HehunService {
 
   calculate(male: PersonInput, female: PersonInput): HehunResult {
     const maleBazi = this.baziService.calculate(
-      male.birthYear, male.birthMonth, male.birthDay,
-      male.birthHour, 1, false,
+      male.birthYear,
+      male.birthMonth,
+      male.birthDay,
+      male.birthHour,
+      1,
+      false,
     );
     const femaleBazi = this.baziService.calculate(
-      female.birthYear, female.birthMonth, female.birthDay,
-      female.birthHour, 2, false,
+      female.birthYear,
+      female.birthMonth,
+      female.birthDay,
+      female.birthHour,
+      2,
+      false,
     );
 
     const shuxiang = this.scoreShuxiang(maleBazi, femaleBazi);
@@ -130,8 +181,10 @@ export class HehunService {
     const nayin = this.scoreNayin(maleBazi, femaleBazi);
 
     const overallScore = Math.round(
-      shuxiang.score * 0.30 + rigan.score * 0.30 +
-      wuxing.score * 0.25 + nayin.score * 0.15,
+      shuxiang.score * 0.3 +
+        rigan.score * 0.3 +
+        wuxing.score * 0.25 +
+        nayin.score * 0.15,
     );
 
     return {
@@ -183,7 +236,11 @@ export class HehunService {
     let score: number;
     let detail: string;
 
-    if (TIANGAN_HE.some(([a, b]) => (mGan === a && fGan === b) || (mGan === b && fGan === a))) {
+    if (
+      TIANGAN_HE.some(
+        ([a, b]) => (mGan === a && fGan === b) || (mGan === b && fGan === a),
+      )
+    ) {
       score = 93;
       detail = `${mGan}${fGan}天干相合，夫妻缘分深厚，心意相通。`;
     } else if (WUXING_SHENG[mWx] === fWx) {
@@ -214,20 +271,35 @@ export class HehunService {
     const buList: string[] = [];
 
     for (const wx of m.wuXingLack) {
-      if ((f.wuXingCount[wx] || 0) >= 2) { score += 10; buList.push(`女方补男方${wx}`); }
-      else if ((f.wuXingCount[wx] || 0) >= 1) { score += 5; buList.push(`女方略补男方${wx}`); }
+      if ((f.wuXingCount[wx] || 0) >= 2) {
+        score += 10;
+        buList.push(`女方补男方${wx}`);
+      } else if ((f.wuXingCount[wx] || 0) >= 1) {
+        score += 5;
+        buList.push(`女方略补男方${wx}`);
+      }
     }
     for (const wx of f.wuXingLack) {
-      if ((m.wuXingCount[wx] || 0) >= 2) { score += 10; buList.push(`男方补女方${wx}`); }
-      else if ((m.wuXingCount[wx] || 0) >= 1) { score += 5; buList.push(`男方略补女方${wx}`); }
+      if ((m.wuXingCount[wx] || 0) >= 2) {
+        score += 10;
+        buList.push(`男方补女方${wx}`);
+      } else if ((m.wuXingCount[wx] || 0) >= 1) {
+        score += 5;
+        buList.push(`男方略补女方${wx}`);
+      }
     }
-    if ((m.wuXingCount[f.yongShen] || 0) >= 2) { score += 5; }
-    if ((f.wuXingCount[m.yongShen] || 0) >= 2) { score += 5; }
+    if ((m.wuXingCount[f.yongShen] || 0) >= 2) {
+      score += 5;
+    }
+    if ((f.wuXingCount[m.yongShen] || 0) >= 2) {
+      score += 5;
+    }
 
     score = Math.min(98, score);
-    const detail = buList.length > 0
-      ? `五行互补良好：${buList.join('，')}。`
-      : '双方五行各自完整，互补需求不大。';
+    const detail =
+      buList.length > 0
+        ? `五行互补良好：${buList.join('，')}。`
+        : '双方五行各自完整，互补需求不大。';
     return { name: '五行互补', score, level: getLevel(score), detail };
   }
 

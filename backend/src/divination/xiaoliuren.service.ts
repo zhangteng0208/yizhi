@@ -47,9 +47,66 @@ const LIU_SHEN = [
 ];
 
 /** 农历月份名 */
-const LUNAR_MONTHS = ['正月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '冬月', '腊月'];
-const LUNAR_DAYS = ['初一', '初二', '初三', '初四', '初五', '初六', '初七', '初八', '初九', '初十', '十一', '十二', '十三', '十四', '十五', '十六', '十七', '十八', '十九', '二十', '廿一', '廿二', '廿三', '廿四', '廿五', '廿六', '廿七', '廿八', '廿九', '三十'];
-const SHICHEN = ['子时', '丑时', '寅时', '卯时', '辰时', '巳时', '午时', '未时', '申时', '酉时', '戌时', '亥时'];
+const LUNAR_MONTHS = [
+  '正月',
+  '二月',
+  '三月',
+  '四月',
+  '五月',
+  '六月',
+  '七月',
+  '八月',
+  '九月',
+  '十月',
+  '冬月',
+  '腊月',
+];
+const LUNAR_DAYS = [
+  '初一',
+  '初二',
+  '初三',
+  '初四',
+  '初五',
+  '初六',
+  '初七',
+  '初八',
+  '初九',
+  '初十',
+  '十一',
+  '十二',
+  '十三',
+  '十四',
+  '十五',
+  '十六',
+  '十七',
+  '十八',
+  '十九',
+  '二十',
+  '廿一',
+  '廿二',
+  '廿三',
+  '廿四',
+  '廿五',
+  '廿六',
+  '廿七',
+  '廿八',
+  '廿九',
+  '三十',
+];
+const SHICHEN = [
+  '子时',
+  '丑时',
+  '寅时',
+  '卯时',
+  '辰时',
+  '巳时',
+  '午时',
+  '未时',
+  '申时',
+  '酉时',
+  '戌时',
+  '亥时',
+];
 
 export interface XiaoliurenResult {
   question: string;
@@ -59,9 +116,30 @@ export interface XiaoliurenResult {
   lunarMonthName: string;
   lunarDayName: string;
   shichenName: string;
-  monthShen: { name: string; wuxing: string; direction: string; desc: string; poem: string; index: number };
-  dayShen: { name: string; wuxing: string; direction: string; desc: string; poem: string; index: number };
-  hourShen: { name: string; wuxing: string; direction: string; desc: string; poem: string; index: number };
+  monthShen: {
+    name: string;
+    wuxing: string;
+    direction: string;
+    desc: string;
+    poem: string;
+    index: number;
+  };
+  dayShen: {
+    name: string;
+    wuxing: string;
+    direction: string;
+    desc: string;
+    poem: string;
+    index: number;
+  };
+  hourShen: {
+    name: string;
+    wuxing: string;
+    direction: string;
+    desc: string;
+    poem: string;
+    index: number;
+  };
   jixiong: string;
 }
 
@@ -75,14 +153,20 @@ export class XiaoliurenService {
    * @param question 所问之事
    * @param customNumbers 自定义三个数字 [n1, n2, n3]，每个数字对应六神索引
    */
-  calculate(lunarMonth: number, lunarDay: number, shichen: number, question: string, customNumbers?: number[]): XiaoliurenResult {
+  calculate(
+    lunarMonth: number,
+    lunarDay: number,
+    shichen: number,
+    question: string,
+    customNumbers?: number[],
+  ): XiaoliurenResult {
     let monthIndex: number, dayIndex: number, hourIndex: number;
 
     if (customNumbers && customNumbers.length === 3) {
       // 自定义起卦：三个数字分别对应三宫六神
-      monthIndex = ((customNumbers[0] - 1) % 6 + 6) % 6;
-      dayIndex = ((customNumbers[1] - 1) % 6 + 6) % 6;
-      hourIndex = ((customNumbers[2] - 1) % 6 + 6) % 6;
+      monthIndex = (((customNumbers[0] - 1) % 6) + 6) % 6;
+      dayIndex = (((customNumbers[1] - 1) % 6) + 6) % 6;
+      hourIndex = (((customNumbers[2] - 1) % 6) + 6) % 6;
     } else {
       // 传统起卦：月上起日，日上起时
       monthIndex = (lunarMonth - 1) % 6;
@@ -94,7 +178,11 @@ export class XiaoliurenService {
     const dayShen = LIU_SHEN[dayIndex];
     const hourShen = LIU_SHEN[hourIndex];
 
-    const jixiong = this.judgeJixiong(monthShen.name, dayShen.name, hourShen.name);
+    const jixiong = this.judgeJixiong(
+      monthShen.name,
+      dayShen.name,
+      hourShen.name,
+    );
 
     return {
       question,
@@ -113,7 +201,7 @@ export class XiaoliurenService {
 
   private judgeJixiong(month: string, day: string, hour: string): string {
     const ji = ['大安', '速喜', '小吉'];
-    const count = [month, day, hour].filter(n => ji.includes(n)).length;
+    const count = [month, day, hour].filter((n) => ji.includes(n)).length;
     if (count === 3) return '大吉';
     if (count === 2) return '中吉';
     if (count === 1) return '小吉';

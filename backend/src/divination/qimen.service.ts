@@ -50,9 +50,19 @@ export interface QimenResult {
   /** 九宫 */
   palaces: QimenPalace[];
   /** 吉格 */
-  auspicious: { name: string; type: string; position: number; description: string }[];
+  auspicious: {
+    name: string;
+    type: string;
+    position: number;
+    description: string;
+  }[];
   /** 凶格 */
-  inauspicious: { name: string; type: string; position: number; description: string }[];
+  inauspicious: {
+    name: string;
+    type: string;
+    position: number;
+    description: string;
+  }[];
 }
 
 @Injectable()
@@ -69,8 +79,12 @@ export class QimenService {
     const palaces: QimenPalace[] = chart.palaces.map((p: any) => ({
       position: p.position,
       trigram: p.trigram,
-      heavenlyStem: Array.isArray(p.heavenlyStem) ? p.heavenlyStem.join(' ') : p.heavenlyStem,
-      earthlyStem: Array.isArray(p.earthlyStem) ? p.earthlyStem.join(' ') : p.earthlyStem,
+      heavenlyStem: Array.isArray(p.heavenlyStem)
+        ? p.heavenlyStem.join(' ')
+        : p.heavenlyStem,
+      earthlyStem: Array.isArray(p.earthlyStem)
+        ? p.earthlyStem.join(' ')
+        : p.earthlyStem,
       star: p.star,
       gate: p.gate,
       deity: p.deity,
@@ -85,10 +99,16 @@ export class QimenService {
 
     const sp = chart.specialPatterns || {};
     const auspicious = (sp.auspiciousPatterns || []).map((a: any) => ({
-      name: a.name, type: a.type, position: a.position, description: a.description,
+      name: a.name,
+      type: a.type,
+      position: a.position,
+      description: a.description,
     }));
     const inauspicious = (sp.inauspiciousPatterns || []).map((a: any) => ({
-      name: a.name, type: a.type, position: a.position, description: a.description,
+      name: a.name,
+      type: a.type,
+      position: a.position,
+      description: a.description,
     }));
 
     return {

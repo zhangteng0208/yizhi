@@ -1,5 +1,11 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString, IsInt, IsBoolean, IsNumber } from 'class-validator';
+import {
+  IsOptional,
+  IsString,
+  IsInt,
+  IsBoolean,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateProfileDto {
   @ApiPropertyOptional({ description: '档案标签，如"本人"、"父亲"' })

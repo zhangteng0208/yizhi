@@ -44,7 +44,8 @@ export class LiuyaoService {
    * @param numbers 可选，6个数字(6-9)，不传则随机摇卦
    */
   calculate(numbers?: number[]): LiuyaoResult {
-    const nums = numbers && numbers.length === 6 ? numbers : generateSixNumbers();
+    const nums =
+      numbers && numbers.length === 6 ? numbers : generateSixNumbers();
     const now = new Date();
     const raw = buildLiuyao(nums, {
       year: now.getFullYear(),

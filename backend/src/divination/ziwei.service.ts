@@ -79,8 +79,9 @@ export class ZiweiService {
     }));
 
     // 命宫主星
-    const mingPalace = palaces.find(p => p.name === '命宫');
-    const mingMainStar = mingPalace?.majorStars.map(s => s.name).join('、') || '无主星';
+    const mingPalace = palaces.find((p) => p.name === '命宫');
+    const mingMainStar =
+      mingPalace?.majorStars.map((s) => s.name).join('、') || '无主星';
 
     return {
       solarDate: result.solarDate,

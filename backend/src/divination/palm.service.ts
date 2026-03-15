@@ -12,8 +12,15 @@ export interface PalmAnalysisResult {
 export class PalmService {
   private readonly logger = new Logger(PalmService.name);
 
-  analyze(imageBase64: string, hand?: string, gender?: string, birthYear?: number): PalmAnalysisResult {
-    this.logger.log(`手相分析请求: hand=${hand}, gender=${gender}, birthYear=${birthYear}, imageSize=${imageBase64?.length || 0}`);
+  analyze(
+    imageBase64: string,
+    hand?: string,
+    gender?: string,
+    birthYear?: number,
+  ): PalmAnalysisResult {
+    this.logger.log(
+      `手相分析请求: hand=${hand}, gender=${gender}, birthYear=${birthYear}, imageSize=${imageBase64?.length || 0}`,
+    );
     return {
       imageProvided: !!imageBase64,
       hand: hand || '左手',

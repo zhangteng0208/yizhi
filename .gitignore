@@ -12,3 +12,16 @@ frontend-dist.tar.gz
 frontend/dist/data/
 frontend/public/data/
 daizhigev20/
+
+# OpenClaw / Claude Code 临时文件
+.omc/
+.claude/
+*.jsonl
+**/state/checkpoints/
+**/state/agent-replay-*.jsonl
+**/sessions/*.json
+
+# 开发工具临时文件
+scripts/*.json
+scripts/__pycache__/
+*.pyc

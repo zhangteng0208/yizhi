@@ -62,8 +62,12 @@ export class DivinationService {
   /** 创建八字排盘（不含 AI，AI 通过 ai-stream 端点异步获取） */
   async create(userId: string, dto: CreateDivinationDto) {
     const baziResult = this.baziService.calculate(
-      dto.birthYear, dto.birthMonth, dto.birthDay,
-      dto.birthHour, dto.gender, dto.isLunar ?? false,
+      dto.birthYear,
+      dto.birthMonth,
+      dto.birthDay,
+      dto.birthHour,
+      dto.gender,
+      dto.isLunar ?? false,
     );
 
     const featureHash = this.generateFeatureHash('bazi', { bazi: baziResult });
@@ -74,12 +78,18 @@ export class DivinationService {
         category: 'bazi',
         service_code: 'bazi_basic',
         input_params: {
-          name: dto.name, gender: dto.gender,
-          birthYear: dto.birthYear, birthMonth: dto.birthMonth,
-          birthDay: dto.birthDay, birthHour: dto.birthHour,
-          isLunar: dto.isLunar ?? false, question: dto.question,
+          name: dto.name,
+          gender: dto.gender,
+          birthYear: dto.birthYear,
+          birthMonth: dto.birthMonth,
+          birthDay: dto.birthDay,
+          birthHour: dto.birthHour,
+          isLunar: dto.isLunar ?? false,
+          question: dto.question,
         } as unknown as Prisma.InputJsonValue,
-        divination_data: { bazi: baziResult } as unknown as Prisma.InputJsonValue,
+        divination_data: {
+          bazi: baziResult,
+        } as unknown as Prisma.InputJsonValue,
         feature_hash: featureHash || undefined,
         status: 0,
       },
@@ -94,7 +104,13 @@ export class DivinationService {
   }
 
   /** 通用：创建占卜记录 */
-  async createRecord(userId: string, category: string, serviceCode: string, inputParams: any, divinationData: any) {
+  async createRecord(
+    userId: string,
+    category: string,
+    serviceCode: string,
+    inputParams: any,
+    divinationData: any,
+  ) {
     // 根据服务类型生成特征哈希
     let featureHash = '';
     if (serviceCode === 'ziwei') {

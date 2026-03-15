@@ -22,7 +22,20 @@ const EVENT_KEYWORDS: Record<string, string[]> = {
 };
 
 /** 十二建星 */
-const JIAN_XING = ['建', '除', '满', '平', '定', '执', '破', '危', '成', '收', '开', '闭'];
+const JIAN_XING = [
+  '建',
+  '除',
+  '满',
+  '平',
+  '定',
+  '执',
+  '破',
+  '危',
+  '成',
+  '收',
+  '开',
+  '闭',
+];
 /** 黄道日（吉）：除、危、定、执、成、开 */
 const HUANG_DAO = ['除', '危', '定', '执', '成', '开'];
 /** 黑道日（凶）：建、满、平、破、收、闭 */
@@ -30,25 +43,35 @@ const HUANG_DAO = ['除', '危', '定', '执', '成', '开'];
 
 /** 十二建星吉凶等级 */
 const JIAN_XING_LEVEL: Record<string, number> = {
-  '成': 5, '开': 5, '定': 4, '除': 4, '危': 3, '执': 3,
-  '建': 2, '满': 2, '平': 2, '收': 2, '闭': 1, '破': 1,
+  成: 5,
+  开: 5,
+  定: 4,
+  除: 4,
+  危: 3,
+  执: 3,
+  建: 2,
+  满: 2,
+  平: 2,
+  收: 2,
+  闭: 1,
+  破: 1,
 };
 
 export interface DayInfo {
-  date: string;           // yyyy-MM-dd
-  lunarDate: string;      // 农历日期
-  lunarMonth: string;     // 农历月
-  lunarDay: string;       // 农历日
-  weekday: string;        // 星期
-  ganzhi: string;         // 日干支
-  jianXing: string;       // 十二建星
-  isHuangDao: boolean;    // 是否黄道日
-  yi: string[];           // 宜
-  ji: string[];           // 忌
-  score: number;          // 综合评分 0-100
-  matchEvent: boolean;    // 是否匹配所选事件
-  chongSha: string;       // 冲煞
-  jieqi: string;          // 节气（如有）
+  date: string; // yyyy-MM-dd
+  lunarDate: string; // 农历日期
+  lunarMonth: string; // 农历月
+  lunarDay: string; // 农历日
+  weekday: string; // 星期
+  ganzhi: string; // 日干支
+  jianXing: string; // 十二建星
+  isHuangDao: boolean; // 是否黄道日
+  yi: string[]; // 宜
+  ji: string[]; // 忌
+  score: number; // 综合评分 0-100
+  matchEvent: boolean; // 是否匹配所选事件
+  chongSha: string; // 冲煞
+  jieqi: string; // 节气（如有）
 }
 
 export interface ZejiResult {
@@ -63,10 +86,20 @@ export interface ZejiResult {
 const WEEKDAYS = ['日', '一', '二', '三', '四', '五', '六'];
 
 const EVENT_NAMES: Record<string, string> = {
-  hunyin: '婚嫁', banqian: '搬家', kaizhang: '开业', zhuangxiu: '装修',
-  chuxing: '出行', qiche: '提车', ruxue: '入学', kaigong: '动工',
-  jiehun: '结婚', lingzheng: '领证', anzang: '安葬', jisi: '祭祀',
-  qiuyi: '求医', other: '综合择吉',
+  hunyin: '婚嫁',
+  banqian: '搬家',
+  kaizhang: '开业',
+  zhuangxiu: '装修',
+  chuxing: '出行',
+  qiche: '提车',
+  ruxue: '入学',
+  kaigong: '动工',
+  jiehun: '结婚',
+  lingzheng: '领证',
+  anzang: '安葬',
+  jisi: '祭祀',
+  qiuyi: '求医',
+  other: '综合择吉',
 };
 
 @Injectable()
@@ -98,7 +131,7 @@ export class ZejiService {
 
     // 筛选最佳吉日：匹配事件 + 黄道日 + 高分，取前10
     const bestDays = days
-      .filter(d => d.matchEvent && d.isHuangDao && d.score >= 60)
+      .filter((d) => d.matchEvent && d.isHuangDao && d.score >= 60)
       .sort((a, b) => b.score - a.score)
       .slice(0, 10);
 
@@ -130,8 +163,8 @@ export class ZejiService {
     const jieqi = lunar.getCurrentJieQi()?.getName() || '';
 
     // 是否匹配事件
-    const matchEvent = eventKeywords.length === 0
-      || eventKeywords.some(kw => yi.includes(kw));
+    const matchEvent =
+      eventKeywords.length === 0 || eventKeywords.some((kw) => yi.includes(kw));
 
     // 综合评分
     let score = 50;
@@ -142,7 +175,7 @@ export class ZejiService {
     // 匹配事件加分
     if (matchEvent && eventKeywords.length > 0) score += 15;
     // 忌中包含事件关键词扣分
-    if (eventKeywords.some(kw => ji.includes(kw))) score -= 30;
+    if (eventKeywords.some((kw) => ji.includes(kw))) score -= 30;
     // 破日大凶
     if (jianXing === '破') score -= 20;
 

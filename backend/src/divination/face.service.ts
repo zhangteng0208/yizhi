@@ -11,8 +11,14 @@ export interface FaceAnalysisResult {
 export class FaceService {
   private readonly logger = new Logger(FaceService.name);
 
-  analyze(imageBase64: string, gender?: string, birthYear?: number): FaceAnalysisResult {
-    this.logger.log(`面相分析请求: gender=${gender}, birthYear=${birthYear}, imageSize=${imageBase64?.length || 0}`);
+  analyze(
+    imageBase64: string,
+    gender?: string,
+    birthYear?: number,
+  ): FaceAnalysisResult {
+    this.logger.log(
+      `面相分析请求: gender=${gender}, birthYear=${birthYear}, imageSize=${imageBase64?.length || 0}`,
+    );
     return {
       imageProvided: !!imageBase64,
       gender: gender || '未知',

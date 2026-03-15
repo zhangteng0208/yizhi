@@ -1,5 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString, IsBoolean, Min, Max } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  IsBoolean,
+  Min,
+  Max,
+} from 'class-validator';
 
 export class CreateDivinationDto {
   @ApiProperty({ description: '姓名', example: '张三' })
