@@ -40,6 +40,7 @@ const route = useRoute()
 const router = useRouter()
 
 const routeMap: Record<string, string> = {
+  bazi: '/divination/bazi',
   meihua: '/meihua',
   ziwei: '/ziwei',
   qimen: '/qimen',
