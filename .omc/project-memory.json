@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1773386019133,
+  "lastScanned": 1773479971749,
   "projectRoot": "/Users/mac/projects/yizhi",
   "techStack": {
     "languages": [],
@@ -35,7 +35,7 @@
       "path": "backend",
       "purpose": null,
       "fileCount": 16,
-      "lastAccessed": 1773386019014,
+      "lastAccessed": 1773479971574,
       "keyFiles": [
         "README.md",
         "eslint.config.mjs",
@@ -44,35 +44,24 @@
         "package.json"
       ]
     },
-    "daizhigev20": {
-      "path": "daizhigev20",
-      "purpose": null,
-      "fileCount": 4,
-      "lastAccessed": 1773386019017,
-      "keyFiles": [
-        "README.md",
-        "_config.yml",
-        "使用须知.md"
-      ]
-    },
     "frontend": {
       "path": "frontend",
       "purpose": null,
-      "fileCount": 15,
-      "lastAccessed": 1773386019021,
+      "fileCount": 17,
+      "lastAccessed": 1773479971577,
       "keyFiles": [
+        "READING_OPTIMIZATION.md",
+        "READING_OPTIMIZATION_PHASE2.md",
         "README.md",
         "auto-imports.d.ts",
-        "components.d.ts",
-        "index.html",
-        "package-lock.json"
+        "components.d.ts"
       ]
     },
     "nas-deploy": {
       "path": "nas-deploy",
       "purpose": null,
       "fileCount": 5,
-      "lastAccessed": 1773386019021,
+      "lastAccessed": 1773479971583,
       "keyFiles": [
         "README.md",
         "deploy-to-nas.sh",
@@ -85,7 +74,7 @@
       "path": "prompts",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1773386019022,
+      "lastAccessed": 1773479971600,
       "keyFiles": [
         "八字解读-v1.md"
       ]
@@ -93,21 +82,21 @@
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
-      "fileCount": 5,
-      "lastAccessed": 1773386019022,
+      "fileCount": 7,
+      "lastAccessed": 1773479971605,
       "keyFiles": [
+        "analyze_chapters.py",
         "backup-classics.sh",
+        "chapter_analysis_report.json",
         "check-data-integrity.sh",
-        "convert-classics.js",
-        "generate-statistics.js",
-        "validate-json.js"
+        "convert-classics.js"
       ]
     },
     "backend/dist": {
       "path": "backend/dist",
       "purpose": "Distribution/build output",
       "fileCount": 5,
-      "lastAccessed": 1773386019036,
+      "lastAccessed": 1773479971610,
       "keyFiles": [
         "prisma.config.d.ts",
         "prisma.config.js",
@@ -118,111 +107,40 @@
       "path": "backend/node_modules",
       "purpose": "Dependencies",
       "fileCount": 2,
-      "lastAccessed": 1773386019106,
+      "lastAccessed": 1773479971679,
       "keyFiles": []
-    },
-    "frontend/dist": {
-      "path": "frontend/dist",
-      "purpose": "Distribution/build output",
-      "fileCount": 6,
-      "lastAccessed": 1773386019113,
-      "keyFiles": [
-        "64.json",
-        "dictionary.xml",
-        "index.html"
-      ]
     }
   },
   "hotPaths": [
     {
-      "path": "frontend/src/views/ClassicDetail.vue",
-      "accessCount": 16,
-      "lastAccessed": 1773456582512,
+      "path": "frontend/src/components/HuangjiPoster.vue",
+      "accessCount": 9,
+      "lastAccessed": 1773495937297,
       "type": "file"
     },
     {
-      "path": "frontend/src/views/ChapterReader.vue",
-      "accessCount": 4,
-      "lastAccessed": 1773456519134,
+      "path": "frontend/src/views/Result.vue",
+      "accessCount": 6,
+      "lastAccessed": 1773480488089,
       "type": "file"
     },
     {
-      "path": "frontend/src/views/Classics.vue",
-      "accessCount": 4,
-      "lastAccessed": 1773456589134,
+      "path": "frontend/src/views/Huangji.vue",
+      "accessCount": 6,
+      "lastAccessed": 1773494987893,
       "type": "file"
     },
     {
-      "path": "frontend/src/views/DaozangReader.vue",
-      "accessCount": 3,
-      "lastAccessed": 1773456610764,
-      "type": "file"
-    },
-    {
-      "path": "frontend/src/views/DaozangList.vue",
-      "accessCount": 3,
-      "lastAccessed": 1773456611297,
+      "path": "frontend/src/components/BaziPoster.vue",
+      "accessCount": 2,
+      "lastAccessed": 1773480479236,
       "type": "file"
     },
     {
       "path": "frontend/src",
-      "accessCount": 3,
-      "lastAccessed": 1773456624186,
+      "accessCount": 1,
+      "lastAccessed": 1773494880801,
       "type": "directory"
-    },
-    {
-      "path": "frontend/src/config/data-source.js",
-      "accessCount": 2,
-      "lastAccessed": 1773456624123,
-      "type": "file"
-    },
-    {
-      "path": "nas-deploy/nginx.conf",
-      "accessCount": 1,
-      "lastAccessed": 1773386377657,
-      "type": "file"
-    },
-    {
-      "path": "nas-deploy/部署指南.md",
-      "accessCount": 1,
-      "lastAccessed": 1773386377697,
-      "type": "file"
-    },
-    {
-      "path": "nas-deploy/deploy-to-nas.sh",
-      "accessCount": 1,
-      "lastAccessed": 1773386377753,
-      "type": "file"
-    },
-    {
-      "path": "nas-deploy/docker-compose.yml",
-      "accessCount": 1,
-      "lastAccessed": 1773386377804,
-      "type": "file"
-    },
-    {
-      "path": "nas-deploy/README.md",
-      "accessCount": 1,
-      "lastAccessed": 1773386378005,
-      "type": "file"
-    },
-    {
-      "path": "frontend",
-      "accessCount": 1,
-      "lastAccessed": 1773456398971,
-      "type": "directory"
-    },
-    {
-      "path": "frontend/src/views",
-      "accessCount": 1,
-      "lastAccessed": 1773456416626,
-      "type": "directory"
-    },
-    {
-      "path": "deploy.sh",
-      "accessCount": 1,
-      "lastAccessed": 1773457003846,
-      "type": "file"
     }
   ],
   "userDirectives": []

@@ -76,7 +76,10 @@
       "Bash(cd /Users/mac/projects/yizhi && tar -czf frontend-dist.tar.gz -C frontend/dist .)",
       "Bash(scp -o StrictHostKeyChecking=no /Users/mac/projects/yizhi/frontend-dist.tar.gz root@69.5.20.41:/tmp/)",
       "mcp__plugin_oh-my-claudecode_t__ast_grep_replace",
-      "Bash(./deploy.sh \"feat: 统一使用 NAS 数据源\")"
+      "Bash(./deploy.sh \"feat: 统一使用 NAS 数据源\")",
+      "Bash(for img:*)",
+      "Bash(cd /Users/mac/projects/yizhi/frontend && rm -rf dist && npx vite build 2>&1 | grep \"dist/index.html\" -A 5)",
+      "Bash(cd /Users/mac/projects/yizhi/frontend && rm -rf dist && npx vite build 2>&1 | tail -3)"
     ]
   }
 }

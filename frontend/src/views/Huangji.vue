@@ -85,9 +85,12 @@
 
       <div class="actions">
         <button class="btn-again" @click="reset">重新查询</button>
+        <button class="btn-share" @click="share">分享海报</button>
         <button class="btn-back" @click="$router.push('/')">返回首页</button>
       </div>
     </template>
+
+    <HuangjiPoster v-model="showPoster" :data="result" :name="form.name" :strokeDetail="strokeDetail" />
 
     <LoadingOverlay :visible="loading" text="推算中..." />
   </div>
@@ -97,10 +100,12 @@
 import { reactive, ref, computed } from 'vue'
 import LoadingOverlay from '../components/LoadingOverlay.vue'
 import ProfilePicker from '../components/ProfilePicker.vue'
+import HuangjiPoster from '@/components/HuangjiPoster.vue'
 
 const loading = ref(false)
 const result = ref<any>(null)
 const strokeDetail = ref<{ char: string; strokes: number }[]>([])
+const showPoster = ref(false)
 
 const form = reactive({ name: '' })
 
@@ -319,6 +324,10 @@ function reset() {
   result.value = null
   strokeDetail.value = []
 }
+
+function share() {
+  showPoster.value = true
+}
 </script>
 
 <style scoped>
@@ -387,6 +396,8 @@ function reset() {
 .actions { display: flex; gap: 10px; padding: 24px 20px 0; }
 .btn-again { flex: 1; height: 44px; background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%); border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 2px; cursor: pointer; box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3); transition: all 0.2s; }
 .btn-again:active { opacity: 0.85; transform: translateY(1px); }
+.btn-share { flex: 1; height: 44px; background: linear-gradient(135deg, #7B1FA2 0%, #9C27B0 100%); border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 2px; cursor: pointer; box-shadow: 0 4px 12px rgba(156, 39, 176, 0.3); transition: all 0.2s; }
+.btn-share:active { opacity: 0.85; transform: translateY(1px); }
 .btn-back { flex: 1; height: 44px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-secondary); font-size: 14px; cursor: pointer; }
 .btn-back:active { background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%); }
 </style>
