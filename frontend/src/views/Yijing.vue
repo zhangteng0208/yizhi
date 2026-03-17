@@ -111,17 +111,20 @@
       </div>
 
       <div class="actions">
+        <button class="btn-share" @click="showPoster = true">生成海报</button>
         <button class="btn-again" @click="reset">重新筮占</button>
         <button class="btn-back" @click="$router.push('/')">返回首页</button>
       </div>
     </template>
 
+    <YijingPoster :show="showPoster" @update:show="showPoster = $event" :data="result" :question="form.question" />
     <LoadingOverlay :visible="loading" text="蓍草筮占中..." />
   </div>
 </template>
 
 <script setup lang="ts">
 import BrandLogo from '@/components/BrandLogo.vue'
+import YijingPoster from '@/components/YijingPoster.vue'
 import { reactive, ref, computed } from 'vue'
 import http from '../utils/http'
 import { fetchAiStream } from '../utils/sse'
@@ -133,6 +136,7 @@ const aiLoading = ref(false)
 const expanded = ref<string>('guaxiang')
 const isTyping = ref(false)
 const displayedContent = ref<any>({})
+const showPoster = ref(false)
 
 const form = reactive({ question: '' })
 
@@ -266,6 +270,8 @@ function reset() {
 .ai-spinner { display: inline-block; font-size: 24px; animation: spin 2s linear infinite; margin-right: 8px; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .actions { display: flex; gap: 10px; padding: 24px 20px 0; }
+.btn-share { flex: 1; height: 44px; background: linear-gradient(135deg, #CA8A04 0%, #DB2777 100%); border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 2px; cursor: pointer; box-shadow: 0 4px 12px rgba(202, 138, 4, 0.3); transition: all 0.2s; }
+.btn-share:active { opacity: 0.85; transform: translateY(1px); }
 .btn-again { flex: 1; height: 44px; background: linear-gradient(135deg, #DB2777 0%, #CA8A04 100%); border: none; border-radius: var(--radius); color: #fff; font-size: 14px; font-weight: 500; letter-spacing: 2px; cursor: pointer; box-shadow: 0 4px 12px rgba(219, 39, 119, 0.3); transition: all 0.2s; }
 .btn-again:active { opacity: 0.85; transform: translateY(1px); }
 .btn-back { flex: 1; height: 44px; background: transparent; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-secondary); font-size: 14px; cursor: pointer; }
