@@ -85,7 +85,11 @@
       "Bash(git checkout:*)",
       "Bash(./deploy.sh \"fix: 恢复深度选择器显示逻辑\")",
       "Bash(./deploy.sh \"fix: 修复深度选择器显示条件，分离重新解读按钮\")",
-      "Bash(./deploy.sh \"feat: 添加深度选择弹窗，点击开始解读时选择分析深度\")"
+      "Bash(./deploy.sh \"feat: 添加深度选择弹窗，点击开始解读时选择分析深度\")",
+      "Bash(PGPASSWORD='Yz2026xiansheng!' psql -h 69.5.20.41 -U yizhi -d yizhi -c \"SELECT COUNT\\(*\\) as total_records, COUNT\\(result\\) as cached_records FROM divination_records WHERE result IS NOT NULL;\")",
+      "Bash(npx ts-node:*)",
+      "Bash(claude mcp:*)",
+      "Bash(uvx code-review-graph:*)"
     ]
   }
 }

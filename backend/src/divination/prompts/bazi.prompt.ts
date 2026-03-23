@@ -38,21 +38,45 @@ ${depth === 'pro' ? `
   "jianyi": ["${depth === 'simple' ? '3条建议，每条20字以内' : depth === 'normal' ? '5条建议，每条30字以内' : '8条建议，每条50字以内'}"]
 }`,
 
-  user: (data: any, question?: string) => `
+  user: (data: any, question?: string) => {
+    // 从 data 或 data.bazi 中获取八字信息
+    const bazi = data.bazi || data;
+
+    // 添加日志来调试
+    console.log('[BAZI_PROMPT] data:', JSON.stringify(data, null, 2));
+    console.log('[BAZI_PROMPT] bazi:', JSON.stringify(bazi, null, 2));
+
+    // 优先从 data 顶层获取出生信息（前端传递的完整数据）
+    const birthYear = data.birthYear;
+    const birthMonth = data.birthMonth;
+    const birthDay = data.birthDay;
+    const birthHour = data.birthHour;
+
+    console.log('[BAZI_PROMPT] birthInfo:', { birthYear, birthMonth, birthDay, birthHour });
+
+    // 构建出生时间显示
+    const birthInfo = birthYear && birthMonth && birthDay && birthHour
+      ? `${birthYear}年${birthMonth}月${birthDay}日 ${birthHour}时`
+      : bazi.lunarInfo?.year
+        ? `${bazi.lunarInfo.year}年${bazi.lunarInfo.month}月${bazi.lunarInfo.day}日 ${bazi.lunarInfo.hour || '未知'}时`
+        : '根据八字推算';
+
+    return `
 请为以下命主进行八字分析：
 
 **基本信息**：
 - 姓名：${data.name || '命主'}
 - 性别：${data.gender === 1 ? '男' : '女'}
-- 出生时间：${data.birthYear}年${data.birthMonth}月${data.birthDay}日 ${data.birthHour}时
-- 八字：${data.bazi?.yearGZ} ${data.bazi?.monthGZ} ${data.bazi?.dayGZ} ${data.bazi?.hourGZ}
+- 出生时间：${birthInfo}
+- 八字：${bazi.yearGZ || bazi.siZhu?.year?.tianGan + bazi.siZhu?.year?.diZhi || ''} ${bazi.monthGZ || bazi.siZhu?.month?.tianGan + bazi.siZhu?.month?.diZhi || ''} ${bazi.dayGZ || bazi.siZhu?.day?.tianGan + bazi.siZhu?.day?.diZhi || ''} ${bazi.hourGZ || bazi.siZhu?.hour?.tianGan + bazi.siZhu?.hour?.diZhi || ''}
 
 **五行分析**：
-- 五行强弱：${JSON.stringify(data.bazi?.wuxing || {})}
-- 喜用神：${data.bazi?.xiyongshen || '待分析'}
+- 五行强弱：${JSON.stringify(bazi.wuxing || bazi.wuXingCount || {})}
+- 喜用神：${bazi.xiyongshen || bazi.yongShen || '待分析'}
 
 ${question ? `**命主问题**：${question}` : ''}
 
 请根据以上信息进行分析，并严格按照 JSON 格式输出。
-`,
+`;
+  },
 };

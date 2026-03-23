@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1773567015605,
+  "lastScanned": 1773796899688,
   "projectRoot": "/Users/mac/projects/yizhi",
   "techStack": {
     "languages": [],
@@ -35,21 +35,32 @@
     "backend": {
       "path": "backend",
       "purpose": null,
-      "fileCount": 16,
-      "lastAccessed": 1773567015571,
+      "fileCount": 18,
+      "lastAccessed": 1773796899647,
       "keyFiles": [
         "README.md",
+        "clear-cache.js",
+        "clear-cache.ts",
         "eslint.config.mjs",
-        "nest-cli.json",
-        "package-lock.json",
-        "package.json"
+        "nest-cli.json"
+      ]
+    },
+    "data": {
+      "path": "data",
+      "purpose": "Data files",
+      "fileCount": 3,
+      "lastAccessed": 1773796899667,
+      "keyFiles": [
+        "ClawDeckX.db",
+        "ClawDeckX.json",
+        "ClawDeckX.log"
       ]
     },
     "docs": {
       "path": "docs",
       "purpose": "Documentation",
       "fileCount": 7,
-      "lastAccessed": 1773567015571,
+      "lastAccessed": 1773796899668,
       "keyFiles": [
         "AI_OPTIMIZATION_COMPLETE.md",
         "AI_OPTIMIZATION_SUMMARY.md",
@@ -62,7 +73,7 @@
       "path": "frontend",
       "purpose": null,
       "fileCount": 17,
-      "lastAccessed": 1773567015572,
+      "lastAccessed": 1773796899669,
       "keyFiles": [
         "READING_OPTIMIZATION.md",
         "READING_OPTIMIZATION_PHASE2.md",
@@ -75,7 +86,7 @@
       "path": "nas-deploy",
       "purpose": null,
       "fileCount": 5,
-      "lastAccessed": 1773567015573,
+      "lastAccessed": 1773796899675,
       "keyFiles": [
         "README.md",
         "deploy-to-nas.sh",
@@ -88,7 +99,7 @@
       "path": "prompts",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1773567015573,
+      "lastAccessed": 1773796899677,
       "keyFiles": [
         "八字解读-v1.md"
       ]
@@ -97,7 +108,7 @@
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 8,
-      "lastAccessed": 1773567015574,
+      "lastAccessed": 1773796899678,
       "keyFiles": [
         "analyze-test-results.js",
         "backup-classics.sh",
@@ -109,46 +120,15 @@
     "backend/dist": {
       "path": "backend/dist",
       "purpose": "Distribution/build output",
-      "fileCount": 4,
-      "lastAccessed": 1773567015574,
+      "fileCount": 8,
+      "lastAccessed": 1773796899679,
       "keyFiles": [
-        "prisma.config.d.ts",
-        "prisma.config.js",
-        "prisma.config.js.map"
+        "clear-cache.d.ts",
+        "clear-cache.js",
+        "clear-cache.js.map"
       ]
     }
   },
-  "hotPaths": [
-    {
-      "path": "frontend/src/views/Result.vue",
-      "accessCount": 26,
-      "lastAccessed": 1773578741667,
-      "type": "file"
-    },
-    {
-      "path": "backend/src/divination/divination.service.ts",
-      "accessCount": 7,
-      "lastAccessed": 1773577168291,
-      "type": "file"
-    },
-    {
-      "path": "deploy.sh",
-      "accessCount": 1,
-      "lastAccessed": 1773577764796,
-      "type": "file"
-    },
-    {
-      "path": "backend",
-      "accessCount": 1,
-      "lastAccessed": 1773578754340,
-      "type": "directory"
-    },
-    {
-      "path": "backend/src/divination/prompts/bazi.prompt.ts",
-      "accessCount": 1,
-      "lastAccessed": 1773578762324,
-      "type": "file"
-    }
-  ],
+  "hotPaths": [],
   "userDirectives": []
 }

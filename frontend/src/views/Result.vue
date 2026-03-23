@@ -138,7 +138,12 @@
       <!-- AI 解读 - 简洁版 -->
       <div class="ai-divination-card">
         <div class="ai-card-header">
-          <h3 class="ai-card-title">命理解读</h3>
+          <h3 class="ai-card-title">
+            命理解读
+            <span v-if="data.ai && aiDepth" class="depth-badge" :class="`depth-${aiDepth}`">
+              {{ getDepthLabel(aiDepth) }}
+            </span>
+          </h3>
         </div>
 
         <!-- 开始解读按钮 -->
@@ -432,6 +437,15 @@ function selectDepth(depth: 'simple' | 'normal' | 'pro') {
   triggerAi()
 }
 
+function getDepthLabel(depth: 'simple' | 'normal' | 'pro'): string {
+  const labels = {
+    simple: '简明版',
+    normal: '标准版',
+    pro: '专业版'
+  }
+  return labels[depth] || '标准版'
+}
+
 function triggerAi() {
   if (store.current) {
     // 清空旧的 AI 解读内容，以便显示加载状态
@@ -440,10 +454,19 @@ function triggerAi() {
     }
 
     const p = store.inputParams
-    store.fetchAi('bazi', store.current.bazi, {
-      name: p?.name,
-      gender: p?.gender === '男' ? 1 : 2,
-      question: p?.question,
+    // 从 input_params 中获取完整的出生信息
+    const inputParams = store.current.input_params || {}
+
+    store.fetchAi('bazi', {
+      bazi: store.current.bazi,
+      name: inputParams.name || p?.name,
+      gender: inputParams.gender || (p?.gender === '男' ? 1 : 2),
+      birthYear: inputParams.birthYear,
+      birthMonth: inputParams.birthMonth,
+      birthDay: inputParams.birthDay,
+      birthHour: inputParams.birthHour,
+    }, {
+      question: inputParams.question || p?.question,
       depth: aiDepth.value, // 传递深度参数
     }, store.current.id)
   }
@@ -455,11 +478,20 @@ onMounted(async () => {
     loading.value = true
     try {
       await store.getResult(id)
+      // 从后端返回的数据中读取深度信息
+      if (store.current?.ai?.depth) {
+        aiDepth.value = store.current.ai.depth
+      }
     } catch {
       router.replace('/')
       return
     } finally {
       loading.value = false
+    }
+  } else {
+    // 如果数据已经存在，也要读取深度信息
+    if (store.current?.ai?.depth) {
+      aiDepth.value = store.current.ai.depth
     }
   }
 })
@@ -1183,6 +1215,39 @@ onMounted(async () => {
   color: var(--text-primary);
   text-align: center;
   letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* 深度标签 */
+.depth-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.depth-badge.depth-simple {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.depth-badge.depth-normal {
+  background: rgba(168, 85, 247, 0.1);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+}
+
+.depth-badge.depth-pro {
+  background: rgba(219, 39, 119, 0.1);
+  color: #db2777;
+  border: 1px solid rgba(219, 39, 119, 0.2);
 }
 
 /* 深度选择弹窗 */

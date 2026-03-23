@@ -16,6 +16,7 @@ declare module 'vue' {
     BrandSymbol: typeof import('./src/components/BrandSymbol.vue')['default']
     HuangjiPoster: typeof import('./src/components/HuangjiPoster.vue')['default']
     LingqianPoster: typeof import('./src/components/LingqianPoster.vue')['default']
+    LiuyaoPoster: typeof import('./src/components/LiuyaoPoster.vue')['default']
     LoadingOverlay: typeof import('./src/components/LoadingOverlay.vue')['default']
     MeihuaPoster: typeof import('./src/components/MeihuaPoster.vue')['default']
     ProfilePicker: typeof import('./src/components/ProfilePicker.vue')['default']
@@ -39,6 +40,7 @@ declare module 'vue' {
     VanPopup: typeof import('vant/es')['Popup']
     VanSearch: typeof import('vant/es')['Search']
     VanUploader: typeof import('vant/es')['Uploader']
+    YijingPoster: typeof import('./src/components/YijingPoster.vue')['default']
     ZiweiPoster: typeof import('./src/components/ZiweiPoster.vue')['default']
   }
 }

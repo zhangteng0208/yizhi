@@ -616,29 +616,33 @@ export class DivinationController {
     res.setHeader('X-Accel-Buffering', 'no');
     res.flushHeaders();
 
-    // 先查询缓存
-    const cachedResult = await this.divinationService.findCachedAiResult(
-      body.type,
-      body.data,
-    );
-    if (cachedResult) {
-      this.logger.log(`使用缓存的 AI 结果: ${body.type}`);
-      // 直接返回缓存结果
-      res.write(
-        `data: ${JSON.stringify({ done: true, parsed: cachedResult, cached: true })}\n\n`,
-      );
-      if (body.recordId) {
-        this.divinationService
-          .updateAiResult(body.recordId, cachedResult)
-          .catch((e) => this.logger.error('更新AI结果失败', e));
-      }
-      res.write('data: [DONE]\n\n');
-      res.end();
-      return;
-    }
+    // 暂时关闭 AI 解析缓存功能，保证每次都用 AI 重新解析
+    // const cachedResult = await this.divinationService.findCachedAiResult(
+    //   body.type,
+    //   body.data,
+    //   body.extraParams?.depth,
+    // );
+    // if (cachedResult) {
+    //   this.logger.log(`使用缓存的 AI 结果: ${body.type}`);
+    //   // 直接返回缓存结果
+    //   res.write(
+    //     `data: ${JSON.stringify({ done: true, parsed: cachedResult, cached: true })}\n\n`,
+    //   );
+    //   if (body.recordId) {
+    //     this.divinationService
+    //       .updateAiResult(body.recordId, cachedResult)
+    //       .catch((e) => this.logger.error('更新AI结果失败', e));
+    //   }
+    //   res.write('data: [DONE]\n\n');
+    //   res.end();
+    //   return;
+    // }
 
     let fullText = '';
     try {
+      // 添加日志来调试 extraParams
+      this.logger.log(`[aiStream] type=${body.type}, extraParams=${JSON.stringify(body.extraParams)}`);
+
       const { system, user, maxTokens, timeout, temperature } =
         this.aiService.getPromptConfig(body.type, body.data, body.extraParams);
       const stream =
@@ -667,10 +671,20 @@ export class DivinationController {
         res.write(`data: ${JSON.stringify({ token })}\n\n`);
       }
       const parsed = this.aiService.safeParseJson<any>(fullText);
-      res.write(`data: ${JSON.stringify({ done: true, parsed })}\n\n`);
+      // 将 depth 参数添加到返回结果中
+      const result = { ...parsed, depth: body.extraParams?.depth || 'normal' };
+      res.write(`data: ${JSON.stringify({ done: true, parsed: result })}\n\n`);
+
+      // 记录 token 使用量和模型信息
       if (body.recordId) {
+        const inputTokens = this.aiService.estimateTokens(system + user);
+        const outputTokens = this.aiService.estimateTokens(fullText);
+        const totalTokens = inputTokens + outputTokens;
+
+        this.logger.log(`[aiStream] Token 使用: 输入=${inputTokens}, 输出=${outputTokens}, 总计=${totalTokens}`);
+
         this.divinationService
-          .updateAiResult(body.recordId, parsed)
+          .updateAiResult(body.recordId, result, 'deepseek-chat', totalTokens)
           .catch((e) => this.logger.error('更新AI结果失败', e));
       }
     } catch (err) {
@@ -679,7 +693,7 @@ export class DivinationController {
       res.write(`data: ${JSON.stringify({ error: true, fallback })}\n\n`);
       if (body.recordId) {
         this.divinationService
-          .updateAiResult(body.recordId, fallback)
+          .updateAiResult(body.recordId, fallback, 'deepseek-chat', 0)
           .catch((e) => this.logger.error('更新fallback失败', e));
       }
     }

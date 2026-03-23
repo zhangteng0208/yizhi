@@ -14,7 +14,9 @@
             class="sheet-item"
             @click="select(p)"
           >
-            <div class="item-avatar" :class="{ female: p.gender === 2 }">{{ p.gender === 2 ? '♀' : '♂' }}</div>
+            <div class="item-avatar" :class="{ female: p.gender === 2 }">
+              <span class="gender-icon">{{ p.gender === 2 ? '♀' : '♂' }}</span>
+            </div>
             <div class="item-info">
               <span class="item-name">{{ p.name || '未设置' }}</span>
               <span class="item-label">{{ p.label || '未命名' }}</span>
@@ -140,10 +142,19 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   font-size: 15px;
+  line-height: 1;
   background: rgba(100, 149, 237, 0.12);
   color: #6495ed;
   border: 1px solid rgba(100, 149, 237, 0.25);
   flex-shrink: 0;
+  /* iOS Safari 兼容性修复 */
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+}
+.gender-icon {
+  display: block;
+  line-height: 1;
+  transform: translateY(0);
 }
 .item-avatar.female {
   background: rgba(219, 112, 147, 0.12);

@@ -15,19 +15,19 @@ export class DivinationService {
   ) {}
 
   /** 生成命格特征哈希 */
-  private generateFeatureHash(type: string, data: any): string {
+  private generateFeatureHash(type: string, data: any, depth?: string): string {
     let featureString = '';
 
     if (type === 'bazi') {
-      // 八字：使用四柱作为特征
+      // 八字：使用四柱和深度作为特征
       const bazi = data.bazi || data;
-      featureString = `bazi:${bazi.rawBaZi || ''}`;
+      featureString = `bazi:${bazi.rawBaZi || ''}:depth:${depth || 'normal'}`;
     } else if (type === 'ziwei') {
       // 紫微：使用命宫主星和五行局作为特征
-      featureString = `ziwei:${data.mingMainStar || ''}:${data.fiveElementsClass || ''}`;
+      featureString = `ziwei:${data.mingMainStar || ''}:${data.fiveElementsClass || ''}:depth:${depth || 'normal'}`;
     } else if (type === 'qimen') {
       // 奇门：使用局数和时间信息作为特征
-      featureString = `qimen:${data.ju?.type || ''}${data.ju?.number || ''}:${data.yuan || ''}`;
+      featureString = `qimen:${data.ju?.type || ''}${data.ju?.number || ''}:${data.yuan || ''}:depth:${depth || 'normal'}`;
     } else {
       // 其他类型暂不缓存
       return '';
@@ -37,8 +37,8 @@ export class DivinationService {
   }
 
   /** 查找已有的 AI 结果（基于命格特征） */
-  async findCachedAiResult(type: string, data: any): Promise<any | null> {
-    const featureHash = this.generateFeatureHash(type, data);
+  async findCachedAiResult(type: string, data: any, depth?: string): Promise<any | null> {
+    const featureHash = this.generateFeatureHash(type, data, depth);
     if (!featureHash) return null;
 
     const cached = await this.prisma.divination_records.findFirst({
@@ -134,14 +134,20 @@ export class DivinationService {
   }
 
   /** AI 流式解读完成后，更新记录 */
-  async updateAiResult(recordId: string, aiResult: any) {
+  async updateAiResult(
+    recordId: string,
+    aiResult: any,
+    aiModel?: string,
+    tokensUsed?: number,
+  ) {
     await this.prisma.divination_records.update({
       where: { id: recordId },
       data: {
         result: aiResult as unknown as Prisma.InputJsonValue,
         result_summary: aiResult?.mingju?.slice(0, 100) ?? null,
         status: aiResult ? 1 : 0,
-        ai_model: 'deepseek-chat',
+        ai_model: aiModel || 'deepseek-chat',
+        ai_tokens_used: tokensUsed || 0,
       },
     });
   }

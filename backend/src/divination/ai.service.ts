@@ -1643,12 +1643,22 @@ ${bestInfo}
     const depth = extraParams?.depth || 'normal';
     const question = extraParams?.question;
 
+    // 添加日志来调试 depth 参数
+    this.logger.log(`[getPromptConfig] type=${type}, depth=${depth}, extraParams=${JSON.stringify(extraParams)}`);
+
     // 使用新的提示词模板
     switch (type) {
       case 'bazi': {
+        // 不要合并 extraParams 到 data，避免覆盖八字信息
+        // 只从 extraParams 中提取需要的字段
+        const promptData = {
+          ...data,
+          name: extraParams?.name || data.name,
+          gender: extraParams?.gender || data.gender,
+        };
         return {
           system: BAZI_PROMPT_TEMPLATE.system(depth),
-          user: BAZI_PROMPT_TEMPLATE.user(data, question),
+          user: BAZI_PROMPT_TEMPLATE.user(promptData, question),
           maxTokens: depth === 'pro' ? 4000 : depth === 'normal' ? 2500 : 1500,
           timeout: 60000,
           temperature: 0.7,
@@ -2257,6 +2267,14 @@ ${dream}
         yield delta;
       }
     }
+  }
+
+  /** 估算 token 使用量（简单估算：中文约 2 字符/token，英文约 4 字符/token） */
+  estimateTokens(text: string): number {
+    // 简单估算：中文字符按 2 字符/token，英文按 4 字符/token
+    const chineseChars = (text.match(/[\u4e00-\u9fa5]/g) || []).length;
+    const otherChars = text.length - chineseChars;
+    return Math.ceil(chineseChars / 2 + otherChars / 4);
   }
 
   /** 流式 AI 解读（视觉模型），用于面相分析等需要图片的场景 */

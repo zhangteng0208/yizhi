@@ -44,18 +44,18 @@ ${depth === 'pro' ? `
 **问题**：${question}
 
 **卦象信息**：
-- 本卦：${data.benguaName}（${data.benguaCode}）
-- 变卦：${data.bianguaName}（${data.bianguaCode}）
-- 动爻：${data.dongyao?.join('、') || '无'}
+- 本卦：${data.origin?.name || 'undefined'}（${data.origin?.symbol || 'undefined'}）
+- 变卦：${data.changed?.name || '无'}（${data.changed?.symbol || ''}）
+- 动爻：${data.movingIndexes?.length > 0 ? data.movingIndexes.map((i: number) => ['初', '二', '三', '四', '五', '上'][i] + '爻').join('、') : '无'}
 
 **六爻详情**：
-${data.yaos?.map((yao: any, i: number) => `
-  ${['初', '二', '三', '四', '五', '上'][i]}爻：${yao.yaoName} ${yao.liuqin} ${yao.liushen} ${yao.dong ? '（动）' : ''}
-`).join('')}
+${data.origin?.ganzhi?.map((gz: string, i: number) => `
+  ${['初', '二', '三', '四', '五', '上'][i]}爻：${gz} ${data.origin?.relation?.[i] || ''} ${data.gods?.[i] || ''} ${data.movingIndexes?.includes(i) ? '（动）' : ''}
+`).join('') || ''}
 
 **世应**：
-- 世爻：${data.shiyao}
-- 应爻：${data.yingyao}
+- 世爻：${data.origin?.shi ? ['初', '二', '三', '四', '五', '上'][data.origin.shi - 1] + '爻' : 'undefined'}
+- 应爻：${data.origin?.ying ? ['初', '二', '三', '四', '五', '上'][data.origin.ying - 1] + '爻' : 'undefined'}
 
 请根据以上卦象进行分析，并严格按照 JSON 格式输出。
 `,
